@@ -15,18 +15,20 @@ public:
 
 	~Vector();
 
-	void	push_back(int value);
-	void	pop_back();
-	bool	empty() const;
-	int		size() const;
-	int		capacity() const;
 	int&	at(int index);
-	int&	front();
 	int&	back();
-	void	insert(int index, int value);
-	void	erase(int index);
+	int		capacity() const;
 	void	clear();
-
+	bool	empty() const;
+	void	erase(int index);
+	int&	front();
+	void	insert(int index, int value);
+	int		max_size() const;
+	void	pop_back();
+	void	push_back(const int & value);
+	void	reserve(int n);
+	int		size() const;
+	
 	Vector&	operator=(const Vector& rhs);
 	bool	operator==(const Vector & rhs)	const;
 	bool	operator!=(const Vector & rhs)	const;
@@ -38,9 +40,5 @@ private:
 	int		capacity_;
 	int*	array_;
 };
-
-
-
-
 
 #endif

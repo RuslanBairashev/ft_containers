@@ -38,31 +38,27 @@ Vector::Vector(const std::initializer_list<int> & list):
 		push_back(i);
 }
 */
-void	Vector::push_back(int value)
+
+int&	Vector::at(int index)
 {
-	if (size_ < capacity_)
-	{
-		array_[size_] = value;
-		++size_;
-	}
-	else
-	{
-		capacity_ *= 2;
-		int*	newarray = new int[capacity_];
-		for (int i = 0; i < size_; ++i)
-			newarray[i] = array_[i];
-		newarray[size_] = value;
-		++size_;
-		delete[] array_;
-		array_ = newarray;
-	}
+	if (index < 0 || index >= size_)
+		throw std::runtime_error("Error: (at) out of range!\n");
+	return array_[index];
 }
 
-void	Vector::pop_back()
+int&	Vector::back()
 {
-	if (size_ == 0)
-		throw std::runtime_error("Error: pop_back on empty cont!\n");
-	--size_;
+	return array_[size_ - 1];
+}
+
+int		Vector::capacity() const
+{
+	return capacity_;
+}
+
+void	Vector::clear()
+{
+	size_ = 0;
 }
 
 bool	Vector::empty() const
@@ -70,14 +66,18 @@ bool	Vector::empty() const
 	return size_ == 0;
 }
 
-int		Vector::size() const
+void	Vector::erase(int index)
 {
-	return size_;
+	if (index < 0 || index >= size_)
+		throw std::runtime_error("Error: (erase) out of range!\n");
+	for (int i = index; i < size_; ++i)
+		array_[i] = array_[i + 1];
+	--size_;
 }
 
-int		Vector::capacity() const
+int&	Vector::front()
 {
-	return capacity_;
+	return array_[0];
 }
 
 void	Vector::insert(int index, int value)
@@ -103,18 +103,48 @@ void	Vector::insert(int index, int value)
 	}
 }
 
-void	Vector::erase(int index)
+int		Vector::max_size() const
 {
-	if (index < 0 || index >= size_)
-		throw std::runtime_error("Error: (erase) out of range!\n");
-	for (int i = index; i < size_; ++i)
-		array_[i] = array_[i + 1];
+	return capacity_;
+}
+
+void	Vector::pop_back()
+{
+	if (size_ == 0)
+		throw std::runtime_error("Error: pop_back on empty cont!\n");
 	--size_;
 }
 
-void	Vector::clear()
+void	Vector::push_back(const int & value)
 {
-	size_ = 0;
+	if (size_ < capacity_)
+	{
+		array_[size_] = value;
+		++size_;
+	}
+	else
+	{
+		capacity_ *= 2;
+		int*	newarray = new int[capacity_];
+		for (int i = 0; i < size_; ++i)
+			newarray[i] = array_[i];
+		newarray[size_] = value;
+		++size_;
+		delete[] array_;
+		array_ = newarray;
+	}
+}
+
+void	Vector::reserve(int n)
+{
+	if (n > capacity_)
+		capacity_ = n;
+	//todo reallocate
+}
+
+int		Vector::size() const
+{
+	return size_;
 }
 
 Vector&	Vector::operator=(const Vector& rhs)
@@ -152,21 +182,6 @@ bool	Vector::operator!=(const Vector & rhs)	const
 int&	Vector::operator[](int index)
 {
 	return array_[index];
-}
-int&	Vector::at(int index)
-{
-	if (index < 0 || index >= size_)
-		throw std::runtime_error("Error: (at) out of range!\n");
-	return array_[index];
-}
-
-int&	Vector::front()
-{
-	return array_[0];
-}
-int&	Vector::back()
-{
-	return array_[size_ - 1];
 }
 
 std::ostream& operator<<(std::ostream & os, const Vector & rhs)
