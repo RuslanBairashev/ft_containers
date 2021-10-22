@@ -80,10 +80,28 @@ int		Vector::capacity() const
 	return capacity_;
 }
 
-/*void	Vector::insert(int index, int value)
+void	Vector::insert(int index, int value)
 {
-
-}*/
+	if (index < 0 || index >= size_)
+		throw std::runtime_error("Error: (index) out of range!\n");
+	if (size_ != capacity_)
+	{
+		for (int i = size_ - 1; i >= index; --i)
+			array_[i + 1] = array_[i];
+		array_[index] = value;
+		++size_;
+	}
+	else
+	{
+		capacity_ *= 2;
+		int* newarray = new int[capacity_];
+		for (int i = 0; i < size_; ++i)
+			newarray[i] = array_[i];
+		delete[] array_;
+		array_ = newarray;
+		insert(index, value);
+	}
+}
 
 void	Vector::erase(int index)
 {

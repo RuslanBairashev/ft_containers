@@ -23,7 +23,7 @@ public:
 	int&	at(int index);
 	int&	front();
 	int&	back();
-	//void	insert(int index, int value);
+	void	insert(int index, int value);
 	void	erase(int index);
 	void	clear();
 
