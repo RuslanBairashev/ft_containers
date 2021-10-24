@@ -9,7 +9,7 @@ int	main()
 	std::cout << v << std::endl;
 	v.push_back(45);
 	std::cout << v << std::endl;*/
-	Vector	v;
+	Vector<int>	v;
 	for (int i = 1; i < 22; ++i)
 	{
 		v.push_back(i);

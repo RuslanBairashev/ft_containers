@@ -6,7 +6,7 @@
 #include <exception>
 #include <memory>
 
-//template < class T, class Alloc = allocator<T> >
+template < class T, class Allocator = std::allocator<T> >
 class Vector
 {
 public:
@@ -36,12 +36,26 @@ public:
 	bool	operator!=(const Vector & rhs)	const;
 	int&	operator[](int index);
 
-	friend	std::ostream& operator<<(std::ostream & os, const Vector & rhs);
+	///template < class Tx, class Allocator = std::allocator<Tx> >
+	///friend	std::ostream& operator<<(std::ostream &, const Vector &);
+	//friend	std::ostream& operator<<(std::ostream & os, const Vector & rhs);
+	template < class Tx, class Allocatorx >
+	friend std::ostream& operator<<(std::ostream & os, const Vector<Tx, Allocatorx > & rhs)
+	{
+		for (int i = 0; i < rhs.size(); ++i)
+			os << rhs.array_[i] << " ";
+		os << "//";
+		for (int i = rhs.size_; i < rhs.capacity_; ++i)
+			os << rhs.array_[i] << " ";
+		os << std::endl;
+
+		return os;
+	}
 private:
 	int		size_;
 	int		capacity_;
 	int*	array_;
-	std::allocator<int>	myAlloc_;
+	std::allocator<T>	myAlloc_;
 };
 
 #endif

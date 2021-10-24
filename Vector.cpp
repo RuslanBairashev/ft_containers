@@ -1,7 +1,7 @@
 #include "Vector.hpp"
 
-
-Vector::Vector():
+template < class T, class Allocator >
+Vector<T, Allocator >::Vector():
 	size_(0),
 	capacity_(10)//,
 	//array_(new int[capacity_])
@@ -10,13 +10,15 @@ Vector::Vector():
 	array_ = myAlloc_.allocate(capacity_);
 }
 
-Vector::~Vector()
+template < class T, class Allocator >
+Vector<T, Allocator >::~Vector()
 {
 	//delete[] array_;
 	myAlloc_.deallocate(array_, capacity_);
 }
 
-Vector::Vector(int elements, int value):
+template < class T, class Allocator >
+Vector<T, Allocator >::Vector(int elements, int value):
 	size_(elements),
 	capacity_(elements + 3),
 	array_(new int[capacity_])
@@ -24,7 +26,9 @@ Vector::Vector(int elements, int value):
 	for (int i = 0; i < size_; ++i)
 		array_[i] = value;
 }
-Vector::Vector(const Vector & rhs):
+
+template < class T, class Allocator >
+Vector<T, Allocator >::Vector(const Vector & rhs):
 	size_(rhs.size_),
 	capacity_(rhs.capacity_),
 	array_(new int[capacity_])
@@ -42,35 +46,40 @@ Vector::Vector(const std::initializer_list<int> & list):
 		push_back(i);
 }
 */
-
-int&	Vector::at(int index)
+template < class T, class Allocator >
+int&	Vector<T, Allocator >::at(int index)
 {
 	if (index < 0 || index >= size_)
 		throw std::runtime_error("Error: (at) out of range!\n");
 	return array_[index];
 }
 
-int&	Vector::back()
+template < class T, class Allocator >
+int&	Vector<T, Allocator >::back()
 {
 	return array_[size_ - 1];
 }
 
-int		Vector::capacity() const
+template < class T, class Allocator >
+int		Vector<T, Allocator >::capacity() const
 {
 	return capacity_;
 }
 
-void	Vector::clear()
+template < class T, class Allocator >
+void	Vector<T, Allocator >::clear()
 {
 	size_ = 0;
 }
 
-bool	Vector::empty() const
+template < class T, class Allocator >
+bool	Vector<T, Allocator >::empty() const
 {
 	return size_ == 0;
 }
 
-void	Vector::erase(int index)
+template < class T, class Allocator >
+void	Vector<T, Allocator >::erase(int index)
 {
 	if (index < 0 || index >= size_)
 		throw std::runtime_error("Error: (erase) out of range!\n");
@@ -79,12 +88,14 @@ void	Vector::erase(int index)
 	--size_;
 }
 
-int&	Vector::front()
+template < class T, class Allocator >
+int&	Vector<T, Allocator >::front()
 {
 	return array_[0];
 }
 
-void	Vector::insert(int index, int value)
+template < class T, class Allocator >
+void	Vector<T, Allocator >::insert(int index, int value)
 {
 	if (index < 0 || index >= size_)
 		throw std::runtime_error("Error: (index) out of range!\n");
@@ -107,19 +118,22 @@ void	Vector::insert(int index, int value)
 	}
 }
 
-int		Vector::max_size() const
+template < class T, class Allocator >
+int		Vector<T, Allocator >::max_size() const
 {
 	return capacity_;
 }
 
-void	Vector::pop_back()
+template < class T, class Allocator >
+void	Vector<T, Allocator >::pop_back()
 {
 	if (size_ == 0)
 		throw std::runtime_error("Error: pop_back on empty cont!\n");
 	--size_;
 }
 
-void	Vector::push_back(const int & value)
+template < class T, class Allocator >
+void	Vector<T, Allocator >::push_back(const int & value)
 {
 	if (size_ < capacity_)
 	{
@@ -139,19 +153,22 @@ void	Vector::push_back(const int & value)
 	}
 }
 
-void	Vector::reserve(int n)
+template < class T, class Allocator >
+void	Vector<T, Allocator >::reserve(int n)
 {
 	if (n > capacity_)
 		capacity_ = n;
 	//todo reallocate
 }
 
-int		Vector::size() const
+template < class T, class Allocator >
+int		Vector<T, Allocator >::size() const
 {
 	return size_;
 }
 
-Vector&	Vector::operator=(const Vector& rhs)
+template < class T, class Allocator >
+Vector<T, Allocator >&	Vector<T, Allocator >::operator=(const Vector<T, Allocator >& rhs)
 {
 	if (rhs.size_ > size_)
 	{
@@ -166,7 +183,8 @@ Vector&	Vector::operator=(const Vector& rhs)
 	return *this;
 }
 
-bool	Vector::operator==(const Vector & rhs)	const
+template < class T, class Allocator >
+bool	Vector<T, Allocator >::operator==(const Vector & rhs)	const
 {
 	if (size() != rhs.size())
 		return false;
@@ -178,17 +196,20 @@ bool	Vector::operator==(const Vector & rhs)	const
 	return true;
 }
 
-bool	Vector::operator!=(const Vector & rhs)	const
+template < class T, class Allocator >
+bool	Vector<T, Allocator >::operator!=(const Vector & rhs)	const
 {
 	return !(*this == rhs);
 }
 
-int&	Vector::operator[](int index)
+template < class T, class Allocator >
+int&	Vector<T, Allocator >::operator[](int index)
 {
 	return array_[index];
 }
-
-std::ostream& operator<<(std::ostream & os, const Vector & rhs)
+/*
+template < class T, class Allocator >
+std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator > & rhs)
 {
 	for (int i = 0; i < rhs.size(); ++i)
 		os << rhs.array_[i] << " ";
@@ -199,3 +220,6 @@ std::ostream& operator<<(std::ostream & os, const Vector & rhs)
 
 	return os;
 }
+*/
+template class Vector< int >;
+
