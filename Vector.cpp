@@ -1,15 +1,19 @@
 #include "Vector.hpp"
 
+
 Vector::Vector():
 	size_(0),
-	capacity_(10),
-	array_(new int[capacity_])
+	capacity_(10)//,
+	//array_(new int[capacity_])
 {
+	//std::allocator<int>	myalloc;
+	array_ = myAlloc_.allocate(capacity_);
 }
 
 Vector::~Vector()
 {
-	delete[] array_;
+	//delete[] array_;
+	myAlloc_.deallocate(array_, capacity_);
 }
 
 Vector::Vector(int elements, int value):

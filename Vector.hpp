@@ -1,10 +1,12 @@
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-#include <ostream>
+#include <iostream>
 #include <list>
 #include <exception>
+#include <memory>
 
+//template < class T, class Alloc = allocator<T> >
 class Vector
 {
 public:
@@ -39,6 +41,7 @@ private:
 	int		size_;
 	int		capacity_;
 	int*	array_;
+	std::allocator<int>	myAlloc_;
 };
 
 #endif
