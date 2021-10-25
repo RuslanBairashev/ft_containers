@@ -12,12 +12,19 @@ int	main()
 	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
 
 	std::cout << std::endl << "Iterators_tests_________" << std::endl;
-	//for(Vector<int>::Iterator it = v.begin(); it != v.end(); it++)
-	//	std::cout << *it << ' ';
 	std::cout << "begin check: " << *(v.begin()) << std::endl;
 	std::cout << "end check: " << *(v.end()) << std::endl;
+	std::cout << std::endl << "Iterator_class_tests_________" << std::endl;
+	Vector<int>::Iterator it = v.begin();
+	std::cout << "*a check: " << *it << std::endl;
+	*it = 42;
+	std::cout << "*a= check: " << *it << std::endl;
+	std::cout << "++a check: " << *(it++) << std::endl;
+	std::cout << "a++ check: " << *(++it) << std::endl;
 	
 
+
+/*
 	std::cout << std::endl << "Capacity_tests__________" << std::endl;
 	std::cout << "size check: " << v.size() << std::endl;
 	std::cout << "max_size check: " << v.max_size() << std::endl;
@@ -34,7 +41,7 @@ int	main()
 	std::cout << "at check: " << v.at(3) << std::endl;
 	std::cout << "front check: " << v.front() << std::endl;
 	std::cout << "back check: " << v.back() << std::endl;
-	
+	*/
 
 	return 0;
 }
