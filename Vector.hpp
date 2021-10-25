@@ -6,12 +6,41 @@
 #include <exception>
 #include <memory>
 #include <iterator>
+#include <cstddef>
 
 template < class T, class Allocator = std::allocator<T> >
 class Vector
 {
+public:
+	//template </*class Category,*/ class T, class Distance = ptrdiff_t,
+	//class Pointer = T*, class Reference = T&>
+	struct Iterator 
+	{
+	public:
+		//using iterator_category	= std::forward_iterator_tag;
+		//using difference_type	= std::ptrdiff_t;
+		//using value_type		= int;
+		//using pointer			= int*;
+		//using reference			= int&;
+		typedef T		value_type;
+		//typedef Distance  difference_type;
+		//typedef Pointer   pointer;
+		typedef T*		pointer;
+		//typedef Reference reference;
+		typedef T&		reference;
+		//typedef Category  iterator_category;
 
-typedef typename std::iterator<T>	iterator;
+		Iterator(pointer ptr) : m_ptr(ptr) {}
+
+		reference operator*() const { return *m_ptr; }
+		pointer operator->() { return m_ptr; }
+		Iterator& operator++() { m_ptr++; return *this; }  
+		Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
+		bool operator== (const Iterator& it) { return m_ptr == it.m_ptr; };
+		bool operator!= (const Iterator& it) { return m_ptr != it.m_ptr; };  
+	private:
+		pointer m_ptr;
+	};
 
 public:
 	Vector();
@@ -20,6 +49,11 @@ public:
 	//Vector(const std::initializer_list<int> & list);
 
 	~Vector();
+	//Iterators
+	T*	begin();
+	T*	end();
+	//T*	rbegin();
+	//T*	rend();
 
 	//Capacity all done
 	int		size() const;
@@ -36,12 +70,12 @@ public:
 	int&	back();
 
 	//Modifiers
-
+	//assign
 	void	push_back(const T & value);
 	void	pop_back();
 	void	insert(int index, T value);
 	void	erase(int index);
-
+	//swap
 	void	clear();
 		
 	Vector&	operator=(const Vector& rhs);
@@ -71,7 +105,6 @@ private:
 	T*					array_;
 };
 
-#include "Vector.hpp"
 
 template < class T, class Allocator >
 Vector<T, Allocator >::Vector():
@@ -121,6 +154,12 @@ Vector::Vector(const std::initializer_list<int> & list):
 		push_back(i);
 }
 */
+template < class T, class Allocator >
+T*	Vector<T, Allocator >::begin() { return array_; }
+
+template < class T, class Allocator >
+T*	Vector<T, Allocator >::end() { return (array_ + size_); }
+
 template < class T, class Allocator >
 int&	Vector<T, Allocator >::at(int index)
 {

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Vector.hpp"
+#include <vector>
 
 int	main()
 {
@@ -10,7 +11,14 @@ int	main()
 	std::cout << "v contains: " << v ;
 	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
 
-	std::cout << "Capacity_tests__________" << std::endl;
+	std::cout << std::endl << "Iterators_tests_________" << std::endl;
+	//for(Vector<int>::Iterator it = v.begin(); it != v.end(); it++)
+	//	std::cout << *it << ' ';
+	std::cout << "begin check: " << *(v.begin()) << std::endl;
+	std::cout << "end check: " << *(v.end()) << std::endl;
+	
+
+	std::cout << std::endl << "Capacity_tests__________" << std::endl;
 	std::cout << "size check: " << v.size() << std::endl;
 	std::cout << "max_size check: " << v.max_size() << std::endl;
 	v.resize(12);
