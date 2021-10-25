@@ -39,11 +39,11 @@ public:
 		reference operator=(const T & rhs) { *m_ptr = rhs; return *m_ptr; }
 		Iterator& operator++() { m_ptr++; return *this; }  
 		Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
-		//reference operator*()++ const { (*m_ptr)++; return *m_ptr; }
+		//reference operator*++() const { (*m_ptr)++; return *m_ptr; }
 		Iterator& operator--() { m_ptr--; return *this; }  
 		Iterator operator--(int) { Iterator tmp = *this; --(*this); return tmp; }
 		//reference operator*()++ const { (*m_ptr)++; return *m_ptr; }
-		reference operator+(const T & rhs) { *m_ptr = m_ptr + rhs; return *m_ptr; }
+		Iterator& operator+(int rhs) { return (*m_ptr + rhs); }
 		  
 	private:
 		pointer m_ptr;
