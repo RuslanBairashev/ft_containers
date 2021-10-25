@@ -18,11 +18,12 @@ Vector<T, Allocator >::~Vector()
 }
 
 template < class T, class Allocator >
-Vector<T, Allocator >::Vector(int elements, int value):
+Vector<T, Allocator >::Vector(int elements, T value):
 	size_(elements),
-	capacity_(elements + 3),
-	array_(new int[capacity_])
+	capacity_(elements + 3)//,
+	//array_(new int[capacity_])
 {
+	array_ = myAlloc_.allocate(capacity_);
 	for (int i = 0; i < size_; ++i)
 		array_[i] = value;
 }
@@ -30,9 +31,10 @@ Vector<T, Allocator >::Vector(int elements, int value):
 template < class T, class Allocator >
 Vector<T, Allocator >::Vector(const Vector & rhs):
 	size_(rhs.size_),
-	capacity_(rhs.capacity_),
-	array_(new int[capacity_])
+	capacity_(rhs.capacity_)//,
+	//array_(new int[capacity_])
 {
+	array_ = myAlloc_.allocate(capacity_);
 	for (int i = 0; i < rhs.size(); ++i)
 		array_[i] = rhs.array_[i];
 }
@@ -95,7 +97,7 @@ int&	Vector<T, Allocator >::front()
 }
 
 template < class T, class Allocator >
-void	Vector<T, Allocator >::insert(int index, int value)
+void	Vector<T, Allocator >::insert(int index, T value)
 {
 	if (index < 0 || index >= size_)
 		throw std::runtime_error("Error: (index) out of range!\n");
@@ -109,10 +111,14 @@ void	Vector<T, Allocator >::insert(int index, int value)
 	else
 	{
 		capacity_ *= 2;
-		int* newarray = new int[capacity_];
+		
+		T* newarray = std::allocator<T>::allocate(capacity_);
+		//int* newarray = new int[capacity_];
+		//array_ = myAlloc_.allocate(capacity_);
 		for (int i = 0; i < size_; ++i)
 			newarray[i] = array_[i];
-		delete[] array_;
+		//delete[] array_;
+		myAlloc_.deallocate(array_, capacity_ / 2);
 		array_ = newarray;
 		insert(index, value);
 	}
