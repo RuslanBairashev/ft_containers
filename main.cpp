@@ -33,8 +33,8 @@ int	main()
 	std::cout << "a>=b check: " << (*it >= *it2) << std::endl;
 	std::cout << "a[0] check: " << *it[0] << ". a[5] check: " << *it[5] << std::endl;
 
-	//Vector<int>::iterator it3 = v.begun();
-	//std::cout << "*a check: " << *it3 << std::endl;
+	Vector<int>::iterator it3 = v.begun();
+	std::cout << "*a check: " << *it3 << std::endl;
 
 	std::cout << std::endl << "Capacity_tests__________" << std::endl;
 	std::cout << "size check: " << v.size() << std::endl;

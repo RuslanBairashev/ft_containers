@@ -78,7 +78,7 @@ public:
 	}
 
 	//Iterators
-	pointer	begin() { return array_; }
+	pointer	begin() { return array_; } //pointer == iT*
 	iterator	begun() { return array_; }
 	pointer	end() { return (array_ + size_); }
 
