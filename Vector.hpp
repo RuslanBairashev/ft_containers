@@ -14,16 +14,17 @@ class Vector
 public:
 	template <class iT, class Category = std::random_access_iterator_tag,
 	class Distance = ptrdiff_t, class Pointer = iT*, class Reference = iT&>
-	struct Iterator
+	struct Iterator //*** Iterator starts here ***//
 	{
 	public:
-		typedef iT								value_type;
-		typedef std::random_access_iterator_tag	iterator_category;
-		typedef ptrdiff_t						difference_type;
-		typedef iT*								pointer;
-		typedef iT&								reference;
+		typedef iT			value_type;
+		typedef Category	iterator_category;
+		typedef Distance	difference_type;
+		typedef Pointer		pointer;
+		typedef Reference	reference;
 
 		Iterator(pointer ptr) : m_ptr(ptr) {}
+		Iterator(const Iterator & it) : m_ptr(it.m_ptr) {}
 
 		bool		operator== (const Iterator& it) const { return m_ptr == it.m_ptr; };//ok
 		bool		operator!= (const Iterator& it) const { return m_ptr != it.m_ptr; };//ok
@@ -46,25 +47,45 @@ public:
 
 	private:
 		pointer m_ptr;
-	};
+	}; //*** Iterator ends here ***//
 
 public:
-	Vector();
-	Vector(int elements, T value = 0);
-	Vector(const Vector & rhs);
-	//Vector(const std::initializer_list<int> & list);
+	typedef	T										value_type;
+	typedef	Allocator								allocator_type;
+	typedef typename	allocator_type::reference	reference;
+	typedef typename	allocator_type::pointer		pointer;
+	typedef typename	Vector::Iterator<pointer>	iterator;
 
-	~Vector();
+	Vector(): size_(0), capacity_(10)
+	{
+		array_ = myAlloc_.allocate(capacity_);
+	}
+	Vector(int elements, T value = 0): size_(elements), capacity_(elements + 3)
+	{
+		array_ = myAlloc_.allocate(capacity_);
+		for (int i = 0; i < size_; ++i)
+			array_[i] = value;
+	}
+	Vector(const Vector & rhs): size_(rhs.size_), capacity_(rhs.capacity_)
+	{
+		array_ = myAlloc_.allocate(capacity_);
+		for (int i = 0; i < rhs.size(); ++i)
+			array_[i] = rhs.array_[i];
+	}
+	~Vector()
+	{
+		myAlloc_.deallocate(array_, capacity_);
+	}
+
 	//Iterators
-	T*	begin();
-	T*	end();
-	//T*	rbegin();
-	//T*	rend();
+	pointer	begin() { return array_; }
+	iterator	begun() { return array_; }
+	pointer	end() { return (array_ + size_); }
 
 	//Capacity all done
 	int		size() const;
 	int		max_size() const;
-	void	resize(int n, T val = T());
+	void	resize(int n, value_type val = value_type());
 	int		capacity() const;
 	bool	empty() const;
 	void	reserve(int n);
@@ -96,63 +117,18 @@ private:
 	std::allocator<T>	myAlloc_;
 	int					size_;
 	int					capacity_;
-	T*					array_;
+	pointer				array_;
 };
 
+//template < class T, class Allocator >
+//T*	Vector<T, Allocator >::begin() { return array_; }
 
-template < class T, class Allocator >
-Vector<T, Allocator >::Vector():
-	size_(0),
-	capacity_(10)//,
-	//array_(new int[capacity_])
-{
-	//std::allocator<int>	myalloc;
-	array_ = myAlloc_.allocate(capacity_);
-}
+////*******************???????????//////
+//template < class T, class Allocator >
+//typename Vector<T, Allocator >::iterator Vector<T, Allocator >::begun() { return array_; }
 
-template < class T, class Allocator >
-Vector<T, Allocator >::~Vector()
-{
-	//delete[] array_;
-	myAlloc_.deallocate(array_, capacity_);
-}
-
-template < class T, class Allocator >
-Vector<T, Allocator >::Vector(int elements, T value):
-	size_(elements),
-	capacity_(elements + 3)//,
-	//array_(new int[capacity_])
-{
-	array_ = myAlloc_.allocate(capacity_);
-	for (int i = 0; i < size_; ++i)
-		array_[i] = value;
-}
-
-template < class T, class Allocator >
-Vector<T, Allocator >::Vector(const Vector & rhs):
-	size_(rhs.size_),
-	capacity_(rhs.capacity_)//,
-	//array_(new int[capacity_])
-{
-	array_ = myAlloc_.allocate(capacity_);
-	for (int i = 0; i < rhs.size(); ++i)
-		array_[i] = rhs.array_[i];
-}
-/*
-Vector::Vector(const std::initializer_list<int> & list):
-	size_(0),
-	capacity_(list.size() + 3),
-	array_(new int[capacity_])
-{
-	for(int i : list)
-		push_back(i);
-}
-*/
-template < class T, class Allocator >
-T*	Vector<T, Allocator >::begin() { return array_; }
-
-template < class T, class Allocator >
-T*	Vector<T, Allocator >::end() { return (array_ + size_); }
+//template < class T, class Allocator >
+//T*	Vector<T, Allocator >::end() { return (array_ + size_); }
 
 template < class T, class Allocator >
 int&	Vector<T, Allocator >::at(int index)
