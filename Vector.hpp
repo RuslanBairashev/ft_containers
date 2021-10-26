@@ -12,39 +12,38 @@ template < class T, class Allocator = std::allocator<T> >
 class Vector
 {
 public:
-	//template </*class Category,*/ class T, class Distance = ptrdiff_t,
-	//class Pointer = T*, class Reference = T&>
-	struct Iterator 
+	template <class iT, class Category = std::random_access_iterator_tag,
+	class Distance = ptrdiff_t, class Pointer = iT*, class Reference = iT&>
+	struct Iterator
 	{
 	public:
-		//using iterator_category	= std::forward_iterator_tag;
-		//using difference_type	= std::ptrdiff_t;
-		//using value_type		= int;
-		//using pointer			= int*;
-		//using reference			= int&;
-		typedef T		value_type;
-		//typedef Distance  difference_type;
-		//typedef Pointer   pointer;
-		typedef T*		pointer;
-		//typedef Reference reference;
-		typedef T&		reference;
-		//typedef Category  iterator_category;
+		typedef iT								value_type;
+		typedef std::random_access_iterator_tag	iterator_category;
+		typedef ptrdiff_t						difference_type;
+		typedef iT*								pointer;
+		typedef iT&								reference;
 
 		Iterator(pointer ptr) : m_ptr(ptr) {}
 
-		bool operator== (const Iterator& it) { return m_ptr == it.m_ptr; };
-		bool operator!= (const Iterator& it) { return m_ptr != it.m_ptr; };
-		reference operator*() const { return *m_ptr; }
-		pointer operator->() { return m_ptr; }
-		reference operator=(const T & rhs) { *m_ptr = rhs; return *m_ptr; }
-		Iterator& operator++() { m_ptr++; return *this; }  
-		Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
-		//reference operator*++() const { (*m_ptr)++; return *m_ptr; }
-		Iterator& operator--() { m_ptr--; return *this; }  
-		Iterator operator--(int) { Iterator tmp = *this; --(*this); return tmp; }
-		//reference operator*()++ const { (*m_ptr)++; return *m_ptr; }
-		Iterator& operator+(int rhs) { return (*m_ptr + rhs); }
-		  
+		bool		operator== (const Iterator& it) const { return m_ptr == it.m_ptr; };//ok
+		bool		operator!= (const Iterator& it) const { return m_ptr != it.m_ptr; };//ok
+		reference	operator*() { return *m_ptr; } //ok
+		pointer		operator->() { return m_ptr; }
+		reference	operator=(const value_type & rhs) { *m_ptr = rhs; return *m_ptr; }
+		Iterator&	operator++() { ++m_ptr; return *this; }//ok
+		Iterator	operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }//ok
+		Iterator&	operator--() { m_ptr--; return *this; }//ok
+		Iterator	operator--(int) { Iterator tmp = *this; --(*this); return tmp; }//ok
+		Iterator	operator+(int rhs) { return (m_ptr + rhs); }//ok
+		Iterator	operator-(int rhs) { return (m_ptr - rhs); }//ok
+		Iterator&	operator+=(int rhs) { m_ptr = m_ptr + rhs; return *this; }//ok
+		Iterator&	operator-=(int rhs) { m_ptr = m_ptr - rhs; return *this; }//ok
+		bool		operator<(const Iterator& it) const { return m_ptr < it.m_ptr; }//ok
+		bool		operator>=(const Iterator& it) const { return !operator<(it); }//ok
+		bool		operator>(const Iterator& it) const { return m_ptr > it.m_ptr; }//ok
+		bool		operator<=(const Iterator& it) const { return !operator>(it); }//ok
+		Iterator&	operator[](int index) { m_ptr = m_ptr + index; return *this; }//ok
+
 	private:
 		pointer m_ptr;
 	};
@@ -90,21 +89,9 @@ public:
 	bool	operator!=(const Vector & rhs)	const;
 	
 
-	///template < class Tx, class Allocator = std::allocator<Tx> >
-	///friend	std::ostream& operator<<(std::ostream &, const Vector &);
-	//friend	std::ostream& operator<<(std::ostream & os, const Vector & rhs);
 	template < class Tx, class Allocatorx >
-	friend std::ostream& operator<<(std::ostream & os, const Vector<Tx, Allocatorx > & rhs)
-	{
-		for (int i = 0; i < rhs.size(); ++i)
-			os << rhs.array_[i] << " ";
-		os << "//";
-		for (int i = rhs.size_; i < rhs.capacity_; ++i)
-			os << rhs.array_[i] << " ";
-		//os << std::endl;
+	friend	std::ostream& operator<<(std::ostream &, const Vector<Tx, Allocatorx > &);
 
-		return os;
-	}
 private:
 	std::allocator<T>	myAlloc_;
 	int					size_;
@@ -361,7 +348,7 @@ void	Vector<T, Allocator >::resize(int n, T val)
 	}
 }
 
-/*
+
 template < class T, class Allocator >
 std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator > & rhs)
 {
@@ -374,7 +361,7 @@ std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator > & rhs)
 
 	return os;
 }
-*/
+
 
 
 
