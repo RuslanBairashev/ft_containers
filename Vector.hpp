@@ -54,7 +54,7 @@ public:
 	typedef	Allocator								allocator_type;
 	typedef typename	allocator_type::reference	reference;
 	typedef typename	allocator_type::pointer		pointer;
-	typedef typename	Vector::Iterator<pointer>	iterator;
+	typedef Iterator<int>							iterator;
 
 	Vector(): size_(0), capacity_(10)
 	{
@@ -78,8 +78,8 @@ public:
 	}
 
 	//Iterators
-	pointer	begin() { return array_; } //pointer == iT*
-	iterator	begun() { return array_; }
+	typename std::allocator<T>::pointer	begin() { return array_; } //pointer == iT*
+	iterator	begun() { return Iterator<int>(array_); }
 	pointer	end() { return (array_ + size_); }
 
 	//Capacity all done
@@ -118,6 +118,7 @@ private:
 	int					size_;
 	int					capacity_;
 	pointer				array_;
+	///T*				array_;
 };
 
 //template < class T, class Allocator >
