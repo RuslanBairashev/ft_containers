@@ -33,6 +33,7 @@ public:
 	Viterator	operator--(int) { Viterator tmp = *this; --(*this); return tmp; }//ok
 	Viterator	operator+(int rhs) { return (m_ptr + rhs); }//ok
 	Viterator	operator-(int rhs) { return (m_ptr - rhs); }//ok
+	difference_type	operator-(const Viterator& it) { return (m_ptr - it.m_ptr); }//ok
 	Viterator&	operator+=(int rhs) { m_ptr = m_ptr + rhs; return *this; }//ok
 	Viterator&	operator-=(int rhs) { m_ptr = m_ptr - rhs; return *this; }//ok
 	bool		operator<(const Viterator& it) const { return m_ptr < it.m_ptr; }//ok

@@ -10,7 +10,7 @@ int	main()
 		v.push_back(i);
 	std::cout << "v contains: " << v ;
 	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
-
+/*
 	std::cout << std::endl << "Viterators_tests_________" << std::endl;
 	std::cout << "begin check: " << *(v.begin()) << std::endl;
 	std::cout << "end check: " << *(v.end()) << std::endl;
@@ -38,9 +38,8 @@ int	main()
 		std_v.push_back(i);
 	std::vector<int>::iterator it10 = std_v.begin();
 	std::cout << "*std_v check: " << *it10 << std::endl;
-	Vector<int>::iterator it3 = v.begun();
-	std::cout << "it3 check: " << *it3 << std::endl;
-
+	std::cout << "max_size check: " << std_v.max_size() << std::endl;
+*/
 	std::cout << std::endl << "Capacity_tests__________" << std::endl;
 	std::cout << "size check: " << v.size() << std::endl;
 	std::cout << "max_size check: " << v.max_size() << std::endl;
@@ -57,6 +56,24 @@ int	main()
 	std::cout << "at check: " << v.at(3) << std::endl;
 	std::cout << "front check: " << v.front() << std::endl;
 	std::cout << "back check: " << v.back() << std::endl;
+
+	Vector<int>::iterator it3 = v.begin();
+	std::cout << std::endl << "v contains: " << v << std::endl;
+	std::cout << "Modifiers_tests____" << std::endl;
+	v.insert(it3, 1);
+	std::cout << std::endl << "v contains: " << v << std::endl;
+	v.insert(it3, 5, 300);
+	std::cout << std::endl << "v contains: " << v << std::endl;
+	Vector<int>	plus;
+	for (int i = 0; i < 20; ++i)
+		plus.push_back(i + 100);
+	it3 = v.begin();
+	v.insert(it3, plus.begin(), plus.end());
+	std::cout << std::endl << "v contains: " << v << std::endl;
+	/* v.erase(it3 + 5);
+	std::cout << std::endl << "v contains: " << v << std::endl;
+	v.erase(it3, it3 + 3);
+	std::cout << std::endl << "v contains: " << v << std::endl; */
 	
 	return 0;
 }
