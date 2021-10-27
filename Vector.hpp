@@ -155,8 +155,8 @@ public:
 		{
 			iterator it = (*this).end();
 			size_ += n;
-			for (int i = (it - position); (position - n) != it; --i, ++position)
-				array_[i] = array_[i - n];
+			for (int i = (it - position); i >= 0; --i)
+				array_[i + n] = array_[i]; 
 			for (size_type i = 0; i < n; i++)
 				array_[offset + i] = val;
 		}
@@ -175,13 +175,17 @@ public:
 		{
 			iterator it = (*this).end();
 			size_ += n;
-			for (int i = (it - position); (position - n) != it; --i, ++position)
-				array_[i] = array_[i - n];
+			for (int i = (it - position); i >= 0; --i)
+				array_[i + n] = array_[i]; 
+			//problem with stack in this for
+			//for (int i = (it - position); (position - n) != it; --i, ++position)
+			//	array_[i] = array_[i - n];
 			for (; first != last; ++first, ++tmp)
 				*tmp = *first;
 		}
 		else
 		{
+			std::cout << "AZAZa" << std::endl;
 			reserve((size_ + n) * 2);
 			insert((*this).begin() + offset, first, last);
 			//TO DO

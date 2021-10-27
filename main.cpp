@@ -58,18 +58,18 @@ int	main()
 	std::cout << "back check: " << v.back() << std::endl;
 
 	Vector<int>::iterator it3 = v.begin();
-	std::cout << std::endl << "v contains: " << v << std::endl;
+	std::cout << std::endl << "1.v contains: " << v << std::endl;
 	std::cout << "Modifiers_tests____" << std::endl;
 	v.insert(it3, 1);
-	std::cout << std::endl << "v contains: " << v << std::endl;
+	std::cout << std::endl << "2.v contains: " << v << std::endl;
 	v.insert(it3, 5, 300);
-	std::cout << std::endl << "v contains: " << v << std::endl;
+	std::cout << std::endl << "3.v contains: " << v << std::endl;
 	Vector<int>	plus;
-	for (int i = 0; i < 20; ++i)
-		plus.push_back(i + 100);
+	for (int i = 0; i < 25; ++i)
+		plus.push_back(i + 101);
 	it3 = v.begin();
-	v.insert(it3, plus.begin(), plus.end());
-	std::cout << std::endl << "v contains: " << v << std::endl;
+	v.insert(it3 + 3, plus.begin(), plus.end());
+	std::cout << std::endl << "4.v contains: " << v << std::endl;
 	/* v.erase(it3 + 5);
 	std::cout << std::endl << "v contains: " << v << std::endl;
 	v.erase(it3, it3 + 3);
