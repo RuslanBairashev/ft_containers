@@ -74,6 +74,19 @@ int	main()
 	std::cout << std::endl << "v contains: " << v << std::endl;
 	v.erase(it3, it3 + 3);
 	std::cout << std::endl << "v contains: " << v << std::endl; */
-	
+	Vector<int> first;
+	Vector<int> second;
+	//std::vector<int> third;
+
+	first.assign (7,100);             // 7 ints with a value of 100
+	std::cout << std::endl << "first contains: " << first << std::endl;
+
+	Vector<int>::iterator its = first.begin()+1;
+	second.assign (its,first.end()-1); // the 5 central values of first
+	std::cout << std::endl << "second contains: " << second << std::endl;	
+
+	//int myints[] = {1776,7,4};
+	//third.assign (myints,myints+3);   // assigning from array.
+		
 	return 0;
 }

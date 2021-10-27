@@ -25,10 +25,10 @@ public:
 	{
 		array_ = myAlloc_.allocate(capacity_);
 	}
-	Vector(int elements, T value = 0): size_(elements), capacity_(elements + 3)
+	Vector(size_type elements, T value = 0): size_(elements), capacity_(elements + 3)
 	{
 		array_ = myAlloc_.allocate(capacity_);
-		for (int i = 0; i < size_; ++i)
+		for (size_type i = 0; i < size_; ++i)
 			array_[i] = value;
 	}
 	Vector(const Vector & rhs): size_(rhs.size_), capacity_(rhs.capacity_)
@@ -100,6 +100,31 @@ public:
 
 	//Modifiers
 	//assign
+	//template <class InputIterator>
+  	void assign (iterator first, iterator last)
+	{
+		size_type	n = last - first;
+		std::allocator<T>	alloc;
+		T* newarray = alloc.allocate(n + 3);
+		for (size_t i = 0; i < n; ++i, ++first)
+			newarray[i] = *first;
+		myAlloc_.deallocate(array_, capacity_);
+		array_ = newarray;
+		size_ = n;
+		capacity_ = size_ + 3;
+	}
+	void	assign(size_type n, const value_type & val)
+	{
+		std::allocator<T>	alloc;
+		T* newarray = alloc.allocate(n + 3);
+		for (size_t i = 0; i < n; ++i)
+			newarray[i] = val;
+		myAlloc_.deallocate(array_, capacity_);
+		array_ = newarray;
+		size_ = n;
+		capacity_ = size_ + 3;
+	}
+
 	void	push_back(const value_type & value)
 	{
 		if (size_ < capacity_)
@@ -111,15 +136,12 @@ public:
 		{
 			capacity_ *= 2;
 			std::allocator<value_type>	alloc;
-			//T* newarray = std::allocator<T>::allocate(capacity_);
 			value_type* newarray = alloc.allocate(capacity_);
-			//int*	newarray = new int[capacity_];
 			for (size_t i = 0; i < size_; ++i)
 				newarray[i] = array_[i];
 			newarray[size_] = value;
 			++size_;
 			myAlloc_.deallocate(array_, capacity_ / 2);
-			//delete[] array_;
 			array_ = newarray;
 		}
 	}
@@ -147,7 +169,6 @@ public:
 		}
 		return tmp;
 	}
-
 	void insert (iterator position, size_type n, const value_type& val)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
@@ -166,7 +187,7 @@ public:
 			insert((*this).begin() + offset, n, val);
 		}
 	}
-	 void insert (iterator position, iterator first, iterator last)
+	void insert (iterator position, iterator first, iterator last)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
 		iterator tmp = position;
@@ -177,49 +198,15 @@ public:
 			size_ += n;
 			for (int i = (it - position); i >= 0; --i)
 				array_[i + n] = array_[i]; 
-			//problem with stack in this for
-			//for (int i = (it - position); (position - n) != it; --i, ++position)
-			//	array_[i] = array_[i - n];
 			for (; first != last; ++first, ++tmp)
 				*tmp = *first;
 		}
 		else
 		{
-			std::cout << "AZAZa" << std::endl;
 			reserve((size_ + n) * 2);
 			insert((*this).begin() + offset, first, last);
-			//TO DO
 		}
 	} 
-
-
-/*
-	void	insert(int index, T value)
-	{
-		if (index < 0 || index >= size_)
-			throw std::runtime_error("Error: (index) out of range!\n");
-		if (size_ != capacity_)
-		{
-			for (int i = size_ - 1; i >= index; --i)
-				array_[i + 1] = array_[i];
-			array_[index] = value;
-			++size_;
-		}
-		else
-		{
-			capacity_ *= 2;
-			
-			T* newarray = std::allocator<T>::allocate(capacity_);
-			//int* newarray = new int[capacity_];
-			//array_ = myAlloc_.allocate(capacity_);
-			for (int i = 0; i < size_; ++i)
-				newarray[i] = array_[i];
-			//delete[] array_;
-			myAlloc_.deallocate(array_, capacity_ / 2);
-			array_ = newarray;
-			insert(index, value);
-		}
-	}*/
 	iterator	erase(iterator position)
 	{
 		iterator tmp = position;
@@ -239,15 +226,7 @@ public:
 		size_ -= range;
 		return tmp;
 	}
-	/*
-	void	erase(int index)
-	{
-		if (index < 0 || index >= size_)
-			throw std::runtime_error("Error: (erase) out of range!\n");
-		for (int i = index; i < size_; ++i)
-			array_[i] = array_[i + 1];
-		--size_;
-	}*/
+
 	//swap
 	void	clear() { size_ = 0; }
 		
