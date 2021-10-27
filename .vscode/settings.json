@@ -39,7 +39,7 @@
 		"ios": "cpp",
 		"iostream": "cpp",
 		"istream": "cpp",
-		"iterator": "cpp",
+		"Viterator": "cpp",
 		"limits": "cpp",
 		"locale": "cpp",
 		"memory": "cpp",
@@ -67,6 +67,7 @@
 		"memory_resource": "cpp",
 		"numeric": "cpp",
 		"random": "cpp",
-		"fstream": "cpp"
+		"fstream": "cpp",
+		"iterator": "cpp"
 	}
 }

@@ -1,12 +1,12 @@
-#ifndef BL_RAWITERATORS_HPP
-#define BL_RAWITERATORS_HPP
+#ifndef BL_RAWViteratorS_HPP
+#define BL_RAWViteratorS_HPP
 
 
 //-------------------------------------------------------------------
-// Raw iterator with random access
+// Raw Viterator with random access
 //-------------------------------------------------------------------
 template<typename Tt>
-class Iterator : public std::iterator<std::random_access_iterator_tag,
+class Viterator : public std::Viterator<std::random_access_Viterator_tag,
                                            Tt,
                                            ptrdiff_t,
                                            Tt*,
@@ -14,12 +14,12 @@ class Iterator : public std::iterator<std::random_access_iterator_tag,
 {
 public:
 
-    Iterator(Tt* ptr = nullptr){m_ptr = ptr;}
-    Iterator(const Iterator<Tt>& rawIterator) = default;
-    ~Iterator(){}
+    Viterator(Tt* ptr = nullptr){m_ptr = ptr;}
+    Viterator(const Viterator<Tt>& rawViterator) = default;
+    ~Viterator(){}
 
-    Iterator<Tt>&                  operator=(const Iterator<Tt>& rawIterator) = default;
-    Iterator<Tt>&                  operator=(Tt* ptr){m_ptr = ptr;return (*this);}
+    Viterator<Tt>&                  operator=(const Viterator<Tt>& rawViterator) = default;
+    Viterator<Tt>&                  operator=(Tt* ptr){m_ptr = ptr;return (*this);}
 
     operator                                    bool()const
     {
@@ -29,19 +29,19 @@ public:
             return false;
     }
 
-    bool                                        operator==(const Iterator<Tt>& rawIterator)const{return (m_ptr == rawIterator.getConstPtr());}
-    bool                                        operator!=(const Iterator<Tt>& rawIterator)const{return (m_ptr != rawIterator.getConstPtr());}
+    bool                                        operator==(const Viterator<Tt>& rawViterator)const{return (m_ptr == rawViterator.getConstPtr());}
+    bool                                        operator!=(const Viterator<Tt>& rawViterator)const{return (m_ptr != rawViterator.getConstPtr());}
 
-    Iterator<Tt>&                  operator+=(const ptrdiff_t& movement){m_ptr += movement;return (*this);}
-    Iterator<Tt>&                  operator-=(const ptrdiff_t& movement){m_ptr -= movement;return (*this);}
-    Iterator<Tt>&                  operator++(){++m_ptr;return (*this);}
-    Iterator<Tt>&                  operator--(){--m_ptr;return (*this);}
-    Iterator<Tt>                   operator++(int){auto temp(*this);++m_ptr;return temp;}
-    Iterator<Tt>                   operator--(int){auto temp(*this);--m_ptr;return temp;}
-    Iterator<Tt>                   operator+(const ptrdiff_t& movement){auto oldPtr = m_ptr;m_ptr+=movement;auto temp(*this);m_ptr = oldPtr;return temp;}
-    Iterator<Tt>                   operator-(const ptrdiff_t& movement){auto oldPtr = m_ptr;m_ptr-=movement;auto temp(*this);m_ptr = oldPtr;return temp;}
+    Viterator<Tt>&                  operator+=(const ptrdiff_t& movement){m_ptr += movement;return (*this);}
+    Viterator<Tt>&                  operator-=(const ptrdiff_t& movement){m_ptr -= movement;return (*this);}
+    Viterator<Tt>&                  operator++(){++m_ptr;return (*this);}
+    Viterator<Tt>&                  operator--(){--m_ptr;return (*this);}
+    Viterator<Tt>                   operator++(int){auto temp(*this);++m_ptr;return temp;}
+    Viterator<Tt>                   operator--(int){auto temp(*this);--m_ptr;return temp;}
+    Viterator<Tt>                   operator+(const ptrdiff_t& movement){auto oldPtr = m_ptr;m_ptr+=movement;auto temp(*this);m_ptr = oldPtr;return temp;}
+    Viterator<Tt>                   operator-(const ptrdiff_t& movement){auto oldPtr = m_ptr;m_ptr-=movement;auto temp(*this);m_ptr = oldPtr;return temp;}
 
-    ptrdiff_t       operator-(const Iterator<Tt>& rawIterator){return std::distance(rawIterator.getPtr(),this->getPtr());}
+    ptrdiff_t       operator-(const Viterator<Tt>& rawViterator){return std::distance(rawViterator.getPtr(),this->getPtr());}
 
     Tt&                                 operator*(){return *m_ptr;}
     const Tt&                           operator*()const{return *m_ptr;}
@@ -58,36 +58,36 @@ protected:
 
 
 //-------------------------------------------------------------------
-// Raw reverse iterator with random access
+// Raw reverse Viterator with random access
 //-------------------------------------------------------------------
 template<typename Tt>
-class blRawReverseIterator : public Iterator<Tt>
+class blRawReverseViterator : public Viterator<Tt>
 {
 public:
 
-    blRawReverseIterator(Tt* ptr = nullptr):Iterator<Tt>(ptr){}
-    blRawReverseIterator(const Iterator<Tt>& rawIterator){this->m_ptr = rawIterator.getPtr();}
-    blRawReverseIterator(const blRawReverseIterator<Tt>& rawReverseIterator) = default;
-    ~blRawReverseIterator(){}
+    blRawReverseViterator(Tt* ptr = nullptr):Viterator<Tt>(ptr){}
+    blRawReverseViterator(const Viterator<Tt>& rawViterator){this->m_ptr = rawViterator.getPtr();}
+    blRawReverseViterator(const blRawReverseViterator<Tt>& rawReverseViterator) = default;
+    ~blRawReverseViterator(){}
 
-    blRawReverseIterator<Tt>&           operator=(const blRawReverseIterator<Tt>& rawReverseIterator) = default;
-    blRawReverseIterator<Tt>&           operator=(const Iterator<Tt>& rawIterator){this->m_ptr = rawIterator.getPtr();return (*this);}
-    blRawReverseIterator<Tt>&           operator=(Tt* ptr){this->setPtr(ptr);return (*this);}
+    blRawReverseViterator<Tt>&           operator=(const blRawReverseViterator<Tt>& rawReverseViterator) = default;
+    blRawReverseViterator<Tt>&           operator=(const Viterator<Tt>& rawViterator){this->m_ptr = rawViterator.getPtr();return (*this);}
+    blRawReverseViterator<Tt>&           operator=(Tt* ptr){this->setPtr(ptr);return (*this);}
 
-    blRawReverseIterator<Tt>&           operator+=(const ptrdiff_t& movement){this->m_ptr -= movement;return (*this);}
-    blRawReverseIterator<Tt>&           operator-=(const ptrdiff_t& movement){this->m_ptr += movement;return (*this);}
-    blRawReverseIterator<Tt>&           operator++(){--this->m_ptr;return (*this);}
-    blRawReverseIterator<Tt>&           operator--(){++this->m_ptr;return (*this);}
-    blRawReverseIterator<Tt>            operator++(int){auto temp(*this);--this->m_ptr;return temp;}
-    blRawReverseIterator<Tt>            operator--(int){auto temp(*this);++this->m_ptr;return temp;}
-    blRawReverseIterator<Tt>            operator+(const int& movement){auto oldPtr = this->m_ptr;this->m_ptr-=movement;auto temp(*this);this->m_ptr = oldPtr;return temp;}
-    blRawReverseIterator<Tt>            operator-(const int& movement){auto oldPtr = this->m_ptr;this->m_ptr+=movement;auto temp(*this);this->m_ptr = oldPtr;return temp;}
+    blRawReverseViterator<Tt>&           operator+=(const ptrdiff_t& movement){this->m_ptr -= movement;return (*this);}
+    blRawReverseViterator<Tt>&           operator-=(const ptrdiff_t& movement){this->m_ptr += movement;return (*this);}
+    blRawReverseViterator<Tt>&           operator++(){--this->m_ptr;return (*this);}
+    blRawReverseViterator<Tt>&           operator--(){++this->m_ptr;return (*this);}
+    blRawReverseViterator<Tt>            operator++(int){auto temp(*this);--this->m_ptr;return temp;}
+    blRawReverseViterator<Tt>            operator--(int){auto temp(*this);++this->m_ptr;return temp;}
+    blRawReverseViterator<Tt>            operator+(const int& movement){auto oldPtr = this->m_ptr;this->m_ptr-=movement;auto temp(*this);this->m_ptr = oldPtr;return temp;}
+    blRawReverseViterator<Tt>            operator-(const int& movement){auto oldPtr = this->m_ptr;this->m_ptr+=movement;auto temp(*this);this->m_ptr = oldPtr;return temp;}
 
-    ptrdiff_t                                   operator-(const blRawReverseIterator<Tt>& rawReverseIterator){return std::distance(this->getPtr(),rawReverseIterator.getPtr());}
+    ptrdiff_t                                   operator-(const blRawReverseViterator<Tt>& rawReverseViterator){return std::distance(this->getPtr(),rawReverseViterator.getPtr());}
 
-    Iterator<Tt>                   base(){Iterator<Tt> forwardIterator(this->m_ptr); ++forwardIterator; return forwardIterator;}
+    Viterator<Tt>                   base(){Viterator<Tt> forwardViterator(this->m_ptr); ++forwardViterator; return forwardViterator;}
 };
 //-------------------------------------------------------------------
 
 
-#endif // BL_RAWITERATORS_HPP
+#endif // BL_RAWViteratorS_HPP

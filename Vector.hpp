@@ -7,54 +7,17 @@
 #include <memory>
 #include <iterator>
 #include <cstddef>
+#include "Viterator.hpp"
 
 template < class T, class Allocator = std::allocator<T> >
 class Vector
 {
 public:
-	template <class iT, class Category = std::random_access_iterator_tag,
-	class Distance = ptrdiff_t, class Pointer = iT*, class Reference = iT&>
-	struct Iterator //*** Iterator starts here ***//
-	{
-	public:
-		typedef iT			value_type;
-		typedef Category	iterator_category;
-		typedef Distance	difference_type;
-		typedef Pointer		pointer;
-		typedef Reference	reference;
-
-		Iterator(pointer ptr) : m_ptr(ptr) {}
-		Iterator(const Iterator & it) : m_ptr(it.m_ptr) {}
-
-		bool		operator== (const Iterator& it) const { return m_ptr == it.m_ptr; };//ok
-		bool		operator!= (const Iterator& it) const { return m_ptr != it.m_ptr; };//ok
-		reference	operator*() { return *m_ptr; } //ok
-		pointer		operator->() { return m_ptr; }
-		reference	operator=(const value_type & rhs) { *m_ptr = rhs; return *m_ptr; }
-		Iterator&	operator++() { ++m_ptr; return *this; }//ok
-		Iterator	operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }//ok
-		Iterator&	operator--() { m_ptr--; return *this; }//ok
-		Iterator	operator--(int) { Iterator tmp = *this; --(*this); return tmp; }//ok
-		Iterator	operator+(int rhs) { return (m_ptr + rhs); }//ok
-		Iterator	operator-(int rhs) { return (m_ptr - rhs); }//ok
-		Iterator&	operator+=(int rhs) { m_ptr = m_ptr + rhs; return *this; }//ok
-		Iterator&	operator-=(int rhs) { m_ptr = m_ptr - rhs; return *this; }//ok
-		bool		operator<(const Iterator& it) const { return m_ptr < it.m_ptr; }//ok
-		bool		operator>=(const Iterator& it) const { return !operator<(it); }//ok
-		bool		operator>(const Iterator& it) const { return m_ptr > it.m_ptr; }//ok
-		bool		operator<=(const Iterator& it) const { return !operator>(it); }//ok
-		Iterator&	operator[](int index) { m_ptr = m_ptr + index; return *this; }//ok
-
-	private:
-		pointer m_ptr;
-	}; //*** Iterator ends here ***//
-
-public:
 	typedef	T										value_type;
 	typedef	Allocator								allocator_type;
 	typedef typename	allocator_type::reference	reference;
 	typedef typename	allocator_type::pointer		pointer;
-	typedef Iterator<int>							iterator;
+	typedef Viterator<int>							iterator;
 
 	Vector(): size_(0), capacity_(10)
 	{
@@ -77,9 +40,9 @@ public:
 		myAlloc_.deallocate(array_, capacity_);
 	}
 
-	//Iterators
+	//Viterators
 	typename std::allocator<T>::pointer	begin() { return array_; } //pointer == iT*
-	iterator	begun() { return Iterator<int>(array_); }
+	iterator	begun() { return Viterator<int>(array_); }
 	pointer	end() { return (array_ + size_); }
 
 	//Capacity all done
@@ -126,7 +89,7 @@ private:
 
 ////*******************???????????//////
 //template < class T, class Allocator >
-//typename Vector<T, Allocator >::iterator Vector<T, Allocator >::begun() { return array_; }
+//typename Vector<T, Allocator >::Viterator Vector<T, Allocator >::begun() { return array_; }
 
 //template < class T, class Allocator >
 //T*	Vector<T, Allocator >::end() { return (array_ + size_); }

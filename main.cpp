@@ -11,10 +11,10 @@ int	main()
 	std::cout << "v contains: " << v ;
 	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
 
-	std::cout << std::endl << "Iterators_tests_________" << std::endl;
+	std::cout << std::endl << "Viterators_tests_________" << std::endl;
 	std::cout << "begin check: " << *(v.begin()) << std::endl;
 	std::cout << "end check: " << *(v.end()) << std::endl;
-	std::cout << std::endl << "Iterator_class_tests_________" << std::endl;
+	std::cout << std::endl << "Viterator_class_tests_________" << std::endl;
 	Vector<int>::iterator it = v.begin();
 	std::cout << "*a check: " << *it << std::endl;
 	*it = 42;
@@ -58,6 +58,5 @@ int	main()
 	std::cout << "front check: " << v.front() << std::endl;
 	std::cout << "back check: " << v.back() << std::endl;
 	
-
 	return 0;
 }
