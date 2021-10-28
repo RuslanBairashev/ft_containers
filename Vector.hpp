@@ -250,6 +250,11 @@ public:
 	}
 
 	void	clear() { size_ = 0; }
+
+	allocator_type get_allocator() const
+	{
+		return myAlloc_;
+	}
 		
 	Vector&	operator=(const Vector& rhs)
 	{
