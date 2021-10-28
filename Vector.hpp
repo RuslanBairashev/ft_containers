@@ -41,6 +41,20 @@ public:
 	{
 		myAlloc_.deallocate(array_, capacity_);
 	}
+	Vector&	operator=(const Vector& rhs)
+	{
+		if (rhs.size_ > size_)
+		{
+			capacity_ = rhs.size_ + 3;
+			myAlloc_.deallocate(array_, capacity_);
+			array_ = myAlloc_.allocate(capacity_);
+		}
+		for (int i = 0; i < rhs.size(); ++i)
+			array_[i] = rhs.array_[i];
+		size_ = rhs.size_;
+
+		return *this;
+	}
 	/*************************************************************************/
 	//			MEMBER FUNCTIONS										      /
 	/*************************************************************************/
@@ -255,48 +269,21 @@ public:
 	{
 		return myAlloc_;
 	}
-		
-	Vector&	operator=(const Vector& rhs)
-	{
-		if (rhs.size_ > size_)
-		{
-			capacity_ = rhs.size_ + 3;
-			myAlloc_.deallocate(array_, capacity_);
-			//delete[] array_;
-			array_ = myAlloc_.allocate(capacity_);
-			//array_ = new int[capacity_];
-		}
-		for (int i = 0; i < rhs.size(); ++i)
-			array_[i] = rhs.array_[i];
-		size_ = rhs.size_;
-
-		return *this;
-	}
-	bool	operator==(const Vector & rhs)	const
-	{
-		if (size() != rhs.size())
-			return false;
-		for (int i = 0; i < size(); ++i)
-		{
-			if (array_[i] != rhs.array_[i])
-				return false;
-		}
-		return true;
-	}
-	bool	operator!=(const Vector & rhs)	const
-	{
-		return !(*this == rhs);
-	}
+	
+	//Non-member function overloads
+	/*************************************************************************/
 	
 	template < class Tx, class Allocatorx >
 	friend	std::ostream& operator<<(std::ostream &, const Vector<Tx, Allocatorx> &);
+	friend	void	swap (Vector & x);
+	friend	bool	operator==(const Vector & lhs, const Vector & rhs);
+	friend	bool	operator!=(const Vector & lhs, const Vector & rhs);
 
 private:
 	std::allocator<T>	myAlloc_;
 	size_type			size_;
 	size_type			capacity_;
 	pointer				array_;
-	///T*				array_;
 };
 
 /***************************************************************************/
@@ -314,6 +301,33 @@ std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator> & rhs)
 	os << std::endl;
 
 	return os;
+}
+template < class T, class Allocator >
+void swap (Vector<T, Allocator> & x) { x.swap(x); }
+
+template < class T, class Allocator >
+bool	operator==(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
+{
+	if (lhs.size() != rhs.size())
+		return false;
+	for (int i = 0; i < lhs.size(); ++i)
+	{
+		if (lhs.array_[i] != rhs.array_[i])
+			return false;
+	}
+	return true;
+}
+
+template < class T, class Allocator >
+bool	operator!=(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
+{
+	return !(lhs == rhs);
+}
+
+template < class T, class Allocator >
+bool	operator<(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
+{
+
 }
 
 #endif
