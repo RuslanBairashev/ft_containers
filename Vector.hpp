@@ -10,6 +10,65 @@
 #include <cmath>
 #include "Viterator.hpp"
 
+template < class T, class Allocator >
+class Vector;
+template < class T, class Allocator >
+bool	operator==(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
+{
+	if (lhs.size() != rhs.size())
+		return false;
+	for (size_t i = 0; i < lhs.size(); ++i)
+	{
+		if (lhs.array_[i] != rhs.array_[i])
+			return false;
+	}
+	return true;
+}
+
+template < class T, class Allocator >
+bool	operator!=(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
+{
+	return !(lhs == rhs);
+}
+
+template < class T, class Allocator >
+bool	operator<(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
+{
+	typedef typename Vector<int, std::allocator<T> >::iterator iterator;
+	iterator first1 = lhs.begin();
+	iterator last1 = lhs.end();
+	iterator first2 = rhs.begin();
+	iterator last2 = rhs.end();
+	while (first1!=last1)
+	{
+		if (first2==last2 || *first2<*first1) return false;
+		else if (*first1<*first2) return true;
+		++first1; ++first2;
+	}
+	return (first2!=last2);
+}
+
+template < class T, class Allocator >
+bool	operator>=(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
+{
+	return !(lhs < rhs);
+}
+
+template < class T, class Allocator >
+bool	operator>(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
+{
+	return (rhs < lhs);
+}
+
+template < class T, class Allocator >
+bool	operator<=(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
+{
+	return !(rhs < lhs);
+}
+
+/*************************************************************************/
+//			CLASS DECLARATION START									      /
+/*************************************************************************/
 template < class T, class Allocator = std::allocator<T> >
 class Vector
 {
@@ -43,13 +102,15 @@ public:
 	}
 	Vector&	operator=(const Vector& rhs)
 	{
-		if (rhs.size_ > size_)
+		if (this == &rhs)
+			return *this;
+		if (rhs.size_ > size_) // >capacity_ ???
 		{
 			capacity_ = rhs.size_ + 3;
 			myAlloc_.deallocate(array_, capacity_);
 			array_ = myAlloc_.allocate(capacity_);
 		}
-		for (int i = 0; i < rhs.size(); ++i)
+		for (size_type i = 0; i < rhs.size(); ++i)
 			array_[i] = rhs.array_[i];
 		size_ = rhs.size_;
 
@@ -272,12 +333,17 @@ public:
 	
 	//Non-member function overloads
 	/*************************************************************************/
-	
+	friend	bool	operator== <> (const Vector & lhs, const Vector & rhs);
+	friend	bool	operator!= <> (const Vector & lhs, const Vector & rhs);
+	friend	bool	operator< <> (Vector & lhs, Vector & rhs);
+	friend	bool	operator> <> (Vector & lhs, Vector & rhs);
+	friend	bool	operator>= <> (Vector & lhs, Vector & rhs);
+	friend	bool	operator<= <> (Vector & lhs, Vector & rhs);
+	template < class Tx, class Allocatorx >
+	friend	void	swap (Vector & x);
+
 	template < class Tx, class Allocatorx >
 	friend	std::ostream& operator<<(std::ostream &, const Vector<Tx, Allocatorx> &);
-	friend	void	swap (Vector & x);
-	friend	bool	operator==(const Vector & lhs, const Vector & rhs);
-	friend	bool	operator!=(const Vector & lhs, const Vector & rhs);
 
 private:
 	std::allocator<T>	myAlloc_;
@@ -305,29 +371,39 @@ std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator> & rhs)
 template < class T, class Allocator >
 void swap (Vector<T, Allocator> & x) { x.swap(x); }
 
-template < class T, class Allocator >
+/* template < class T, class Allocator >
 bool	operator==(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
 {
 	if (lhs.size() != rhs.size())
 		return false;
-	for (int i = 0; i < lhs.size(); ++i)
+	for (size_t i = 0; i < lhs.size(); ++i)
 	{
 		if (lhs.array_[i] != rhs.array_[i])
 			return false;
 	}
 	return true;
-}
+} */
 
-template < class T, class Allocator >
+/* template < class T, class Allocator >
 bool	operator!=(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
 {
 	return !(lhs == rhs);
-}
+} */
 
-template < class T, class Allocator >
+/* template < class T, class Allocator >
 bool	operator<(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
 {
-
-}
+	Vector<int>::iterator first1 = lhs.begin();
+	Vector<int>::iterator last1 = lhs.end();
+	Vector<int>::iterator first2 = rhs.begin();
+	Vector<int>::iterator last2 = rhs.end();
+	while (first1!=last1)
+	{
+		if (first2==last2 || *first2<*first1) return false;
+		else if (*first1<*first2) return true;
+		++first1; ++first2;
+	}
+	return (first2!=last2);
+} */
 
 #endif

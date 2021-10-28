@@ -68,6 +68,7 @@
 		"numeric": "cpp",
 		"random": "cpp",
 		"fstream": "cpp",
-		"iterator": "cpp"
+		"iterator": "cpp",
+		"__functional_03": "cpp"
 	}
 }

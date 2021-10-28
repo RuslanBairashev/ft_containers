@@ -122,6 +122,16 @@ int	main()
 	for (i=0; i<5; i++) myvector.get_allocator().destroy(&p[i]);
 	myvector.get_allocator().deallocate(p,5);
 
+	std::cout << "Relational_operators_tests____" << std::endl;
+	/*************************************************************************/
+	second = first;
+	std::cout << "== operation test(1 = true / 0 = false) :" << (first == second) << std::endl;
+	std::cout << "!= operation test(1 = true / 0 = false) :" << (first != second) << std::endl;
+	first.pop_back();
+	std::cout << "< operation test(1 = true / 0 = false) :" << (first < second) << std::endl;
+	std::cout << "> operation test(1 = true / 0 = false) :" << (first > second) << std::endl;
+	std::cout << ">= operation test(1 = true / 0 = false) :" << (first >= second) << std::endl;
+	std::cout << "<= operation test(1 = true / 0 = false) :" << (first <= second) << std::endl;
 
 	return 0;
 }
