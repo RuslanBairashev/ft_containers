@@ -34,7 +34,7 @@ public:
 	Vector(const Vector & rhs): size_(rhs.size_), capacity_(rhs.capacity_)
 	{
 		array_ = myAlloc_.allocate(capacity_);
-		for (int i = 0; i < rhs.size(); ++i)
+		for (size_type i = 0; i < rhs.size(); ++i)
 			array_[i] = rhs.array_[i];
 	}
 	~Vector()
@@ -100,7 +100,7 @@ public:
 	reference	front() { return array_[0]; }
 	reference	back() { return array_[size_ - 1]; }
 
-	//Modifiers
+	//Modifiers all done
 	/*************************************************************************/
 	//template <class InputIterator>
   	void assign (iterator first, iterator last)
@@ -189,6 +189,7 @@ public:
 			insert((*this).begin() + offset, n, val);
 		}
 	}
+	//template <class InputIterator>
 	void insert (iterator position, iterator first, iterator last)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
@@ -229,7 +230,25 @@ public:
 		return tmp;
 	}
 
-	//swap
+	void swap (Vector & x)
+	{
+		Vector<value_type>	tmp = *this;
+		// copy x to this
+		if (this->capacity_ < x.size_)
+			this->reserve(x.size_ * 2);
+		int i = 0;
+		for (iterator it = x.begin(); it != x.end(); ++it, ++i)
+			(*this)[i] = *it;
+		this->size_ = x.size_;
+		// copye tmp to x
+		if (x.capacity_ < tmp.size_)
+			x.reserve(tmp.size_ * 2);
+		i = 0;
+		for (iterator itx = tmp.begin(); itx != tmp.end(); ++itx, ++i)
+			x[i] = *itx;
+		x.size_ = tmp.size_;
+	}
+
 	void	clear() { size_ = 0; }
 		
 	Vector&	operator=(const Vector& rhs)

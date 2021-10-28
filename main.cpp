@@ -61,9 +61,29 @@ int	main()
 	std::cout << "back check: " << v.back() << std::endl;
 
 	Vector<int>::iterator it3 = v.begin();
-	std::cout << std::endl << "1.v contains: " << v << std::endl;
 	std::cout << "Modifiers_tests____" << std::endl;
 	/*************************************************************************/
+	std::cout << "assign check: " << std::endl;
+	Vector<int> first;
+	Vector<int> second;
+	first.assign (7,100);             // 7 ints with a value of 100
+	std::cout << std::endl << "first contains: " << first << std::endl;
+
+	Vector<int>::iterator its = first.begin()+1;
+	second.assign (its,first.end()-1); // the 5 central values of first
+	std::cout << std::endl << "second contains: " << second << std::endl;
+
+	//int myints[] = {1776,7,4};
+	//third.assign (myints,myints+3);   // assigning from array.
+
+	std::cout << "push_back check: " << std::endl;
+	first.push_back(50);
+	std::cout << std::endl << "first contains: " << first << std::endl;
+	std::cout << "pop_back check: " << std::endl;
+	first.pop_back();
+	std::cout << std::endl << "first contains: " << first << std::endl;
+	std::cout << "insert check: " << std::endl;
+	std::cout << std::endl << "1.v contains: " << v << std::endl;
 	v.insert(it3, 1);
 	std::cout << std::endl << "2.v contains: " << v << std::endl;
 	v.insert(it3, 5, 300);
@@ -74,23 +94,18 @@ int	main()
 	it3 = v.begin();
 	v.insert(it3 + 3, plus.begin(), plus.end());
 	std::cout << std::endl << "4.v contains: " << v << std::endl;
-	/* v.erase(it3 + 5);
+	std::cout << "erase check: " << std::endl;
+	it3 = v.begin();
+	v.erase(it3 + 5);
 	std::cout << std::endl << "v contains: " << v << std::endl;
 	v.erase(it3, it3 + 3);
-	std::cout << std::endl << "v contains: " << v << std::endl; */
-	Vector<int> first;
-	Vector<int> second;
-	//std::vector<int> third;
+	std::cout << std::endl << "v contains: " << v << std::endl;
+	std::cout << "swap check: " << std::endl;
+	Vector<int> foo (3,100);   // three ints with a value of 100
+	Vector<int> bar (5,200);   // five ints with a value of 200
+	foo.swap(bar);
+	std::cout << "foo contains: " << foo;
+	std::cout << "bar contains: " << bar << std::endl;
 
-	first.assign (7,100);             // 7 ints with a value of 100
-	std::cout << std::endl << "first contains: " << first << std::endl;
-
-	Vector<int>::iterator its = first.begin()+1;
-	second.assign (its,first.end()-1); // the 5 central values of first
-	std::cout << std::endl << "second contains: " << second << std::endl;	
-
-	//int myints[] = {1776,7,4};
-	//third.assign (myints,myints+3);   // assigning from array.
-		
 	return 0;
 }
