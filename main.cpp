@@ -10,8 +10,9 @@ int	main()
 		v.push_back(i);
 	std::cout << "v contains: " << v ;
 	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
-/*
+
 	std::cout << std::endl << "Viterators_tests_________" << std::endl;
+	/*************************************************************************/
 	std::cout << "begin check: " << *(v.begin()) << std::endl;
 	std::cout << "end check: " << *(v.end()) << std::endl;
 	std::cout << std::endl << "Viterator_class_tests_________" << std::endl;
@@ -31,7 +32,7 @@ int	main()
 	std::cout << "a>b check: " << (*it > *it2) << std::endl;
 	std::cout << "a<=b check: " << (*it <= *it2) << std::endl;
 	std::cout << "a>=b check: " << (*it >= *it2) << std::endl;
-	std::cout << "a[0] check: " << *it[0] << ". a[5] check: " << *it[5] << std::endl;
+	std::cout << "a[0] check: " << it[0] << ". a[5] check: " << it[5] << std::endl;
 
 	std::vector<int> std_v;
 	for (int i = 11; i < 20; ++i)
@@ -39,8 +40,9 @@ int	main()
 	std::vector<int>::iterator it10 = std_v.begin();
 	std::cout << "*std_v check: " << *it10 << std::endl;
 	std::cout << "max_size check: " << std_v.max_size() << std::endl;
-*/
+
 	std::cout << std::endl << "Capacity_tests__________" << std::endl;
+	/*************************************************************************/
 	std::cout << "size check: " << v.size() << std::endl;
 	std::cout << "max_size check: " << v.max_size() << std::endl;
 	v.resize(12);
@@ -52,6 +54,7 @@ int	main()
 
 	std::cout << std::endl << "v contains: " << v << std::endl;
 	std::cout << "Element_access_tests____" << std::endl;
+	/*************************************************************************/
 	std::cout << "operator[] check: " << v[2] << std::endl;
 	std::cout << "at check: " << v.at(3) << std::endl;
 	std::cout << "front check: " << v.front() << std::endl;
@@ -60,6 +63,7 @@ int	main()
 	Vector<int>::iterator it3 = v.begin();
 	std::cout << std::endl << "1.v contains: " << v << std::endl;
 	std::cout << "Modifiers_tests____" << std::endl;
+	/*************************************************************************/
 	v.insert(it3, 1);
 	std::cout << std::endl << "2.v contains: " << v << std::endl;
 	v.insert(it3, 5, 300);

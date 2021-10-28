@@ -40,9 +40,12 @@ public:
 	bool		operator>=(const Viterator& it) const { return !operator<(it); }//ok
 	bool		operator>(const Viterator& it) const { return m_ptr > it.m_ptr; }//ok
 	bool		operator<=(const Viterator& it) const { return !operator>(it); }//ok
-	Viterator&	operator[](int index) { m_ptr = m_ptr + index; return *this; }//ok
-	//reference	operator[](int index) { m_ptr = m_ptr + index; return &m_ptr; }//ok
-
+	//Viterator&	operator[](int index) { m_ptr = m_ptr + index; return *this; }//ok
+	reference	operator[] (difference_type n) const //ok
+	{
+		pointer	tmp(NULL);
+		tmp = m_ptr + n; return *tmp;
+	}
 private:
 	pointer m_ptr;
 };

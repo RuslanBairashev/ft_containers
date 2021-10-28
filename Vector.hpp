@@ -41,9 +41,9 @@ public:
 	{
 		myAlloc_.deallocate(array_, capacity_);
 	}
-	/***************************************************************************/
-	//			MEMBER FUNCTIONS												/
-	/***************************************************************************/
+	/*************************************************************************/
+	//			MEMBER FUNCTIONS										      /
+	/*************************************************************************/
 
 	//iterators
 	//typename std::allocator<T>::pointer	begin() { return array_; } //pointer == iT*
@@ -52,6 +52,7 @@ public:
 	//pointer	end() { return (array_ + size_); }
 
 	//Capacity all done
+	/*************************************************************************/
 	//int		size() const
 	size_type	size() const { return size_; }
 	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
@@ -85,6 +86,7 @@ public:
 	}
 
 	//Element access all done
+	/*************************************************************************/
 	reference	operator[](size_type index)
 	{
 		return array_[index];
@@ -99,7 +101,7 @@ public:
 	reference	back() { return array_[size_ - 1]; }
 
 	//Modifiers
-	//assign
+	/*************************************************************************/
 	//template <class InputIterator>
   	void assign (iterator first, iterator last)
 	{
