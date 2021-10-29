@@ -8,6 +8,25 @@
 #include <iterator>
 #include <cstddef>
 
+template< class Iter >
+struct Viterator_traits
+{
+	typedef typename	Iter::difference_type	difference_type;
+	typedef typename	Iter::value_type		value_type;
+	typedef typename	Iter::pointer			pointer;
+	typedef typename	Iter::reference			reference;	
+	typedef typename	Iter::iterator_category	Viterator_category;
+};
+template< typename T >
+struct Viterator_traits<T*>
+{
+	typedef	std::random_access_iterator_tag	Viterator_category;
+	typedef T								value_type;
+	typedef ptrdiff_t						difference_type;
+	typedef T*								pointer;
+	typedef T&								reference;
+};
+
 template <class T, class Category = std::random_access_iterator_tag,
 class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
 struct Viterator
