@@ -9,6 +9,12 @@ int	main()
 	Vector<int>	v;
 	for (int i = 1; i < 10; ++i)
 		v.push_back(i);
+	Vector<int> v2 (4,100);
+	std::cout << "v2 contains: " << v2 ;
+	std::cout << ". size_ = " << v2.size() << ". capacity_ = " << v2.capacity() << std::endl;
+/* 	Vector<int> v3 (v2.begin(),v2.end());
+	std::cout << "v3 contains: " << v3 ;
+	std::cout << ". size_ = " << v3.size() << ". capacity_ = " << v3.capacity() << std::endl; */
 	std::cout << "v contains: " << v ;
 	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
 
@@ -74,8 +80,10 @@ int	main()
 	second.assign (its,first.end()-1); // the 5 central values of first
 	std::cout << std::endl << "second contains: " << second << std::endl;
 
-	//int myints[] = {1776,7,4};
-	//third.assign (myints,myints+3);   // assigning from array.
+	int myints[] = {1776,7,4};
+	Vector<int> third;
+	third.assign (myints,myints+3);   // assigning from array.
+	std::cout << std::endl << "third contains: " << third << std::endl;
 
 	std::cout << "push_back check: " << std::endl;
 	first.push_back(50);
@@ -134,7 +142,7 @@ int	main()
 	std::cout << ">= operation test(1 = true / 0 = false) :" << (first >= second) << std::endl;
 	std::cout << "<= operation test(1 = true / 0 = false) :" << (first <= second) << std::endl;
 
-	Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
+	//Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
 
 	return 0;
 }

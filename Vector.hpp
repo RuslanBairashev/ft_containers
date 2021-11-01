@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cmath>
 #include "Viterator.hpp"
+#include "Vextras.hpp"
 
 template < class T, class Allocator >
 class Vector;
@@ -77,24 +78,43 @@ public:
 	typedef	Allocator								allocator_type;
 	typedef typename	allocator_type::reference	reference;
 	typedef typename	allocator_type::pointer		pointer;
-	typedef Viterator<int>							iterator;
+	typedef Viterator<T>							iterator;
 	typedef	size_t									size_type;
 
-	//constructor: default(1/4) TODO 
-	Vector(/*const allocator_type& alloc = allocator_type()*/): size_(0), capacity_(10)
+private:
+	std::allocator<T>	myAlloc_;
+	pointer				array_;
+	size_type			size_;
+	size_type			capacity_;
+
+public:
+	//constructor: default(1/4) OK
+	explicit Vector(const allocator_type& alloc = allocator_type()): size_(0), capacity_(1)
 	{
+		myAlloc_ = alloc;
 		array_ = myAlloc_.allocate(capacity_);
 	}
-	//constructor: fill(2/4) TODO
-	//vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
-	Vector(size_type elements, T value = 0): size_(elements), capacity_(elements + 3)
+	//constructor: fill(2/4) OK
+	Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+	: size_(n), capacity_(n + 3)
 	{
+		myAlloc_ = alloc;
 		array_ = myAlloc_.allocate(capacity_);
 		for (size_type i = 0; i < size_; ++i)
-			array_[i] = value;
+			array_[i] = val;
 	}
 	//constructor: range(3/4) TODO
-	// template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+	template <class InputIterator, typename std::enable_if<std::__is_input_iterator<InputIterator>::value, InputIterator > >
+	Vector (/* typename std::enable_if<std::__is_input_iterator<InputIterator>::value>, */ InputIterator first, InputIterator last,
+	 const allocator_type& alloc = allocator_type() )
+	{
+		size_ = last - first;
+		capacity_ = size_ + 3;
+		myAlloc_ = alloc;
+		array_ = myAlloc_.allocate(capacity_);
+		for (size_t i = 0; first < last; i++, first++)
+			array_[i] = *first;
+	}
 	//constructor: copy(4/4) OK
 	Vector(const Vector & rhs): size_(rhs.size_), capacity_(rhs.capacity_)
 	{
@@ -188,8 +208,8 @@ public:
 	//Modifiers all done
 	/*************************************************************************/
 	//range(1/2) TODO template
-	//template <class InputIterator>
-  	void assign (iterator first, iterator last)
+	template <class InputIterator>
+	void assign (InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
 		size_type	n = last - first;
 		std::allocator<T>	alloc;
@@ -279,6 +299,7 @@ public:
 		}
 	}
 	//range(3/3) TODO
+	//template <class InputIterator, class = typename std::enable_if<std::is_integral<T>::value>::type>
 	//template <class InputIterator>
 	void insert (iterator position, iterator first, iterator last)
 	{
@@ -358,12 +379,6 @@ public:
 
 	template < class Tx, class Allocatorx >
 	friend	std::ostream& operator<<(std::ostream &, const Vector<Tx, Allocatorx> &);
-
-private:
-	std::allocator<T>	myAlloc_;
-	size_type			size_;
-	size_type			capacity_;
-	pointer				array_;
 };
 
 /***************************************************************************/

@@ -15,28 +15,28 @@ struct Viterator_traits
 	typedef typename	Iter::value_type		value_type;
 	typedef typename	Iter::pointer			pointer;
 	typedef typename	Iter::reference			reference;	
-	typedef typename	Iter::iterator_category	Viterator_category;
+	typedef typename	Iter::iterator_category	iterator_category;
 };
 template< typename T >
 struct Viterator_traits<T*>
 {
-	typedef	std::random_access_iterator_tag	Viterator_category;
+	typedef	std::random_access_iterator_tag	iterator_category;
 	typedef T								value_type;
 	typedef ptrdiff_t						difference_type;
 	typedef T*								pointer;
 	typedef T&								reference;
 };
 
-template <class T, class Category = std::random_access_iterator_tag,
-class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
+
+template <class T>
 struct Viterator: public std::random_access_iterator_tag
 {
 public:
-	typedef T			value_type;
-	typedef Category	Viterator_category;
-	typedef Distance	difference_type;
-	typedef Pointer		pointer;
-	typedef Reference	reference;
+	typedef T								value_type;
+	typedef std::random_access_iterator_tag	iterator_category;
+	typedef ptrdiff_t						difference_type;
+	typedef T*								pointer;
+	typedef T&								reference;
 
 	Viterator(pointer ptr) : m_ptr(ptr) {}
 	Viterator(const Viterator & it) : m_ptr(it.m_ptr) {}
