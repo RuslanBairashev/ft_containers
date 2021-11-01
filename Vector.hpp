@@ -103,10 +103,10 @@ public:
 		for (size_type i = 0; i < size_; ++i)
 			array_[i] = val;
 	}
-	//constructor: range(3/4) TODO
-	template <class InputIterator, typename std::enable_if<std::__is_input_iterator<InputIterator>::value, InputIterator > >
-	Vector (/* typename std::enable_if<std::__is_input_iterator<InputIterator>::value>, */ InputIterator first, InputIterator last,
-	 const allocator_type& alloc = allocator_type() )
+	//constructor: range(3/4) OK
+	template <class InputIterator>
+	Vector (InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last,
+	const allocator_type& alloc = allocator_type() )
 	{
 		size_ = last - first;
 		capacity_ = size_ + 3;
@@ -207,7 +207,7 @@ public:
 
 	//Modifiers all done
 	/*************************************************************************/
-	//range(1/2) TODO template
+	//range(1/2) OK
 	template <class InputIterator>
 	void assign (InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
@@ -298,10 +298,9 @@ public:
 			insert((*this).begin() + offset, n, val);
 		}
 	}
-	//range(3/3) TODO
-	//template <class InputIterator, class = typename std::enable_if<std::is_integral<T>::value>::type>
-	//template <class InputIterator>
-	void insert (iterator position, iterator first, iterator last)
+	//range(3/3) OK
+	template <class InputIterator>
+	void insert (iterator position, InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
 		iterator tmp = position;
@@ -399,40 +398,5 @@ std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator> & rhs)
 }
 template < class T, class Allocator >
 void swap (Vector<T, Allocator> & x) { x.swap(x); }
-
-/* template < class T, class Allocator >
-bool	operator==(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
-{
-	if (lhs.size() != rhs.size())
-		return false;
-	for (size_t i = 0; i < lhs.size(); ++i)
-	{
-		if (lhs.array_[i] != rhs.array_[i])
-			return false;
-	}
-	return true;
-} */
-
-/* template < class T, class Allocator >
-bool	operator!=(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
-{
-	return !(lhs == rhs);
-} */
-
-/* template < class T, class Allocator >
-bool	operator<(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
-{
-	Vector<int>::iterator first1 = lhs.begin();
-	Vector<int>::iterator last1 = lhs.end();
-	Vector<int>::iterator first2 = rhs.begin();
-	Vector<int>::iterator last2 = rhs.end();
-	while (first1!=last1)
-	{
-		if (first2==last2 || *first2<*first1) return false;
-		else if (*first1<*first2) return true;
-		++first1; ++first2;
-	}
-	return (first2!=last2);
-} */
 
 #endif

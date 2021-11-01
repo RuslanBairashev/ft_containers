@@ -27,16 +27,16 @@ struct Viterator_traits<T*>
 	typedef T&								reference;
 };
 
-
-template <class T>
+template <class T, class Category = std::random_access_iterator_tag,
+class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
 struct Viterator: public std::random_access_iterator_tag
 {
 public:
-	typedef T								value_type;
-	typedef std::random_access_iterator_tag	iterator_category;
-	typedef ptrdiff_t						difference_type;
-	typedef T*								pointer;
-	typedef T&								reference;
+	typedef T			value_type;
+	typedef Category	iterator_category;
+	typedef Distance	difference_type;
+	typedef Pointer		pointer;
+	typedef Reference	reference;
 
 	Viterator(pointer ptr) : m_ptr(ptr) {}
 	Viterator(const Viterator & it) : m_ptr(it.m_ptr) {}

@@ -12,9 +12,9 @@ int	main()
 	Vector<int> v2 (4,100);
 	std::cout << "v2 contains: " << v2 ;
 	std::cout << ". size_ = " << v2.size() << ". capacity_ = " << v2.capacity() << std::endl;
-/* 	Vector<int> v3 (v2.begin(),v2.end());
+	Vector<int> v3 (v2.begin(),v2.end() - 1);
 	std::cout << "v3 contains: " << v3 ;
-	std::cout << ". size_ = " << v3.size() << ". capacity_ = " << v3.capacity() << std::endl; */
+	std::cout << ". size_ = " << v3.size() << ". capacity_ = " << v3.capacity() << std::endl;
 	std::cout << "v contains: " << v ;
 	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
 
@@ -103,6 +103,9 @@ int	main()
 	it3 = v.begin();
 	v.insert(it3 + 3, plus.begin(), plus.end());
 	std::cout << std::endl << "4.v contains: " << v << std::endl;
+	int myarray [] = { 501,502,503 };
+	v.insert (v.begin(), myarray, myarray+3);
+	std::cout << std::endl << "5.v contains: " << v << std::endl;
 	std::cout << "erase check: " << std::endl;
 	it3 = v.begin();
 	v.erase(it3 + 5);
