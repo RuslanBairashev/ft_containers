@@ -80,16 +80,22 @@ public:
 	typedef Viterator<int>							iterator;
 	typedef	size_t									size_type;
 
-	Vector(): size_(0), capacity_(10)
+	//constructor: default(1/4) TODO 
+	Vector(/*const allocator_type& alloc = allocator_type()*/): size_(0), capacity_(10)
 	{
 		array_ = myAlloc_.allocate(capacity_);
 	}
+	//constructor: fill(2/4) TODO
+	//vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
 	Vector(size_type elements, T value = 0): size_(elements), capacity_(elements + 3)
 	{
 		array_ = myAlloc_.allocate(capacity_);
 		for (size_type i = 0; i < size_; ++i)
 			array_[i] = value;
 	}
+	//constructor: range(3/4) TODO
+	// template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
+	//constructor: copy(4/4) OK
 	Vector(const Vector & rhs): size_(rhs.size_), capacity_(rhs.capacity_)
 	{
 		array_ = myAlloc_.allocate(capacity_);
@@ -113,7 +119,6 @@ public:
 		for (size_type i = 0; i < rhs.size(); ++i)
 			array_[i] = rhs.array_[i];
 		size_ = rhs.size_;
-
 		return *this;
 	}
 	/*************************************************************************/
@@ -121,14 +126,15 @@ public:
 	/*************************************************************************/
 
 	//iterators
-	//typename std::allocator<T>::pointer	begin() { return array_; } //pointer == iT*
 	iterator	begin() { return Viterator<int>(array_); }
+	//TODO const_iterator	begin() const { return Viterator<int>(array_); }
 	iterator	end() { return Viterator<int>(array_ + size_); }
-	//pointer	end() { return (array_ + size_); }
+	//TODO const_iterator	end() const { return Viterator<int>(array_ + size_); }
+	//TODO rbegin
+	//TODO rend
 
 	//Capacity all done
 	/*************************************************************************/
-	//int		size() const
 	size_type	size() const { return size_; }
 	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
 	void		resize(size_t n, value_type val = value_type())
@@ -166,17 +172,22 @@ public:
 	{
 		return array_[index];
 	}
+	//TODO const_reference	operator[](size_type index) const
 	reference	at(size_type index)
 	{
 		if (index < 0 || index >= size_)
 			throw std::runtime_error("Error: (at) out of range!\n");
 		return array_[index];
 	}
+	//TODO const_reference at (size_type n) const;
 	reference	front() { return array_[0]; }
+	//TODO const_reference front() const;
 	reference	back() { return array_[size_ - 1]; }
+	//TODO const_reference back() const;
 
 	//Modifiers all done
 	/*************************************************************************/
+	//range(1/2) TODO template
 	//template <class InputIterator>
   	void assign (iterator first, iterator last)
 	{
@@ -190,6 +201,7 @@ public:
 		size_ = n;
 		capacity_ = size_ + 3;
 	}
+	//fill(2/2) OK
 	void	assign(size_type n, const value_type & val)
 	{
 		std::allocator<T>	alloc;
@@ -228,6 +240,7 @@ public:
 			throw std::runtime_error("Error: pop_back on empty cont!\n");
 		--size_;
 	}
+	//single element(1/3) OK
 	iterator insert (iterator position, const value_type& val)
 	{
 		iterator tmp = position;
@@ -246,6 +259,7 @@ public:
 		}
 		return tmp;
 	}
+	//fill(2/3) OK
 	void insert (iterator position, size_type n, const value_type& val)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
@@ -264,6 +278,7 @@ public:
 			insert((*this).begin() + offset, n, val);
 		}
 	}
+	//range(3/3) TODO
 	//template <class InputIterator>
 	void insert (iterator position, iterator first, iterator last)
 	{
@@ -284,7 +299,7 @@ public:
 			reserve((size_ + n) * 2);
 			insert((*this).begin() + offset, first, last);
 		}
-	} 
+	}
 	iterator	erase(iterator position)
 	{
 		iterator tmp = position;
@@ -304,7 +319,6 @@ public:
 		size_ -= range;
 		return tmp;
 	}
-
 	void swap (Vector & x)
 	{
 		Vector<value_type>	tmp = *this;
@@ -315,7 +329,7 @@ public:
 		for (iterator it = x.begin(); it != x.end(); ++it, ++i)
 			(*this)[i] = *it;
 		this->size_ = x.size_;
-		// copye tmp to x
+		// copy tmp to x
 		if (x.capacity_ < tmp.size_)
 			x.reserve(tmp.size_ * 2);
 		i = 0;

@@ -29,7 +29,7 @@ struct Viterator_traits<T*>
 
 template <class T, class Category = std::random_access_iterator_tag,
 class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-struct Viterator
+struct Viterator: public std::random_access_iterator_tag
 {
 public:
 	typedef T			value_type;

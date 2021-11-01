@@ -134,7 +134,7 @@ int	main()
 	std::cout << ">= operation test(1 = true / 0 = false) :" << (first >= second) << std::endl;
 	std::cout << "<= operation test(1 = true / 0 = false) :" << (first <= second) << std::endl;
 
-	Vpair<int,int> my_pair(foo, bar);
+	Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
 
 	return 0;
 }
