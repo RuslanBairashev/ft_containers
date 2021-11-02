@@ -68,18 +68,21 @@ bool	operator<=(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
 }
 
 /*************************************************************************/
-//			CLASS DECLARATION START									      /
+//**	CLASS DECLARATION START											**/
 /*************************************************************************/
 template < class T, class Allocator = std::allocator<T> >
 class Vector
 {
 public:
-	typedef	T										value_type;
-	typedef	Allocator								allocator_type;
-	typedef typename	allocator_type::reference	reference;
-	typedef typename	allocator_type::pointer		pointer;
-	typedef Viterator<T>							iterator;
-	typedef	size_t									size_type;
+	typedef	T											value_type;
+	typedef	Allocator									allocator_type;
+	typedef typename	allocator_type::reference		reference;
+	typedef typename	allocator_type::const_reference	const_reference;
+	typedef typename	allocator_type::pointer			pointer;
+	typedef typename	allocator_type::const_pointer	const_pointer;
+	typedef typename	ft::Viterator<T>				iterator;
+	typedef typename	ft::Viterator<const T>			const_iterator;
+	typedef	size_t										size_type;
 
 private:
 	std::allocator<T>	myAlloc_;
@@ -146,9 +149,10 @@ public:
 	/*************************************************************************/
 
 	//iterators
-	iterator	begin() { return Viterator<int>(array_); }
-	//TODO const_iterator	begin() const { return Viterator<int>(array_); }
-	iterator	end() { return Viterator<int>(array_ + size_); }
+	iterator	begin() { return iterator(array_); }
+	const_iterator	begin() const { return const_iterator(array_); }
+	//const_iterator	cbegin() const { return const_iterator(array_); }
+	iterator	end() { return iterator(array_ + size_); }
 	//TODO const_iterator	end() const { return Viterator<int>(array_ + size_); }
 	//TODO rbegin
 	//TODO rend
@@ -192,18 +196,26 @@ public:
 	{
 		return array_[index];
 	}
-	//TODO const_reference	operator[](size_type index) const
+	const_reference	operator[](size_type index) const
+	{
+		return array_[index];
+	}
 	reference	at(size_type index)
 	{
 		if (index < 0 || index >= size_)
 			throw std::runtime_error("Error: (at) out of range!\n");
 		return array_[index];
 	}
-	//TODO const_reference at (size_type n) const;
+	const_reference	at(size_type index) const
+	{
+		if (index < 0 || index >= size_)
+			throw std::runtime_error("Error: (at) out of range!\n");
+		return array_[index];
+	}
 	reference	front() { return array_[0]; }
-	//TODO const_reference front() const;
+	const_reference	front() const { return array_[0]; }
 	reference	back() { return array_[size_ - 1]; }
-	//TODO const_reference back() const;
+	const_reference	back() const { return array_[size_ - 1]; }
 
 	//Modifiers all done
 	/*************************************************************************/

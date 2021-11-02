@@ -145,7 +145,15 @@ int	main()
 	std::cout << ">= operation test(1 = true / 0 = false) :" << (first >= second) << std::endl;
 	std::cout << "<= operation test(1 = true / 0 = false) :" << (first <= second) << std::endl;
 
-	//Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
+	it3 = it2;
+	Vector<int>	c_v;
+	for (int i = 1; i < 10; ++i)
+		c_v.push_back(i);
+	//Vector<int>::const_iterator c_it = c_v.begin();
+	//*c_it = 55;
 
+	//std::vector<int>::iterator it1000;
+	//Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
+	//https://newbedev.com/how-to-avoid-code-duplication-implementing-const-and-non-const-iterators
 	return 0;
 }
