@@ -28,7 +28,7 @@ struct Viterator_traits<T*>
 	typedef T*								pointer;
 	typedef T&								reference;
 };
-template< typename T > //like in library (almost)
+/* template< typename T > //like in library (almost)
 struct Viterator_traits<const T*>
 {
 	typedef	std::random_access_iterator_tag	iterator_category;
@@ -36,12 +36,13 @@ struct Viterator_traits<const T*>
 	typedef ptrdiff_t						difference_type;
 	typedef const T*						pointer;
 	typedef const T&						reference;
-};
+}; */
 
 template <class T, class Category = std::random_access_iterator_tag,
 class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
 class iterator: public std::random_access_iterator_tag
 {
+public:
 	typedef T			value_type;
 	typedef Category	iterator_category;
 	typedef Distance	difference_type;
@@ -52,7 +53,7 @@ class iterator: public std::random_access_iterator_tag
 //template <class T, class Category = std::random_access_iterator_tag,
 //class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
 template <class T>
-class Viterator: public iterator<T>
+class Viterator : public iterator<T>
 {
 public:
 /* 	template <bool flag, class IsTrue, class IsFalse>
@@ -68,11 +69,11 @@ public:
 		typedef IsFalse type;
 	}; */
 
-	typedef typename Viterator_traits<T>::value_type	value_type;
+	typedef typename Viterator_traits<T>::value_type		value_type;
 	typedef typename Viterator_traits<T>::iterator_category	iterator_category;
 	typedef typename Viterator_traits<T>::difference_type	difference_type;
-	typedef typename Viterator_traits<T>::pointer	pointer;
-	typedef typename Viterator_traits<T>::reference	reference;
+	typedef typename Viterator_traits<T>::pointer			pointer;
+	typedef typename Viterator_traits<T>::reference			reference;
 	/* typedef T			value_type;
 	typedef Category	iterator_category;
 	typedef Distance	difference_type;

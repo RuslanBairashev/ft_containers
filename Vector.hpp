@@ -80,8 +80,8 @@ public:
 	typedef typename	allocator_type::const_reference	const_reference;
 	typedef typename	allocator_type::pointer			pointer;
 	typedef typename	allocator_type::const_pointer	const_pointer;
-	typedef typename	ft::Viterator<T>				iterator;
-	typedef typename	ft::Viterator<T>				const_iterator;
+	typedef typename	ft::Viterator<T>			iterator; //here was the problem with
+	typedef typename	ft::Viterator<const T>	const_iterator; //iterator and const_iterator
 	typedef	size_t										size_type;
 
 private:

@@ -12,21 +12,21 @@ int	main()
 	Vector<int> v2 (4,100);
 	std::cout << "v2 contains: " << v2 ;
 	std::cout << ". size_ = " << v2.size() << ". capacity_ = " << v2.capacity() << std::endl;
-	Vector<int> v3 (v2.begin(),v2.end() - 1);
+/* 	Vector<int> v3 (v2.begin(),v2.end() - 1);
 	std::cout << "v3 contains: " << v3 ;
 	std::cout << ". size_ = " << v3.size() << ". capacity_ = " << v3.capacity() << std::endl;
 	std::cout << "v contains: " << v ;
 	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
 
-	std::cout << std::endl << "Viterators_tests_________" << std::endl;
+	std::cout << std::endl << "Viterators_tests_________" << std::endl; */
 	/*************************************************************************/
-/* 	std::cout << "begin check: " << *(v.begin()) << std::endl;
-	std::cout << "end check: " << *(v.end()) << std::endl;
+	/* std::cout << "begin check: " << *(v.begin()) << std::endl;
+	std::cout << "end check: " << *(v.end()) << std::endl; */
 	std::cout << std::endl << "Viterator_class_tests_________" << std::endl;
 	Vector<int>::iterator it = v.begin();
 	std::cout << "*a check: " << *it << std::endl;
 	*it = 42;
-	std::cout << "*a= check: " << *it << std::endl;
+/* 	std::cout << "*a= check: " << *it << std::endl;
 	std::cout << "++a check: " << *(it++) << std::endl;
 	std::cout << "a++ check: " << *(++it) << std::endl;
 	std::cout << "a+ check: " << *(it + 2) << std::endl;
@@ -145,12 +145,13 @@ int	main()
 	std::cout << ">= operation test(1 = true / 0 = false) :" << (first >= second) << std::endl;
 	std::cout << "<= operation test(1 = true / 0 = false) :" << (first <= second) << std::endl;
 
-	it3 = it2;
+	it3 = it2; */
 	Vector<int>	c_v;
 	for (int i = 1; i < 10; ++i)
 		c_v.push_back(i);
-	Vector<int>::const_iterator c_it = c_v.begin();
-	*c_it = 55; */
+	// uncomment this to check const_iterator
+	//Vector<int>::const_iterator c_it = c_v.begin();
+	//*c_it = 55;
 
 	//std::vector<int>::iterator it1000;
 	//Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
