@@ -3,7 +3,7 @@
 NAME = cont
 CC = clang++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
-SOURCES = main.cpp #Vector.cpp
+SOURCES = main.cpp
 HEADERS = Vector.hpp Viterator.hpp Vextras.hpp
 OBJECTS = $(SOURCES:.cpp=.obj)
 

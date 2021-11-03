@@ -20,7 +20,7 @@ int	main()
 
 	std::cout << std::endl << "Viterators_tests_________" << std::endl;
 	/*************************************************************************/
-	std::cout << "begin check: " << *(v.begin()) << std::endl;
+/* 	std::cout << "begin check: " << *(v.begin()) << std::endl;
 	std::cout << "end check: " << *(v.end()) << std::endl;
 	std::cout << std::endl << "Viterator_class_tests_________" << std::endl;
 	Vector<int>::iterator it = v.begin();
@@ -32,8 +32,8 @@ int	main()
 	std::cout << "a+ check: " << *(it + 2) << std::endl;
 	std::cout << "a- check: " << *(it - 1) << std::endl;
 	std::cout << "a+= check: " << *(it+=2) << std::endl;
-	std::cout << "a-= check: " << *(it-=1) << std::endl;
-	Vector<int>::iterator it2 = it + 3;
+	std::cout << "a-= check: " << *(it-=1) << std::endl; */
+/* 	Vector<int>::iterator it2 = it + 3;
 	std::cout << "Current positions: " << "*it= " << *it << " *it2= " << *it2 << std::endl;
 	std::cout << "a<b check: " << (*it < *it2) << std::endl;
 	std::cout << "a>b check: " << (*it > *it2) << std::endl;
@@ -48,9 +48,9 @@ int	main()
 	std::cout << "*std_v check: " << *it10 << std::endl;
 	std::cout << "max_size check: " << std_v.max_size() << std::endl;
 
-	std::cout << std::endl << "Capacity_tests__________" << std::endl;
+	std::cout << std::endl << "Capacity_tests__________" << std::endl; */
 	/*************************************************************************/
-	std::cout << "size check: " << v.size() << std::endl;
+/* 	std::cout << "size check: " << v.size() << std::endl;
 	std::cout << "max_size check: " << v.max_size() << std::endl;
 	v.resize(12);
 	std::cout << "resize check: "  << v.size() << ' ' << v.capacity() << std::endl;
@@ -60,23 +60,23 @@ int	main()
 	std::cout << "reserve check: " << v.capacity() << std::endl;
 
 	std::cout << std::endl << "v contains: " << v << std::endl;
-	std::cout << "Element_access_tests____" << std::endl;
+	std::cout << "Element_access_tests____" << std::endl; */
 	/*************************************************************************/
-	std::cout << "operator[] check: " << v[2] << std::endl;
+/* 	std::cout << "operator[] check: " << v[2] << std::endl;
 	std::cout << "at check: " << v.at(3) << std::endl;
 	std::cout << "front check: " << v.front() << std::endl;
 	std::cout << "back check: " << v.back() << std::endl;
 
 	Vector<int>::iterator it3 = v.begin();
-	std::cout << "Modifiers_tests____" << std::endl;
+	std::cout << "Modifiers_tests____" << std::endl; */
 	/*************************************************************************/
-	std::cout << "assign check: " << std::endl;
+/* 	std::cout << "assign check: " << std::endl;
 	Vector<int> first;
 	Vector<int> second;
 	first.assign (7,100);             // 7 ints with a value of 100
-	std::cout << std::endl << "first contains: " << first << std::endl;
+	std::cout << std::endl << "first contains: " << first << std::endl; */
 
-	Vector<int>::iterator its = first.begin()+1;
+/* 	Vector<int>::iterator its = first.begin()+1;
 	second.assign (its,first.end()-1); // the 5 central values of first
 	std::cout << std::endl << "second contains: " << second << std::endl;
 
@@ -96,8 +96,8 @@ int	main()
 	v.insert(it3, 1);
 	std::cout << std::endl << "2.v contains: " << v << std::endl;
 	v.insert(it3, 5, 300);
-	std::cout << std::endl << "3.v contains: " << v << std::endl;
-	Vector<int>	plus;
+	std::cout << std::endl << "3.v contains: " << v << std::endl; */
+/* 	Vector<int>	plus;
 	for (int i = 0; i < 25; ++i)
 		plus.push_back(i + 101);
 	it3 = v.begin();
@@ -117,9 +117,9 @@ int	main()
 	Vector<int> bar (5,200);   // five ints with a value of 200
 	foo.swap(bar);
 	std::cout << "foo contains: " << foo;
-	std::cout << "bar contains: " << bar << std::endl;
+	std::cout << "bar contains: " << bar << std::endl; */
 
-	std::cout << "get_allocator check: " << std::endl;
+/* 	std::cout << "get_allocator check: " << std::endl;
 	Vector<int> myvector;
 	int * p;
 	unsigned int i;
@@ -134,9 +134,9 @@ int	main()
 	for (i=0; i<5; i++) myvector.get_allocator().destroy(&p[i]);
 	myvector.get_allocator().deallocate(p,5);
 
-	std::cout << "Relational_operators_tests____" << std::endl;
+	std::cout << "Relational_operators_tests____" << std::endl; */
 	/*************************************************************************/
-	second = first;
+/* 	second = first;
 	std::cout << "== operation test(1 = true / 0 = false) :" << (first == second) << std::endl;
 	std::cout << "!= operation test(1 = true / 0 = false) :" << (first != second) << std::endl;
 	first.pop_back();
@@ -149,8 +149,8 @@ int	main()
 	Vector<int>	c_v;
 	for (int i = 1; i < 10; ++i)
 		c_v.push_back(i);
-	//Vector<int>::const_iterator c_it = c_v.begin();
-	//*c_it = 55;
+	Vector<int>::const_iterator c_it = c_v.begin();
+	*c_it = 55; */
 
 	//std::vector<int>::iterator it1000;
 	//Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
