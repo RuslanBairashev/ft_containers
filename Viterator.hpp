@@ -28,7 +28,7 @@ struct Viterator_traits<T*>
 	typedef T*								pointer;
 	typedef T&								reference;
 };
-/* template< typename T > //like in library (almost)
+template< typename T > //like in library (almost)
 struct Viterator_traits<const T*>
 {
 	typedef	std::random_access_iterator_tag	iterator_category;
@@ -36,7 +36,7 @@ struct Viterator_traits<const T*>
 	typedef ptrdiff_t						difference_type;
 	typedef const T*						pointer;
 	typedef const T&						reference;
-}; */
+};
 
 template <class T, class Category = std::random_access_iterator_tag,
 class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>

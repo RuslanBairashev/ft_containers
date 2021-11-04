@@ -80,8 +80,8 @@ public:
 	typedef typename	allocator_type::const_reference	const_reference;
 	typedef typename	allocator_type::pointer			pointer;
 	typedef typename	allocator_type::const_pointer	const_pointer;
-	typedef typename	ft::Viterator<T>			iterator; //here was the problem with
-	typedef typename	ft::Viterator<const T>	const_iterator; //iterator and const_iterator
+	typedef typename	ft::Viterator<pointer>			iterator; //here was the problem with
+	typedef typename	ft::Viterator<const_pointer>	const_iterator; //iterator and const_iterator
 	typedef	size_t										size_type;
 
 private:
@@ -98,7 +98,7 @@ public:
 		array_ = myAlloc_.allocate(capacity_);
 	}
 	//constructor: fill(2/4) OK
-	Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+	explicit Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 	: size_(n), capacity_(n + 3)
 	{
 		myAlloc_ = alloc;
