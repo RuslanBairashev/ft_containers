@@ -150,9 +150,9 @@ int	main()
 	for (int i = 1; i < 10; ++i)
 		c_v.push_back(i);
 	// uncomment this to check const_iterator
-	Vector<int>::const_iterator c_it = c_v.begin();
+	//Vector<int>::const_iterator c_it = c_v.begin();
 	//*c_it = 55;
-
+	
 	//std::vector<int>::iterator it1000;
 	//Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
 	//https://newbedev.com/how-to-avoid-code-duplication-implementing-const-and-non-const-iterators
