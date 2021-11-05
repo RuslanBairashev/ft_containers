@@ -1,5 +1,5 @@
-#ifndef VViterator_HPP
-#define VViterator_HPP
+#ifndef Viterator_HPP
+#define Viterator_HPP
 
 #include <iostream>
 //#include <list>
@@ -81,7 +81,7 @@ public:
 	typedef typename choose<std::is_const<T>::value, const T *, T *>::type pointer; */
 	//typedef Pointer		pointer;
 	//typedef Reference	reference;
-	
+	pointer m_ptr;
 
 	Viterator() : m_ptr(NULL) {}
 	Viterator(pointer ptr) : m_ptr(ptr) {}
@@ -97,7 +97,7 @@ public:
 	pointer		operator->() { return m_ptr; }
 	Viterator&	operator++() { ++m_ptr; return *this; }//ok
 	Viterator	operator++(int) { Viterator tmp = *this; ++(*this); return tmp; }//ok
-	Viterator&	operator--() { m_ptr--; return *this; }//ok
+	Viterator&	operator--() { --m_ptr; return *this; }//ok
 	Viterator	operator--(int) { Viterator tmp = *this; --(*this); return tmp; }//ok
 	Viterator	operator+(int rhs) { return (m_ptr + rhs); }//ok
 	Viterator	operator-(int rhs) { return (m_ptr - rhs); }//ok
@@ -113,8 +113,6 @@ public:
 		pointer	tmp(NULL);
 		tmp = m_ptr + n; return *tmp;
 	}
-
-	pointer m_ptr;
 };
 
 }

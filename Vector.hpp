@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cmath>
 #include "Viterator.hpp"
+#include "Reviterator.hpp"
 #include "Vextras.hpp"
 
 template < class T, class Allocator >
@@ -82,6 +83,8 @@ public:
 	typedef typename	allocator_type::const_pointer	const_pointer;
 	typedef typename	ft::Viterator<pointer>			iterator; //here was the problem with
 	typedef typename	ft::Viterator<const_pointer>	const_iterator; //iterator and const_iterator
+	typedef typename	ft::Reviterator<pointer>		reverse_iterator;
+	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
 	typedef	size_t										size_type;
 
 private:
@@ -150,10 +153,13 @@ public:
 
 	//iterators
 	iterator	begin() { return iterator(array_); }
-	const_iterator	begin() const { return const_iterator(array_); }
-	//const_iterator	cbegin() const { return const_iterator(array_); }
 	iterator	end() { return iterator(array_ + size_); }
-	//TODO const_iterator	end() const { return Viterator<int>(array_ + size_); }
+	const_iterator	begin() const { return const_iterator(array_); }
+	const_iterator	end() const { return const_iterator(array_ + size_); }
+	reverse_iterator	rbegin() { return reverse_iterator(array_ + size_); }
+	reverse_iterator	rend() { return reverse_iterator(array_); }
+	const_reverse_iterator	rbegin() const { return const_reverse_iterator(array_); }
+	const_reverse_iterator	rend() const { return const_reverse_iterator(array_ + size_); }
 	//TODO rbegin
 	//TODO rend
 

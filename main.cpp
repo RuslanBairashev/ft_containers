@@ -9,9 +9,9 @@ int	main()
 	Vector<int>	v;
 	for (int i = 1; i < 10; ++i)
 		v.push_back(i);
-	Vector<int> v2 (4,100);
-	std::cout << "v2 contains: " << v2 ;
-	std::cout << ". size_ = " << v2.size() << ". capacity_ = " << v2.capacity() << std::endl;
+	//Vector<int> v2 (4,100);
+	std::cout << "v contains: " << v ;
+	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
 /* 	Vector<int> v3 (v2.begin(),v2.end() - 1);
 	std::cout << "v3 contains: " << v3 ;
 	std::cout << ". size_ = " << v3.size() << ". capacity_ = " << v3.capacity() << std::endl;
@@ -20,20 +20,22 @@ int	main()
 
 	std::cout << std::endl << "Viterators_tests_________" << std::endl; */
 	/*************************************************************************/
-	/* std::cout << "begin check: " << *(v.begin()) << std::endl;
-	std::cout << "end check: " << *(v.end()) << std::endl; */
+	std::cout << "begin check: " << *(v.begin()) << std::endl;
+	std::cout << "end check: " << *(v.end() - 1) << std::endl;
 	std::cout << std::endl << "Viterator_class_tests_________" << std::endl;
 	Vector<int>::iterator it = v.begin();
 	std::cout << "*a check: " << *it << std::endl;
 	*it = 42;
-/* 	std::cout << "*a= check: " << *it << std::endl;
+	std::cout << "*a= check: " << *it << std::endl;
 	std::cout << "++a check: " << *(it++) << std::endl;
 	std::cout << "a++ check: " << *(++it) << std::endl;
 	std::cout << "a+ check: " << *(it + 2) << std::endl;
 	std::cout << "a- check: " << *(it - 1) << std::endl;
 	std::cout << "a+= check: " << *(it+=2) << std::endl;
-	std::cout << "a-= check: " << *(it-=1) << std::endl; */
-/* 	Vector<int>::iterator it2 = it + 3;
+	std::cout << "a-= check: " << *(it-=1) << std::endl;
+	std::cout << "--a check: " << *(it--) << std::endl;
+	std::cout << "a-- check: " << *(--it) << std::endl;
+	Vector<int>::iterator it2 = it + 3;
 	std::cout << "Current positions: " << "*it= " << *it << " *it2= " << *it2 << std::endl;
 	std::cout << "a<b check: " << (*it < *it2) << std::endl;
 	std::cout << "a>b check: " << (*it > *it2) << std::endl;
@@ -41,7 +43,7 @@ int	main()
 	std::cout << "a>=b check: " << (*it >= *it2) << std::endl;
 	std::cout << "a[0] check: " << it[0] << ". a[5] check: " << it[5] << std::endl;
 
-	std::vector<int> std_v;
+/* 	std::vector<int> std_v;
 	for (int i = 11; i < 20; ++i)
 		std_v.push_back(i);
 	std::vector<int>::iterator it10 = std_v.begin();
@@ -147,11 +149,46 @@ int	main()
 
 	it3 = it2; */
 	Vector<int>	c_v;
+	Vector<int>	cr_v;
 	/* for (int i = 1; i < 10; ++i)
 		c_v.push_back(i); */
 	// uncomment this to check const_iterator
 	Vector<int>::const_iterator c_it = c_v.begin();
+	Vector<int>::const_reverse_iterator cr_it = cr_v.rbegin();
 	//*c_it = 55;
+
+	std::cout << std::endl << "REV*****REV*****REV*****REV*****REV*****REV*****REV" << std::endl;
+	std::cout << "Reverse Vector with ints:" << std::endl;
+	Vector<int>	r;
+	for (int i = 1; i < 10; ++i)
+		r.push_back(i);
+	//Vector<int> r2 (4,100);
+	std::cout << "r contains: " << r ;
+	std::cout << ". size_ = " << r.size() << ". capacity_ = " << r.capacity() << std::endl;
+	std::cout << "begin check: " << *(r.rbegin()) << std::endl;
+	std::cout << "end check: " << *(r.rend() + 1) << std::endl;
+	/*************************************************************************/
+	std::cout << std::endl << "Reviterator_class_tests_________" << std::endl;
+	Vector<int>::reverse_iterator rit = r.rbegin();
+	std::cout << "*a check: " << *rit << std::endl;
+	*rit = 42;
+	std::cout << "*a= check: " << *rit << std::endl;
+	std::cout << "++a check: " << *(rit++) << std::endl;
+	std::cout << "a++ check: " << *(++rit) << std::endl;
+	std::cout << "a+ check: " << *(rit + 2) << std::endl;
+	std::cout << "a- check: " << *(rit - 1) << std::endl;
+	std::cout << "a+= check: " << *(rit+=2) << std::endl;
+	std::cout << "a-= check: " << *(rit-=1) << std::endl;
+	std::cout << "--a check: " << *(rit--) << std::endl;
+	std::cout << "a-- check: " << *(--rit) << std::endl;
+	Vector<int>::reverse_iterator rit2 = rit + 3;
+	std::cout << "Current positions: " << "*rit= " << *rit << " *rit2= " << *rit2 << std::endl;
+	std::cout << "a<b check: " << (*rit < *rit2) << std::endl;
+	std::cout << "a>b check: " << (*rit > *rit2) << std::endl;
+	std::cout << "a<=b check: " << (*rit <= *rit2) << std::endl;
+	std::cout << "a>=b check: " << (*rit >= *rit2) << std::endl;
+	std::cout << "a[0] check: " << rit[0] << ". a[5] check: " << rit[5] << std::endl;
+
 
 	//std::vector<int>::iterator it1000;
 	//Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
