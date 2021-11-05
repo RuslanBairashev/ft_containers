@@ -147,8 +147,8 @@ int	main()
 
 	it3 = it2; */
 	Vector<int>	c_v;
-	for (int i = 1; i < 10; ++i)
-		c_v.push_back(i);
+	/* for (int i = 1; i < 10; ++i)
+		c_v.push_back(i); */
 	// uncomment this to check const_iterator
 	Vector<int>::const_iterator c_it = c_v.begin();
 	//*c_it = 55;

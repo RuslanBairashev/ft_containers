@@ -85,7 +85,8 @@ public:
 
 	Viterator() : m_ptr(NULL) {}
 	Viterator(pointer ptr) : m_ptr(ptr) {}
-	Viterator(const Viterator & it) : m_ptr(it.m_ptr) {}
+	template <class M>
+	Viterator(const Viterator<M> & it) : m_ptr(it.m_ptr) {}
 	~Viterator() {}
 
 	reference	operator=(const Viterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }
@@ -112,7 +113,7 @@ public:
 		pointer	tmp(NULL);
 		tmp = m_ptr + n; return *tmp;
 	}
-private:
+
 	pointer m_ptr;
 };
 
