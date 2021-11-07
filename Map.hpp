@@ -90,7 +90,7 @@ public:
 	typedef	T											mapped_type;
 	typedef	std::pair<const Key, T>						value_type;
 	typedef	Allocator									allocator_type;
-	type	std::less<key_type>							key_compare;
+	typedef Compare 									key_compare;
 	typedef typename	allocator_type::reference		reference;
 	typedef typename	allocator_type::const_reference	const_reference;
 	typedef typename	allocator_type::pointer			pointer;
@@ -103,41 +103,68 @@ public:
 
 private:
 	allocator_type	myAlloc_;
-	pointer			array_;
 	size_type		size_;
-	size_type		capacity_;
-	Node			mapa_;
+	pointer			head_;
+	/* template < class Key_N, class T_N>
+	Node			mapa_; */
 //https://medium.com/@vgasparyan1995/how-to-write-an-stl-compatible-container-fc5b994462c6
 public:
 	//constructor: empty (1/3)
 	explicit Map (const key_compare& comp = key_compare(),
-					const allocator_type& alloc = allocator_type());
+					const allocator_type& alloc = allocator_type())
+	: size_(0), head_(NULL)
+	{
+		myAlloc_ = alloc;
+		head_ = myAlloc_.allocate(sizeof(pointer));
+		comp(1,0);
+	}
+	
 	//constructor: range(2/3)
 	template <class InputIterator>
 	Map (InputIterator first, InputIterator last,
 			const key_compare& comp = key_compare(),
 			const allocator_type& alloc = allocator_type());
 	//constructor: copy(3/3)
-	Map (const map& x);
+	Map (const Map& x);
 
+	//insert: single element (1/3)	
+	ft::pair<iterator,bool> insert (const value_type& val)
+	{
+		if (size_ == 0)
+		{
+			Node<key_type, mapped_type> tmp;
+			tmp.index_ = val.first;
+			tmp.data_ = val.second;
+			tmp.pleft = tmp.pright = NULL;
+		}
+		else
+		{
+
+		}
+	}
+	//insert: with hint (2/3)	
+	iterator insert (iterator position, const value_type& val);
+	//insert: range (3/3)	
+	template <class InputIterator>
+		void insert (InputIterator first, InputIterator last);
 
 	//constructor: default(1/4) OK
-	explicit Vector(const allocator_type& alloc = allocator_type()): size_(0), capacity_(1)
+/* 	explicit Vector(const allocator_type& alloc = allocator_type()): size_(0), capacity_(1)
 	{
 		myAlloc_ = alloc;
 		array_ = myAlloc_.allocate(capacity_);
-	}
+	} */
 	//constructor: fill(2/4) OK
-	explicit Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+/* 	explicit Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 	: size_(n), capacity_(n + 3)
 	{
 		myAlloc_ = alloc;
 		array_ = myAlloc_.allocate(capacity_);
 		for (size_type i = 0; i < size_; ++i)
 			array_[i] = val;
-	}
+	} */
 	//constructor: range(3/4) OK
-	template <class InputIterator>
+/* 	template <class InputIterator>
 	Vector (InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last,
 	const allocator_type& alloc = allocator_type() )
 	{
@@ -147,9 +174,9 @@ public:
 		array_ = myAlloc_.allocate(capacity_);
 		for (size_t i = 0; first < last; i++, first++)
 			array_[i] = *first;
-	}
+	} */
 	//constructor: copy(4/4) OK
-	Vector(const Vector & rhs): size_(rhs.size_), capacity_(rhs.capacity_)
+/* 	Vector(const Vector & rhs): size_(rhs.size_), capacity_(rhs.capacity_)
 	{
 		array_ = myAlloc_.allocate(capacity_);
 		for (size_type i = 0; i < rhs.size(); ++i)
@@ -173,13 +200,13 @@ public:
 			array_[i] = rhs.array_[i];
 		size_ = rhs.size_;
 		return *this;
-	}
+	} */
 	/*************************************************************************/
 	//			MEMBER FUNCTIONS										      /
 	/*************************************************************************/
 
 	//iterators
-	iterator	begin() { return iterator(array_); }
+/* 	iterator	begin() { return iterator(array_); }
 	iterator	end() { return iterator(array_ + size_); }
 	const_iterator	begin() const { return const_iterator(array_); }
 	const_iterator	end() const { return const_iterator(array_ + size_); }
@@ -187,12 +214,10 @@ public:
 	reverse_iterator	rend() { return reverse_iterator(array_); }
 	const_reverse_iterator	rbegin() const { return const_reverse_iterator(array_); }
 	const_reverse_iterator	rend() const { return const_reverse_iterator(array_ + size_); }
-	//TODO rbegin
-	//TODO rend
-
+ */
 	//Capacity all done
 	/*************************************************************************/
-	size_type	size() const { return size_; }
+/* 	size_type	size() const { return size_; }
 	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
 	void		resize(size_t n, value_type val = value_type())
 	{
@@ -206,8 +231,8 @@ public:
 				array_[i] = val;
 			size_ = n;
 		}
-	}
-	size_t		capacity() const { return capacity_; }
+	} */
+/* 	size_t		capacity() const { return capacity_; }
 	bool		empty() const { return size_ == 0; }
 	void		reserve(size_type n)
 	{
@@ -221,11 +246,11 @@ public:
 			array_ = newarray;
 			capacity_ = n;
 		}
-	}
+	} */
 
 	//Element access all done
 	/*************************************************************************/
-	reference	operator[](size_type index)
+/* 	reference	operator[](size_type index)
 	{
 		return array_[index];
 	}
@@ -244,16 +269,16 @@ public:
 		if (index < 0 || index >= size_)
 			throw std::runtime_error("Error: (at) out of range!\n");
 		return array_[index];
-	}
-	reference	front() { return array_[0]; }
+	} */
+/* 	reference	front() { return array_[0]; }
 	const_reference	front() const { return array_[0]; }
 	reference	back() { return array_[size_ - 1]; }
 	const_reference	back() const { return array_[size_ - 1]; }
-
+ */
 	//Modifiers all done
 	/*************************************************************************/
 	//range(1/2) OK
-	template <class InputIterator>
+	/* template <class InputIterator>
 	void assign (InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
 		size_type	n = last - first;
@@ -265,9 +290,9 @@ public:
 		array_ = newarray;
 		size_ = n;
 		capacity_ = size_ + 3;
-	}
+	} */
 	//fill(2/2) OK
-	void	assign(size_type n, const value_type & val)
+/* 	void	assign(size_type n, const value_type & val)
 	{
 		std::allocator<T>	alloc;
 		T* newarray = alloc.allocate(n + 3);
@@ -277,9 +302,9 @@ public:
 		array_ = newarray;
 		size_ = n;
 		capacity_ = size_ + 3;
-	}
+	} */
 
-	void	push_back(const value_type & value)
+/* 	void	push_back(const value_type & value)
 	{
 		if (size_ < capacity_)
 		{
@@ -298,15 +323,15 @@ public:
 			myAlloc_.deallocate(array_, capacity_ / 2);
 			array_ = newarray;
 		}
-	}
-	void	pop_back()
+	} */
+/* 	void	pop_back()
 	{
 		if (size_ == 0)
 			throw std::runtime_error("Error: pop_back on empty cont!\n");
 		--size_;
-	}
+	} */
 	//single element(1/3) OK
-	iterator insert (iterator position, const value_type& val)
+/* 	iterator insert (iterator position, const value_type& val)
 	{
 		iterator tmp = position;
 		if (size_ != capacity_)
@@ -323,9 +348,9 @@ public:
 			insert(position, val);
 		}
 		return tmp;
-	}
+	} */
 	//fill(2/3) OK
-	void insert (iterator position, size_type n, const value_type& val)
+/* 	void insert (iterator position, size_type n, const value_type& val)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
 		if (size_ + n <= capacity_)
@@ -342,9 +367,9 @@ public:
 			reserve((size_ + n) * 2);
 			insert((*this).begin() + offset, n, val);
 		}
-	}
+	} */
 	//range(3/3) OK
-	template <class InputIterator>
+/* 	template <class InputIterator>
 	void insert (iterator position, InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
@@ -364,8 +389,8 @@ public:
 			reserve((size_ + n) * 2);
 			insert((*this).begin() + offset, first, last);
 		}
-	}
-	iterator	erase(iterator position)
+	} */
+/* 	iterator	erase(iterator position)
 	{
 		iterator tmp = position;
 		iterator it = (*this).end();
@@ -383,8 +408,8 @@ public:
 			array_[i] = array_[i + range];
 		size_ -= range;
 		return tmp;
-	}
-	void swap (Vector & x)
+	} */
+/* 	void swap (Vector & x)
 	{
 		Vector<value_type>	tmp = *this;
 		// copy x to this
@@ -401,18 +426,18 @@ public:
 		for (iterator itx = tmp.begin(); itx != tmp.end(); ++itx, ++i)
 			x[i] = *itx;
 		x.size_ = tmp.size_;
-	}
+	} */
 
-	void	clear() { size_ = 0; }
+/* 	void	clear() { size_ = 0; }
 
 	allocator_type get_allocator() const
 	{
 		return myAlloc_;
 	}
-	
+	 */
 	//Non-member function overloads
 	/*************************************************************************/
-	friend	bool	operator== <> (const Vector & lhs, const Vector & rhs);
+/* 	friend	bool	operator== <> (const Vector & lhs, const Vector & rhs);
 	friend	bool	operator!= <> (const Vector & lhs, const Vector & rhs);
 	friend	bool	operator< <> (Vector & lhs, Vector & rhs);
 	friend	bool	operator> <> (Vector & lhs, Vector & rhs);
@@ -422,7 +447,7 @@ public:
 	friend	void	swap (Vector & x);
 
 	template < class Tx, class Allocatorx >
-	friend	std::ostream& operator<<(std::ostream &, const Vector<Tx, Allocatorx> &);
+	friend	std::ostream& operator<<(std::ostream &, const Vector<Tx, Allocatorx> &); */
 };
 
 /***************************************************************************/
