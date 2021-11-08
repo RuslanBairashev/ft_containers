@@ -20,19 +20,55 @@ struct pair
 	second_type	second;
 
 	pair()
-		:first(NULL), second(NULL) {}
+		:first(), second() {}
 	pair (const first_type& a, const second_type& b)
 		:first(a), second(b) {}
 	template<class U, class V>  //copy constructor
 	pair (const pair<U,V>& pr)
 		:first(pr.first), second(pr.second) {}
 	~pair() {}
-	/* operator=
-	relational operators (pair) */
+	pair&	operator=(const pair& pr)
+	{
+		first = pr.first;
+		second = pr.second;
+		return *this;
+	}
+	template <class T1, class T2>
+	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{ return lhs.first==rhs.first && lhs.second==rhs.second; }
+
+	template <class T1, class T2>
+	bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{ return !(lhs==rhs); }
+
+	template <class T1, class T2>
+	bool operator<  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{ return lhs.first<rhs.first || (!(rhs.first<lhs.first) && lhs.second<rhs.second); }
+
+	template <class T1, class T2>
+	bool operator<= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{ return !(rhs<lhs); }
+
+	template <class T1, class T2>
+	  bool operator>  (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{ return rhs<lhs; }
+
+	template <class T1, class T2>
+	  bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+	{ return !(lhs<rhs); }
+
+	//delete this (pair)
 	first_type getFirst() { return first; }
 	second_type getSecond() { return second; }
 };
+
+template <class T1, class T2>
+pair<T1,T2>	make_pair(T1 x, T2 y)
+{
+    return pair<T1, T2>(x, y);
 }
+
+} //namespace ft
 
 
 #endif

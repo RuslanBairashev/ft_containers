@@ -69,7 +69,7 @@ bool	operator<=(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
 	return !(rhs < lhs);
 } */
 
-template < class Key, class T>
+/* template < class Key, class T>
 class Node
 {
 	public:
@@ -77,7 +77,7 @@ class Node
 	T		data_;
 	Node*	pleft;
 	Node*	pright;
-};
+}; */
 
 /*************************************************************************/
 //**	CLASS DECLARATION START											**/
@@ -102,6 +102,14 @@ public:
 	typedef	size_t										size_type;
 
 private:
+	struct Node
+	{
+		key_type	index_;
+		mapped_type	data_;
+		Node*		pleft;
+		Node*		pright;
+	};
+	Node*			root_;
 	allocator_type	myAlloc_;
 	size_type		size_;
 	pointer			head_;
