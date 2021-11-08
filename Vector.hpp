@@ -86,7 +86,7 @@ public:
 
 private:
 	allocator_type	myAlloc_;
-	pointer			array_;
+	T*			array_;
 	size_type		size_;
 	size_type		capacity_;
 

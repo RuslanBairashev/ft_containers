@@ -40,7 +40,7 @@ struct Viterator_traits<const T*>
 
 template <class T, class Category = std::random_access_iterator_tag,
 class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-class iterator: public std::random_access_iterator_tag
+class ziterator: public std::random_access_iterator_tag
 {
 public:
 	typedef T			value_type;
@@ -53,42 +53,23 @@ public:
 //template <class T, class Category = std::random_access_iterator_tag,
 //class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
 template <class T>
-class Viterator : public iterator<T>
+class Viterator /* : public ziterator<T> */
 {
 public:
-/* 	template <bool flag, class IsTrue, class IsFalse>
-	struct choose;
 
-	template <class IsTrue, class IsFalse>
-	struct choose<true, IsTrue, IsFalse> {
-		typedef IsTrue type;
-	};
-
-	template <class IsTrue, class IsFalse>
-	struct choose<false, IsTrue, IsFalse> {
-		typedef IsFalse type;
-	}; */
-
+	typedef T	 iterator_type;
 	typedef typename Viterator_traits<T>::value_type		value_type;
 	typedef typename Viterator_traits<T>::iterator_category	iterator_category;
 	typedef typename Viterator_traits<T>::difference_type	difference_type;
 	typedef typename Viterator_traits<T>::pointer			pointer;
 	typedef typename Viterator_traits<T>::reference			reference;
-	/* typedef T			value_type;
-	typedef Category	iterator_category;
-	typedef Distance	difference_type;
-	typedef typename choose<std::is_const<T>::value, const T &, T &>::type reference;
-	typedef typename choose<std::is_const<T>::value, const T *, T *>::type pointer; */
-	//typedef Pointer		pointer;
-	//typedef Reference	reference;
-	
 
-	Viterator() : m_ptr(NULL) {}
-	Viterator(pointer ptr) : m_ptr(ptr) {}
-	Viterator(const Viterator & it) : m_ptr(it.m_ptr) {}
+	explicit Viterator() : m_ptr(NULL) {}
+	explicit Viterator(iterator_type ptr) : m_ptr(ptr) {}
+	//Viterator(const Viterator & it) : m_ptr(it.m_ptr) {}
 	~Viterator() {}
 
-	reference	operator=(const Viterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }
+/* 	reference	operator=(const Viterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }
 
 	bool		operator== (const Viterator& it) const { return m_ptr == it.m_ptr; };//ok
 	bool		operator!= (const Viterator& it) const { return m_ptr != it.m_ptr; };//ok
@@ -111,10 +92,11 @@ public:
 	{
 		pointer	tmp(NULL);
 		tmp = m_ptr + n; return *tmp;
-	}
+	} */
 private:
-	pointer m_ptr;
+	iterator_type m_ptr;
 };
+
 
 }
 #endif

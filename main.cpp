@@ -24,8 +24,14 @@ int	main()
 	std::cout << "end check: " << *(v.end()) << std::endl; */
 	std::cout << std::endl << "Viterator_class_tests_________" << std::endl;
 	Vector<int>::iterator it = v.begin();
-	std::cout << "*a check: " << *it << std::endl;
-	*it = 42;
+	Vector<int>	c_v;
+	for (int i = 1; i < 10; ++i)
+		c_v.push_back(i);
+	// uncomment this to check const_iterator
+	Vector<int>::const_iterator c_it = c_v.begin();
+	//*c_it = 55;
+	/* std::cout << "*a check: " << *it << std::endl;
+	*it = 42; */
 /* 	std::cout << "*a= check: " << *it << std::endl;
 	std::cout << "++a check: " << *(it++) << std::endl;
 	std::cout << "a++ check: " << *(++it) << std::endl;
@@ -146,12 +152,7 @@ int	main()
 	std::cout << "<= operation test(1 = true / 0 = false) :" << (first <= second) << std::endl;
 
 	it3 = it2; */
-	Vector<int>	c_v;
-	for (int i = 1; i < 10; ++i)
-		c_v.push_back(i);
-	// uncomment this to check const_iterator
-	//Vector<int>::const_iterator c_it = c_v.begin();
-	//*c_it = 55;
+
 	
 	//std::vector<int>::iterator it1000;
 	//Vpair<Vector<int>,Vector<int> > my_pair(foo, bar);
