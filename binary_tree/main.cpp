@@ -29,7 +29,7 @@ void	del(Node *&tree)
 
 void	add_node(int x, Node *&myTree)
 {
-	if  (NULL == myTree)
+	if (NULL == myTree)
 	{
 		myTree = new Node;
 		myTree->x = x;

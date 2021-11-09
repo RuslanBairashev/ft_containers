@@ -115,7 +115,7 @@ private:
 	pointer			head_;
 	/* template < class Key_N, class T_N>
 	Node			mapa_; */
-//https://medium.com/@vgasparyan1995/how-to-write-an-stl-compatible-container-fc5b994462c6
+
 public:
 	//constructor: empty (1/3)
 	explicit Map (const key_compare& comp = key_compare(),
