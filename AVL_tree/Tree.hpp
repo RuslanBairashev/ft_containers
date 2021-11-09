@@ -24,15 +24,15 @@ public:
 	Tree() : root_(NULL), size_(0) {}
 	~Tree() {}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
-	int	bfactor(Node *p) { return height(p->pright) - height(p->pleft); }
-	void	fixheight(Node *p)
+	int				bfactor(Node *p) { return height(p->pright) - height(p->pleft); }
+	void			fixheight(Node *p)
 	{
 		unsigned char hl = height(p->pleft);
 		unsigned char hr = height(p->pright);
 		p->height = (hl>hr ? hl : hr) + 1;
 	}
 
-	Node*	rotateright(Node *p) //right turn around p
+	Node*			rotateright(Node *p) //right turn around p
 	{
 		Node*	q = p->pleft;
 		p->pleft = q->pright;
@@ -42,7 +42,7 @@ public:
 		return q;
 	}
 
-	Node*	rotateleft(Node *q) //left turn around p
+	Node*			rotateleft(Node *q) //left turn around p
 	{
 		Node*	p = q->pright;
 		q->pright = p->pleft;
@@ -51,7 +51,7 @@ public:
 		fixheight(p);
 		return p;
 	}
-	Node*	balance(Node* p)
+	Node*			balance(Node* p)
 	{
 		fixheight(p);
 		if (bfactor(p) == 2)
@@ -68,20 +68,7 @@ public:
 		}
 		return p;
 	}
-/* 	Node*	insert(Key k, T val)
-	{
-		if (!root_)
-		{
-			root_ = new Node(k, val);
-			return balance(root_);
-		}
-		if (k < root_->index_)
-			root_->pleft = insert(root_->pleft, k, val);
-		else
-			root_->pright = insert(root_->pright, k, val);
-		return balance(root_);
-	} */
-	void	insert(Key k, T val)
+	void			insert(Key k, T val)
 	{
 		size_++;
 		if (!root_)
@@ -96,7 +83,7 @@ public:
 			root_->pright = insert(root_->pright, k, val);
 		root_ = balance(root_);
 	}
-	Node*	insert(Node *p, Key k, T val)
+	Node*			insert(Node *p, Key k, T val)
 	{
 		if (!p)
 			return new Node(k, val);
@@ -107,15 +94,22 @@ public:
 		return balance(p);
 	}
 
-	Node*	findmin(Node* p) { return p->pleft ? findmin(p->pleft) : p; }
-	Node	*removemin(Node *p)
+	Node*			findmin(Node* p) { return p->pleft ? findmin(p->pleft) : p; }
+	Node			*removemin(Node *p)
 	{
 		if (p->pleft == NULL)
 			return p->pright;
 		p->pleft = removemin(p->pleft);
 		return balance(p);
 	}
-	Node*	remove(Node* p, Key k)
+	void			remove(Key k)
+	{
+		if (!root_)
+			return ;
+		root_ = remove(root_, k);
+		size_--;
+	}
+	Node*			remove(Node* p, Key k)
 	{
 		if (!p)
 			return 0;
@@ -137,7 +131,7 @@ public:
 		}
 		return balance(p);
 	}
-	void	print_tree()
+	void			print_tree()
 	{
 		if (root_)
 		{
@@ -148,7 +142,7 @@ public:
 				print_tree(root_->pright);
 		}
 	}
-	void	print_tree(Node* p)
+	void			print_tree(Node* p)
 	{
 		if (p)
 		{
