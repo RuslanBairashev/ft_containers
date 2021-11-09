@@ -2,6 +2,7 @@
 #define TREE_HPP
 
 #include <cstddef>
+#include <unistd.h>
 
 template < class Key, class T>
 class	Tree
@@ -14,8 +15,14 @@ public:
 		Node*	pleft;
 		Node*	pright;
 		unsigned char	height;
-		Node(Key k, T val) { index_ = k; data_ = val; pleft = NULL; pright = NULL; height =1; }
+		Node(Key k, T val) { index_ = k; data_ = val; pleft = NULL; pright = NULL; height = 1; }
 	};
+	Node*		root_;
+	unsigned	size_;
+
+
+	Tree() : root_(NULL), size_(0) {}
+	~Tree() {}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
 	int	bfactor(Node *p) { return height(p->pright) - height(p->pleft); }
 	void	fixheight(Node *p)
@@ -61,7 +68,35 @@ public:
 		}
 		return p;
 	}
-	Node*	insert(Node* p, Key k, T val)
+/* 	Node*	insert(Key k, T val)
+	{
+		if (!root_)
+		{
+			root_ = new Node(k, val);
+			return balance(root_);
+		}
+		if (k < root_->index_)
+			root_->pleft = insert(root_->pleft, k, val);
+		else
+			root_->pright = insert(root_->pright, k, val);
+		return balance(root_);
+	} */
+	void	insert(Key k, T val)
+	{
+		size_++;
+		if (!root_)
+		{
+			root_ = new Node(k, val);
+			root_ = balance(root_);
+			return ;
+		}
+		if (k < root_->index_)
+			root_->pleft = insert(root_->pleft, k, val);
+		else
+			root_->pright = insert(root_->pright, k, val);
+		root_ = balance(root_);
+	}
+	Node*	insert(Node *p, Key k, T val)
 	{
 		if (!p)
 			return new Node(k, val);
@@ -101,6 +136,29 @@ public:
 			return balance(min);
 		}
 		return balance(p);
+	}
+	void	print_tree()
+	{
+		if (root_)
+		{
+			std::cout << &root_ << "=" << "root_->index_=" << root_->index_ << std::endl;
+			if (root_->pleft)
+				print_tree(root_->pleft);
+			if (root_->pright)
+				print_tree(root_->pright);
+		}
+	}
+	void	print_tree(Node* p)
+	{
+		if (p)
+		{
+			std::cout << &p << "=" << p->index_ << std::endl;
+			//sleep(5);
+			if (p->pleft)
+				print_tree(p->pleft);
+			if (p->pright)
+				print_tree(p->pright);
+		}
 	}
 };
 
