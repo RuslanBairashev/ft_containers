@@ -12,6 +12,7 @@
 #include "Viterator.hpp"
 #include "Reviterator.hpp"
 #include "Vextras.hpp"
+#include "Tree.hpp"
 
 /* template < class T, class Allocator >
 class Vector;
@@ -101,30 +102,31 @@ public:
 	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
 	typedef	size_t										size_type;
 
+	Tree<Key, T>*	tree_;
 private:
-	struct Node
+/*  	struct Node
 	{
 		key_type	index_;
 		mapped_type	data_;
 		Node*		pleft;
 		Node*		pright;
 	};
-	Node*			root_;
+	Node*			root_; */
 	allocator_type	myAlloc_;
-	size_type		size_;
-	pointer			head_;
-	/* template < class Key_N, class T_N>
-	Node			mapa_; */
+/* 	size_type		size_;
+	pointer			head_; */
+	
 
 public:
 	//constructor: empty (1/3)
 	explicit Map (const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type())
-	: size_(0), head_(NULL)
+	 /* : size_(0), head_(NULL) */
 	{
-		myAlloc_ = alloc;
-		head_ = myAlloc_.allocate(sizeof(pointer));
 		comp(1,0);
+		myAlloc_ = alloc;
+		//tree_ = myAlloc_.allocate(sizeof(Tree<Key, T>));
+		tree_ = new Tree<Key, T>;
 	}
 	
 	//constructor: range(2/3)
@@ -136,7 +138,7 @@ public:
 	Map (const Map& x);
 
 	//insert: single element (1/3)	
-	ft::pair<iterator,bool> insert (const value_type& val)
+/* 	ft::pair<iterator,bool> insert (const value_type& val)
 	{
 		if (size_ == 0)
 		{
@@ -149,7 +151,7 @@ public:
 		{
 
 		}
-	}
+	} */
 	//insert: with hint (2/3)	
 	iterator insert (iterator position, const value_type& val);
 	//insert: range (3/3)	

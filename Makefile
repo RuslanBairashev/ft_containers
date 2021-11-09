@@ -4,7 +4,7 @@ NAME = cont
 CC = clang++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 SOURCES = main.cpp
-HEADERS = Vector.hpp Map.hpp Viterator.hpp Reviterator.hpp Vextras.hpp 
+HEADERS = Map.hpp Vextras.hpp Tree.hpp
 OBJECTS = $(SOURCES:.cpp=.obj)
 
 all: $(NAME)

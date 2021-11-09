@@ -33,7 +33,7 @@ struct pair
 		second = pr.second;
 		return *this;
 	}
-	template <class T1, class T2>
+/* 	template <class T1, class T2>
 	bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
 	{ return lhs.first==rhs.first && lhs.second==rhs.second; }
 
@@ -55,7 +55,7 @@ struct pair
 
 	template <class T1, class T2>
 	  bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
-	{ return !(lhs<rhs); }
+	{ return !(lhs<rhs); } */
 
 	//delete this (pair)
 	first_type getFirst() { return first; }
