@@ -1,7 +1,5 @@
 # ft_containers Ecole 42 project
-План:
-1. Шаблон для итератора как заполнять?
-2. Как и зачем использовать typedef?
-3. Соответствие типов возврата для шаблонных функций итератора.
+https://ci-plus-plus-snachala.ru/?p=89 Binary tree
+https://habr.com/ru/post/150732/ Top article about AVL trees
 
 

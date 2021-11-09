@@ -20,7 +20,6 @@ public:
 	Node*		root_;
 	unsigned	size_;
 
-
 	Tree() : root_(NULL), size_(0) {}
 	~Tree() {}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
@@ -133,7 +132,7 @@ public:
 	}
 	void			print_tree()
 	{
-		if (root_)
+		if (root_ && size_ < 10000)
 		{
 			std::cout << &root_ << "=" << "root_->index_=" << root_->index_ << std::endl;
 			if (root_->pleft)
@@ -147,7 +146,6 @@ public:
 		if (p)
 		{
 			std::cout << &p << "=" << p->index_ << std::endl;
-			//sleep(5);
 			if (p->pleft)
 				print_tree(p->pleft);
 			if (p->pright)

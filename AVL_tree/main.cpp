@@ -9,7 +9,7 @@ int	main()
 	std::cout << test.root_->index_ << std::endl;
 	test.insert(2, 2.3);
 	std::cout << test.root_->pright->index_ << std::endl;
-	for(int i = 3; i < 10; i++)
+	for(int i = 3; i < 100000; i++)
 		test.insert(i, i + 0.3);
 	test.remove(1);
 	test.remove(3);
