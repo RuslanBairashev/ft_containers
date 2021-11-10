@@ -139,7 +139,7 @@ public:
 	const allocator_type& alloc = allocator_type() )
 	{
 		size_ = last - first;
-		capacity_ = size_ + 3;
+		capacity_ = size_ + 0;
 		myAlloc_ = alloc;
 		array_ = myAlloc_.allocate(capacity_);
 		for (size_t i = 0; first < last; i++, first++)
@@ -164,7 +164,7 @@ public:
 			return *this;
 		if (rhs.size_ > size_) // >capacity_ ???
 		{
-			capacity_ = rhs.size_ + 3;
+			capacity_ = rhs.size_ + 0;
 			myAlloc_.deallocate(array_, capacity_);
 			array_ = myAlloc_.allocate(capacity_);
 		}
@@ -308,24 +308,33 @@ public:
 
 	void	push_back(const value_type & value)
 	{
-		if (size_ < capacity_)
+		if (size_ == 0)
 		{
-			//array_[size_] = value;
-			myAlloc_.construct(array_ + size_/*  - 1 */, value);
+			capacity_ = 1;
+			allocator_type	alloc;
+			value_type* newarray = alloc.allocate(capacity_);
+			newarray[size_] = value;
+			++size_;
+			if (array_)
+				myAlloc_.deallocate(array_, 0);
+			array_ = newarray;
+		}
+		else if (size_ < capacity_)
+		{
+			myAlloc_.construct(array_ + size_, value);
 			++size_;
 		}
 		else
 		{
-			size_t	init_cap = capacity_;
-			capacity_ = (capacity_ + 1)*2;
-			std::allocator<value_type>	alloc;
+			capacity_ *=2;
+			allocator_type	alloc;
 			value_type* newarray = alloc.allocate(capacity_);
 			for (size_t i = 0; i < size_; ++i)
 				newarray[i] = array_[i];
 			newarray[size_] = value;
 			++size_;
 			if (array_)
-				myAlloc_.deallocate(array_, init_cap);
+				myAlloc_.deallocate(array_, capacity_ / 2);
 			array_ = newarray;
 		}
 	}
@@ -338,6 +347,17 @@ public:
 	//single element(1/3) OK
 	iterator insert (iterator position, const value_type& val)
 	{
+		if (size_ == 0)
+		{
+			capacity_ = 1;
+			allocator_type	alloc;
+			value_type* newarray = alloc.allocate(capacity_);
+			newarray[size_] = val;
+			++size_;
+			if (array_)
+				myAlloc_.deallocate(array_, 0);
+			array_ = newarray;
+		}
 		iterator tmp = position;
 		if (size_ != capacity_)
 		{
@@ -391,7 +411,7 @@ public:
 		}
 		else
 		{
-			reserve((size_ + n) * 2);
+			reserve(std::max(capacity_ * 2, size_ + n));
 			insert((*this).begin() + offset, first, last);
 		}
 	}
