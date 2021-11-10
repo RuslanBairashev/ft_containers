@@ -12,6 +12,9 @@
 #include "Reviterator.hpp"
 #include "Vextras.hpp"
 
+namespace ft
+{
+
 template < class T, class Allocator >
 class Vector;
 template < class T, class Allocator >
@@ -95,23 +98,44 @@ private:
 
 public:
 	//constructor: default(1/4) OK
-	explicit Vector(const allocator_type& alloc = allocator_type()): size_(0), capacity_(1)
+	// explicit Vector(const allocator_type& alloc = allocator_type()): size_(0), capacity_(1)
+	// {
+	// 	myAlloc_ = alloc;
+	// 	array_ = myAlloc_.allocate(capacity_);
+	// }
+	//constructor: fill(2/4) OK
+	// explicit Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+	// : size_(n), capacity_(n + 3)
+	// {
+	// 	myAlloc_ = alloc;
+	// 	array_ = myAlloc_.allocate(capacity_);
+	// 	for (size_type i = 0; i < size_; ++i)
+	// 		array_[i] = val;
+	// }
+	//constructor: default(1/4) OK
+	explicit Vector(const allocator_type& alloc = allocator_type()): myAlloc_(alloc), size_(0), capacity_(0)
 	{
-		myAlloc_ = alloc;
 		array_ = myAlloc_.allocate(capacity_);
 	}
-	//constructor: fill(2/4) OK
+	// //constructor: fill(2/4) OK
 	explicit Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-	: size_(n), capacity_(n + 3)
+	: myAlloc_(alloc), size_(0), capacity_(0)
 	{
-		myAlloc_ = alloc;
-		array_ = myAlloc_.allocate(capacity_);
-		for (size_type i = 0; i < size_; ++i)
-			array_[i] = val;
+		if (n > 0)
+		{
+			size_ = n;
+			capacity_ = n;
+			array_ = myAlloc_.allocate(capacity_);
+			for (size_type i = 0; i < size_; ++i)
+				myAlloc_.construct(array_ + i, val);
+		}
+		else
+			array_ = myAlloc_.allocate(capacity_);
+		
 	}
 	//constructor: range(3/4) OK
 	template <class InputIterator>
-	Vector (InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last,
+	Vector (InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last,
 	const allocator_type& alloc = allocator_type() )
 	{
 		size_ = last - first;
@@ -122,15 +146,17 @@ public:
 			array_[i] = *first;
 	}
 	//constructor: copy(4/4) OK
-	Vector(const Vector & rhs): size_(rhs.size_), capacity_(rhs.capacity_)
+	Vector(const Vector & rhs): myAlloc_(rhs.myAlloc_), size_(rhs.size_), capacity_(rhs.capacity_)
 	{
 		array_ = myAlloc_.allocate(capacity_);
-		for (size_type i = 0; i < rhs.size(); ++i)
-			array_[i] = rhs.array_[i];
+		for (size_type i = 0; i < size_; ++i)
+				myAlloc_.construct(array_ + i, rhs[i]);
+		/* for (size_type i = 0; i < rhs.size(); ++i)
+			array_[i] = rhs.array_[i]; */
 	}
 	~Vector()
 	{
-		myAlloc_.deallocate(array_, capacity_);
+		myAlloc_.deallocate(array_, size_);
 	}
 	Vector&	operator=(const Vector& rhs)
 	{
@@ -227,7 +253,7 @@ public:
 	/*************************************************************************/
 	//range(1/2) OK
 	template <class InputIterator>
-	void assign (InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
+	void assign (InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
 		size_type	n = last - first;
 		std::allocator<T>	alloc;
@@ -256,19 +282,22 @@ public:
 	{
 		if (size_ < capacity_)
 		{
-			array_[size_] = value;
+			//array_[size_] = value;
+			myAlloc_.construct(array_ + size_/*  - 1 */, value);
 			++size_;
 		}
 		else
 		{
-			capacity_ *= 2;
+			size_t	init_cap = capacity_;
+			capacity_ = (capacity_ + 1)*2;
 			std::allocator<value_type>	alloc;
 			value_type* newarray = alloc.allocate(capacity_);
 			for (size_t i = 0; i < size_; ++i)
 				newarray[i] = array_[i];
 			newarray[size_] = value;
 			++size_;
-			myAlloc_.deallocate(array_, capacity_ / 2);
+			if (array_)
+				myAlloc_.deallocate(array_, init_cap);
 			array_ = newarray;
 		}
 	}
@@ -318,7 +347,7 @@ public:
 	}
 	//range(3/3) OK
 	template <class InputIterator>
-	void insert (iterator position, InputIterator first, typename std::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
+	void insert (iterator position, InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
 		iterator tmp = position;
@@ -416,5 +445,5 @@ std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator> & rhs)
 }
 template < class T, class Allocator >
 void swap (Vector<T, Allocator> & x) { x.swap(x); }
-
+}
 #endif

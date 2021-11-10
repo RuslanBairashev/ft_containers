@@ -3,6 +3,20 @@
 #include "Vextras.hpp"
 #include <vector>
 
+/* #include <sys/time.h>
+
+time_t timer() {
+   struct timeval start = {};
+   gettimeofday(&start, nullptr);
+   time_t msecs_time = (start.tv_sec * 1000) + (start.tv_usec / 1000);
+   return msecs_time;
+}
+
+time_t g_start1;
+time_t g_end1;
+time_t g_start2;
+time_t g_end2; */
+
 int	main()
 {
 	std::cout << "Vector with ints:" << std::endl;
