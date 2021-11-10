@@ -16,9 +16,9 @@ namespace ft
 {
 
 template < class T, class Allocator >
-class Vector;
+class vector;
 template < class T, class Allocator >
-bool	operator==(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
+bool	operator==(const vector<T, Allocator> & lhs, const vector<T, Allocator> & rhs)
 {
 	if (lhs.size() != rhs.size())
 		return false;
@@ -31,15 +31,15 @@ bool	operator==(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & r
 }
 
 template < class T, class Allocator >
-bool	operator!=(const Vector<T, Allocator> & lhs, const Vector<T, Allocator> & rhs)
+bool	operator!=(const vector<T, Allocator> & lhs, const vector<T, Allocator> & rhs)
 {
 	return !(lhs == rhs);
 }
 
 template < class T, class Allocator >
-bool	operator<(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
+bool	operator<(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
 {
-	typedef typename Vector<int, std::allocator<T> >::iterator iterator;
+	typedef typename vector<int, std::allocator<T> >::iterator iterator;
 	iterator first1 = lhs.begin();
 	iterator last1 = lhs.end();
 	iterator first2 = rhs.begin();
@@ -54,19 +54,19 @@ bool	operator<(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
 }
 
 template < class T, class Allocator >
-bool	operator>=(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
+bool	operator>=(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
 {
 	return !(lhs < rhs);
 }
 
 template < class T, class Allocator >
-bool	operator>(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
+bool	operator>(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
 {
 	return (rhs < lhs);
 }
 
 template < class T, class Allocator >
-bool	operator<=(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
+bool	operator<=(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
 {
 	return !(rhs < lhs);
 }
@@ -75,7 +75,7 @@ bool	operator<=(Vector<T, Allocator> & lhs, Vector<T, Allocator> & rhs)
 //**	CLASS DECLARATION START											**/
 /*************************************************************************/
 template < class T, class Allocator = std::allocator<T> >
-class Vector
+class vector
 {
 public:
 	typedef	T											value_type;
@@ -98,13 +98,13 @@ private:
 
 public:
 	//constructor: default(1/4) OK
-	// explicit Vector(const allocator_type& alloc = allocator_type()): size_(0), capacity_(1)
+	// explicit vector(const allocator_type& alloc = allocator_type()): size_(0), capacity_(1)
 	// {
 	// 	myAlloc_ = alloc;
 	// 	array_ = myAlloc_.allocate(capacity_);
 	// }
 	//constructor: fill(2/4) OK
-	// explicit Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+	// explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 	// : size_(n), capacity_(n + 3)
 	// {
 	// 	myAlloc_ = alloc;
@@ -113,12 +113,12 @@ public:
 	// 		array_[i] = val;
 	// }
 	//constructor: default(1/4) OK
-	explicit Vector(const allocator_type& alloc = allocator_type()): myAlloc_(alloc), size_(0), capacity_(0)
+	explicit vector(const allocator_type& alloc = allocator_type()): myAlloc_(alloc), size_(0), capacity_(0)
 	{
 		array_ = myAlloc_.allocate(capacity_);
 	}
 	// //constructor: fill(2/4) OK
-	explicit Vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
+	explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 	: myAlloc_(alloc), size_(0), capacity_(0)
 	{
 		if (n > 0)
@@ -135,7 +135,7 @@ public:
 	}
 	//constructor: range(3/4) OK
 	template <class InputIterator>
-	Vector (InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last,
+	vector (InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last,
 	const allocator_type& alloc = allocator_type() )
 	{
 		size_ = last - first;
@@ -146,7 +146,7 @@ public:
 			array_[i] = *first;
 	}
 	//constructor: copy(4/4) OK
-	Vector(const Vector & rhs): myAlloc_(rhs.myAlloc_), size_(rhs.size_), capacity_(rhs.capacity_)
+	vector(const vector & rhs): myAlloc_(rhs.myAlloc_), size_(rhs.size_), capacity_(rhs.capacity_)
 	{
 		array_ = myAlloc_.allocate(capacity_);
 		for (size_type i = 0; i < size_; ++i)
@@ -154,11 +154,11 @@ public:
 		/* for (size_type i = 0; i < rhs.size(); ++i)
 			array_[i] = rhs.array_[i]; */
 	}
-	~Vector()
+	~vector()
 	{
 		myAlloc_.deallocate(array_, size_);
 	}
-	Vector&	operator=(const Vector& rhs)
+	vector&	operator=(const vector& rhs)
 	{
 		if (this == &rhs)
 			return *this;
@@ -210,7 +210,7 @@ public:
 	bool		empty() const { return size_ == 0; }
 	void		reserve(size_type n)
 	{
-		if (n > capacity_)
+		if (n > capacity_ * 2)
 		{
 			std::allocator<T>	alloc;
 			T* newarray = alloc.allocate(n);
@@ -219,6 +219,16 @@ public:
 			myAlloc_.deallocate(array_, capacity_);
 			array_ = newarray;
 			capacity_ = n;
+		}
+		else if (n > capacity_)
+		{
+			std::allocator<T>	alloc;
+			T* newarray = alloc.allocate(capacity_ * 2);
+			for (size_t i = 0; i < size_; ++i)
+				newarray[i] = array_[i];
+			myAlloc_.deallocate(array_, capacity_);
+			array_ = newarray;
+			capacity_ = capacity_ * 2;
 		}
 	}
 
@@ -256,26 +266,44 @@ public:
 	void assign (InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
 		size_type	n = last - first;
-		std::allocator<T>	alloc;
-		T* newarray = alloc.allocate(n + 3);
-		for (size_t i = 0; i < n; ++i, ++first)
-			newarray[i] = *first;
-		myAlloc_.deallocate(array_, capacity_);
-		array_ = newarray;
-		size_ = n;
-		capacity_ = size_ + 3;
+		if (n > capacity_)
+		{
+			std::allocator<T>	alloc;
+			T* newarray = alloc.allocate(n);
+			for (size_t i = 0; i < n; ++i, ++first)
+				newarray[i] = *first;
+			myAlloc_.deallocate(array_, capacity_);
+			array_ = newarray;
+			size_ = n;
+			capacity_ = size_;
+		}
+		else
+		{
+			for (size_t i = 0; i < n; ++i, ++first)
+				array_[i] = *first;
+			size_ = n;
+		}
 	}
 	//fill(2/2) OK
 	void	assign(size_type n, const value_type & val)
 	{
-		std::allocator<T>	alloc;
-		T* newarray = alloc.allocate(n + 3);
-		for (size_t i = 0; i < n; ++i)
-			newarray[i] = val;
-		myAlloc_.deallocate(array_, capacity_);
-		array_ = newarray;
-		size_ = n;
-		capacity_ = size_ + 3;
+		if (n > capacity_)
+		{
+			std::allocator<T>	alloc;
+			T* newarray = alloc.allocate(n);
+			for (size_t i = 0; i < n; ++i)
+				newarray[i] = val;
+			myAlloc_.deallocate(array_, capacity_);
+			array_ = newarray;
+			size_ = n;
+			capacity_ = size_;
+		}
+		else
+		{
+			for (size_t i = 0; i < n; ++i)
+				array_[i] = val;
+			size_ = n;
+		}
 	}
 
 	void	push_back(const value_type & value)
@@ -386,9 +414,9 @@ public:
 		size_ -= range;
 		return tmp;
 	}
-	void swap (Vector & x)
+	void swap (vector & x)
 	{
-		Vector<value_type>	tmp = *this;
+		vector<value_type>	tmp = *this;
 		// copy x to this
 		if (this->capacity_ < x.size_)
 			this->reserve(x.size_ * 2);
@@ -414,17 +442,17 @@ public:
 	
 	//Non-member function overloads
 	/*************************************************************************/
-	friend	bool	operator== <> (const Vector & lhs, const Vector & rhs);
-	friend	bool	operator!= <> (const Vector & lhs, const Vector & rhs);
-	friend	bool	operator< <> (Vector & lhs, Vector & rhs);
-	friend	bool	operator> <> (Vector & lhs, Vector & rhs);
-	friend	bool	operator>= <> (Vector & lhs, Vector & rhs);
-	friend	bool	operator<= <> (Vector & lhs, Vector & rhs);
+	friend	bool	operator== <> (const vector & lhs, const vector & rhs);
+	friend	bool	operator!= <> (const vector & lhs, const vector & rhs);
+	friend	bool	operator< <> (vector & lhs, vector & rhs);
+	friend	bool	operator> <> (vector & lhs, vector & rhs);
+	friend	bool	operator>= <> (vector & lhs, vector & rhs);
+	friend	bool	operator<= <> (vector & lhs, vector & rhs);
 	template < class Tx, class Allocatorx >
-	friend	void	swap (Vector & x);
+	friend	void	swap (vector & x);
 
 	template < class Tx, class Allocatorx >
-	friend	std::ostream& operator<<(std::ostream &, const Vector<Tx, Allocatorx> &);
+	friend	std::ostream& operator<<(std::ostream &, const vector<Tx, Allocatorx> &);
 };
 
 /***************************************************************************/
@@ -432,7 +460,7 @@ public:
 /***************************************************************************/
 
 template < class T, class Allocator >
-std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator> & rhs)
+std::ostream& operator<<(std::ostream & os, const vector<T, Allocator> & rhs)
 {
 	for (size_t i = 0; i < rhs.size(); ++i)
 		os << rhs.array_[i] << " ";
@@ -444,6 +472,6 @@ std::ostream& operator<<(std::ostream & os, const Vector<T, Allocator> & rhs)
 	return os;
 }
 template < class T, class Allocator >
-void swap (Vector<T, Allocator> & x) { x.swap(x); }
+void swap (vector<T, Allocator> & x) { x.swap(x); }
 }
 #endif
