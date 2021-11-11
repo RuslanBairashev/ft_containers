@@ -287,6 +287,7 @@ public:
 			for (size_t i = 0; i < n; ++i, ++first)
 				array_[i] = *first;
 			size_ = n;
+			//capacity_ = size_;
 		}
 	}
 	//fill(2/2) OK
@@ -308,6 +309,7 @@ public:
 			for (size_t i = 0; i < n; ++i)
 				array_[i] = val;
 			size_ = n;
+			//capacity_ = size_;
 		}
 	}
 
@@ -441,12 +443,21 @@ public:
 	}
 	void swap (vector & x)
 	{
-		vector<value_type> 	tmp;
+		/* vector<value_type> 	tmp;
 		vector<value_type> &ref = tmp;
 		vector<value_type> &refthis = *this;
-
 		refthis = x;
-		x = ref;
+		x = ref; */
+		//size_type	tmp_size = this->size_;
+		size_type	tmp_capacity = this->capacity_;
+		iterator	tmp_first = this->begin();
+		iterator	tmp_last = this->end();
+		iterator	x_first = x.begin();
+		iterator	x_last = x.end();
+		this->assign(x_first, x_last);
+		this->capacity_ = x.capacity_;
+		x.assign(tmp_first, tmp_last);
+		x.capacity_ = tmp_capacity;
 	}
 /*   	void swap (vector & x)
 	{
