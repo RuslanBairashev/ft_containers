@@ -441,22 +441,33 @@ public:
 	}
 	void swap (vector & x)
 	{
+		vector<value_type> 	tmp;
+		vector<value_type> &ref = tmp;
+		vector<value_type> &refthis = *this;
+
+		refthis = x;
+		x = ref;
+	}
+/*   	void swap (vector & x)
+	{
 		vector<value_type>	tmp = *this;
 		// copy x to this
-		if (this->capacity_ < x.size_)
-			this->reserve(x.size_ * 2);
+		//if (this->capacity_ < x.size_)
+			this->reserve(x.size_);
 		int i = 0;
 		for (iterator it = x.begin(); it != x.end(); ++it, ++i)
 			(*this)[i] = *it;
 		this->size_ = x.size_;
+		this->capacity_ = this->size_;
 		// copy tmp to x
-		if (x.capacity_ < tmp.size_)
-			x.reserve(tmp.size_ * 2);
+		//if (x.capacity_ < tmp.size_)
+			x.reserve(tmp.size_);
 		i = 0;
 		for (iterator itx = tmp.begin(); itx != tmp.end(); ++itx, ++i)
 			x[i] = *itx;
 		x.size_ = tmp.size_;
-	}
+		x.capacity_ = x.size_;
+	}  */
 
 	void	clear() { size_ = 0; }
 
