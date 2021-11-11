@@ -192,7 +192,12 @@ public:
 	//Capacity all done
 	/*************************************************************************/
 	size_type	size() const { return size_; }
-	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
+	size_type	max_size() const 
+	{ 
+		size_t ret;
+		ret = (pow(2 , sizeof(size_t) * 8) / sizeof(T));
+		return (ret -1); 
+	}
 	void		resize(size_t n, value_type val = value_type())
 	{
 		if (n < size_)
