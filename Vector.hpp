@@ -71,6 +71,9 @@ bool	operator<=(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
 	return !(rhs < lhs);
 }
 
+template <class T, class Alloc>
+void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
+
 /*************************************************************************/
 //**	CLASS DECLARATION START											**/
 /*************************************************************************/
@@ -259,9 +262,9 @@ public:
 			throw std::runtime_error("Error: (at) out of range!\n");
 		return array_[index];
 	}
-	reference	front() { return array_[0]; }
+	reference		front() { return array_[0]; }
 	const_reference	front() const { return array_[0]; }
-	reference	back() { return array_[size_ - 1]; }
+	reference		back() { return array_[size_ - 1]; }
 	const_reference	back() const { return array_[size_ - 1]; }
 
 	//Modifiers all done
@@ -366,7 +369,7 @@ public:
 			array_ = newarray;
 		}
 		iterator tmp = position;
-		if (size_ != capacity_)
+		if (size_ < capacity_)
 		{
 			iterator it = (*this).end();
 			++size_;
@@ -405,12 +408,14 @@ public:
 	void insert (iterator position, InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
-		iterator tmp = position;
+		iterator	tmp = position;
 		size_type	n = last - first;
+		size_t		c_tmp = capacity_;
+		size_t		c_size = size_;
 		if (size_ + n <= capacity_)
 		{
-			iterator it = (*this).end();
 			size_ += n;
+			iterator it = (*this).end();
 			for (int i = (it - position); i >= 0; --i)
 				array_[i + n] = array_[i]; 
 			for (; first != last; ++first, ++tmp)
@@ -419,7 +424,18 @@ public:
 		else
 		{
 			reserve(std::max(capacity_ * 2, size_ + n));
-			insert((*this).begin() + offset, first, last);
+			try 
+			{
+				insert((*this).begin() + offset, first, last);
+			}
+			catch(...)
+			{
+				myAlloc_.deallocate(array_, capacity_);
+				capacity_ = c_tmp;
+				size_ = c_size;
+				array_ = myAlloc_.allocate(capacity_);
+				throw 1;
+			}
 		}
 	}
 	iterator	erase(iterator position)
@@ -441,24 +457,24 @@ public:
 		size_ -= range;
 		return tmp;
 	}
-	void swap (vector & x)
-	{
-		/* vector<value_type> 	tmp;
-		vector<value_type> &ref = tmp;
-		vector<value_type> &refthis = *this;
-		refthis = x;
-		x = ref; */
-		//size_type	tmp_size = this->size_;
-		size_type	tmp_capacity = this->capacity_;
-		iterator	tmp_first = this->begin();
-		iterator	tmp_last = this->end();
-		iterator	x_first = x.begin();
-		iterator	x_last = x.end();
-		this->assign(x_first, x_last);
-		this->capacity_ = x.capacity_;
-		x.assign(tmp_first, tmp_last);
-		x.capacity_ = tmp_capacity;
-	}
+	// void swap (vector & x)
+	// {
+	// 	/* vector<value_type> 	tmp;
+	// 	vector<value_type> &ref = tmp;
+	// 	vector<value_type> &refthis = *this;
+	// 	refthis = x;
+	// 	x = ref; */
+	// 	//size_type	tmp_size = this->size_;
+	// 	size_type	tmp_capacity = this->capacity_;
+	// 	iterator	tmp_first = this->begin();
+	// 	iterator	tmp_last = this->end();
+	// 	iterator	x_first = x.begin();
+	// 	iterator	x_last = x.end();
+	// 	this->assign(x_first, x_last);
+	// 	this->capacity_ = x.capacity_;
+	// 	x.assign(tmp_first, tmp_last);
+	// 	x.capacity_ = tmp_capacity;
+	// }
 /*   	void swap (vector & x)
 	{
 		vector<value_type>	tmp = *this;
@@ -479,6 +495,18 @@ public:
 		x.size_ = tmp.size_;
 		x.capacity_ = x.size_;
 	}  */
+	void swap (vector & x)
+	{
+		pointer	tmp = this->array_;
+		this->array_ = x.array_;
+		x.array_ = tmp;
+		size_type	tmp_s = this->size_;
+		this->size_ = x.size_;
+		x.size_ = tmp_s;
+		size_type	tmp_c = this->capacity_;
+		this->capacity_ = x.capacity_;
+		x.capacity_ = tmp_c;
+	}
 
 	void	clear() { size_ = 0; }
 
@@ -495,11 +523,12 @@ public:
 	friend	bool	operator> <> (vector & lhs, vector & rhs);
 	friend	bool	operator>= <> (vector & lhs, vector & rhs);
 	friend	bool	operator<= <> (vector & lhs, vector & rhs);
-	template < class Tx, class Allocatorx >
-	friend	void	swap (vector & x);
+	// template < class Tx, class Allocatorx >
+	// friend	void	swap (vector & x);
 
 	template < class Tx, class Allocatorx >
 	friend	std::ostream& operator<<(std::ostream &, const vector<Tx, Allocatorx> &);
+
 };
 
 /***************************************************************************/
@@ -518,7 +547,26 @@ std::ostream& operator<<(std::ostream & os, const vector<T, Allocator> & rhs)
 
 	return os;
 }
-template < class T, class Allocator >
-void swap (vector<T, Allocator> & x) { x.swap(x); }
+
+//template <class T, class Alloc>
+// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+// {
+// 	vector<T,Alloc>	tmp;
+// 	tmp = x;
+// 	x = y;
+// 	y = tmp;
+// }
+// template < class T, class Alloc >
+// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+// {
+// 	x.swap(y);
+// }
+}
+namespace std{
+template < class T, class Alloc >
+void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y)
+{
+	x.swap(y);
+}
 }
 #endif
