@@ -414,8 +414,9 @@ public:
 		size_t		c_size = size_;
 		if (size_ + n <= capacity_)
 		{
-			size_ += n;
+			//size_ += n;
 			iterator it = (*this).end();
+			size_ += n;
 			for (int i = (it - position); i >= 0; --i)
 				array_[i + n] = array_[i]; 
 			for (; first != last; ++first, ++tmp)
@@ -424,6 +425,7 @@ public:
 		else
 		{
 			reserve(std::max(capacity_ * 2, size_ + n));
+			//insert((*this).begin() + offset, first, last);
 			try 
 			{
 				insert((*this).begin() + offset, first, last);
@@ -497,7 +499,7 @@ public:
 	}  */
 	void swap (vector & x)
 	{
-		pointer	tmp = this->array_;
+		pointer		tmp = this->array_;
 		this->array_ = x.array_;
 		x.array_ = tmp;
 		size_type	tmp_s = this->size_;

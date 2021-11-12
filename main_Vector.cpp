@@ -2,8 +2,40 @@
 #include "Vector.hpp"
 #include "Vextras.hpp"
 #include <vector>
+#include <sys/time.h>
+// #include "../system/system_methods.ipp"
+//#include "./ft_containers-unit-test/vector_tests/__service.ipp"
 
-/* #include <sys/time.h>
+class B {
+public:
+	char *l;
+	int i;
+	B():l(nullptr), i(1) {};
+	B(const int &ex) {
+		this->i = ex;
+		this->l = new char('a');
+	};
+	virtual ~B() {
+		delete this->l;
+		this->l = nullptr;
+	};
+};
+
+class A : public B {
+public:
+	A():B(){};
+	A(const B* ex){
+		this->l = new char(*(ex->l));
+		this->i = ex->i;
+		if (ex->i == -1) throw "n";
+	}
+	~A() {
+		delete this->l;
+		this->l = nullptr;
+	};
+};
+
+
 
 time_t timer() {
    struct timeval start = {};
@@ -15,14 +47,46 @@ time_t timer() {
 time_t g_start1;
 time_t g_end1;
 time_t g_start2;
-time_t g_end2; */
+time_t g_end2;
 
 int	main()
 {
-	std::cout << "vector with ints:" << std::endl;
+
+	ft::vector<int> vector;
+    std::vector<int> v;
+    vector.assign(26000000, 1);
+    g_start2 = timer();
+    v.push_back(*(vector.insert(vector.end() - 8000000, 44)));
+    g_end2 = timer();
+    v.push_back(vector.size());
+    v.push_back(vector.capacity());
+    std::unique_ptr<B> k2(new B(3));
+    std::unique_ptr<B> k3(new B(4));
+    std::unique_ptr<B> k4(new B(-1));
+    ft::vector<A> vv;
+    ft::vector<B*> v1;
+
+    v1.push_back(&(*k2));
+    v1.push_back(&(*k3));
+    v1.push_back(&(*k4));
+    try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
+    catch (...) {
+    	v.push_back(vv.size());
+    	v.push_back(vv.capacity());
+    }
+	// std::cout << "v1 size: " << v1.size() << std::endl;
+	// for(size_t i1 = 0; i1 < v1.size(); ++i1)
+	// 	std::cout << v1[i1] << std::endl;
+	std::cout << "size: " << v.size() << std::endl;
+	for(size_t i = 0; i < v.size(); ++i)
+		std::cout << v[i] << std::endl;
+    //return v;
+	return 0;
+}
+	/* std::cout << "vector with ints:" << std::endl;
 	ft::vector<int>	v;
 	for (int i = 1; i < 10; ++i)
-		v.push_back(i);
+		v.push_back(i); */
 	//vector<int> v2 (4,100);
 	// std::cout << "v contains: " << v ;
 	// std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
@@ -83,8 +147,8 @@ int	main()
 	std::cout << "front check: " << v.front() << std::endl;
 	std::cout << "back check: " << v.back() << std::endl; */
 
-	ft::vector<int>::iterator it3 = v.begin();
-	std::cout << "Modifiers_tests____" << std::endl;
+	/* ft::vector<int>::iterator it3 = v.begin();
+	std::cout << "Modifiers_tests____" << std::endl; */
 	/*************************************************************************/
 /* 	std::cout << "assign check: " << std::endl;
 	vector<int> first;
@@ -107,7 +171,7 @@ int	main()
 	// std::cout << "pop_back check: " << std::endl;
 	// first.pop_back();
 	// std::cout << std::endl << "first contains: " << first << std::endl;
-	std::cout << "insert check: " << std::endl;
+/* 	std::cout << "insert check: " << std::endl;
 	std::cout << std::endl << "1.v contains: " << v << std::endl;
 	v.insert(it3, 1);
 	std::cout << std::endl << "2.v contains: " << v << std::endl;
@@ -121,7 +185,7 @@ int	main()
 	std::cout << std::endl << "4.v contains: " << v << std::endl;
 	int myarray [] = { 501,502,503 };
 	v.insert (v.begin(), myarray, myarray+3);
-	std::cout << std::endl << "5.v contains: " << v << std::endl;
+	std::cout << std::endl << "5.v contains: " << v << std::endl; */
 	// std::cout << "erase check: " << std::endl;
 	// it3 = v.begin();
 	// v.erase(it3 + 5);
@@ -206,5 +270,5 @@ int	main()
 
 	//std::vector<int>::iterator it1000;
 	//Vpair<vector<int>,vector<int> > my_pair(foo, bar);
-	return 0;
-}
+// 	return 0;
+// }
