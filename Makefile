@@ -3,8 +3,8 @@
 NAME = cont
 CC = clang++
 CFLAGS = -Wall -Wextra -Werror -std=c++98 -g
-SOURCES = main_Vector.cpp
-HEADERS = Vector.hpp Vextras.hpp 
+SOURCES = main_Map.cpp
+HEADERS = Vector.hpp Vextras.hpp Map.hpp
 OBJECTS = $(SOURCES:.cpp=.obj)
 
 all: $(NAME)
