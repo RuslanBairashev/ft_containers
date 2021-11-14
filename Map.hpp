@@ -127,9 +127,10 @@ public:
 	:myAlloc_(alloc), size_(0)
 	{
 		comp(1,0);
+		tree_ = new Tree<Key, T>;
 		head_ = myAlloc_.allocate(size_);
 		//tree_ = myAlloc_.allocate(sizeof(Tree<Key, T>));
-		tree_ = new Tree<Key, T>;
+		
 	}
 	
 	//constructor: range(2/3)
@@ -200,8 +201,7 @@ public:
  */
 	//Capacity all done
 	/*************************************************************************/
-	size_type size() const;
-	//size_type	size() const { return size_; }
+	size_type	size() const { return size_; }
 	size_type max_size() const;
 	// size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
 	// void		resize(size_t n, value_type val = value_type())
@@ -217,8 +217,7 @@ public:
 	// 		size_ = n;
 	// 	}
 	// }
-	bool empty() const;
-	//bool		empty() const { return size_ == 0; }
+	bool		empty() const { return size_ == 0; }
 
 	//Element access all done
 	/*************************************************************************/
@@ -232,12 +231,18 @@ public:
 	/*************************************************************************/
 
 	//insert(single element) (1/3)	
-	pair<iterator,bool> insert (const value_type& val);
+	//pair<iterator,bool> insert (const value_type& val);
+	void insert (const value_type& val)
+	{
+		tree_->insert(val.first, val.second);
+		//iterator tmp;
+		//pair<iterator,bool>	ret;
+	}
 	//insert(with hint) (2/3)	
-	iterator insert (iterator position, const value_type& val);
+	//iterator insert (iterator position, const value_type& val);
 	//insert(range) (3/3)	
-	template <class InputIterator>
-		void insert (InputIterator first, InputIterator last);
+	//template <class InputIterator>
+	//	void insert (InputIterator first, InputIterator last);
 
 	//erase (1/3)	
 	void erase (iterator position);

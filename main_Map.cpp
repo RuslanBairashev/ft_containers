@@ -19,6 +19,7 @@ int	main()
 		mymap.tree_->insert(i, "aaa");
 	mymap.tree_->remove(1);
 	mymap.tree_->remove(3);
+	mymap.insert(std::pair<int, std::string>(1003, "notebook"));
 	std::cout << "Final: root is: " << mymap.tree_->root_->index_ << ". Size is: " << mymap.tree_->size_ << std::endl;
 	std::cout << "height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
 
