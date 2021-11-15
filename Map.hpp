@@ -120,7 +120,7 @@ public:
 
 	Tree<Key, T>*	tree_;
 
-	allocator_type	myAlloc_;
+	std::allocator<Tree<Key, T> >	myAlloc_;
 
 	//pointer			head_;
 	
@@ -128,11 +128,14 @@ public:
 public:
 	//constructor: empty (1/3)
 	explicit map (/* const key_compare& comp = key_compare(), */
-					const allocator_type& alloc = allocator_type())
-	:myAlloc_(alloc)
+					/* const allocator_type& alloc = allocator_type() */)
+	/* :myAlloc_(alloc) */
 	{
+		//tree_ = new Tree<Key, T>();
+		tree_ = myAlloc_.allocate(1);
+
 		//std::cout << "comp=" << comp(make_pair<int,int>(1,1),make_pair<int,int>(0,0)) <<std::endl;
-		tree_ = new Tree<Key, T>;
+		//tree_ = new Tree<Key, T>;
 		//tree_ = myAlloc_.allocate(sizeof(Tree<Key, T>));
 		//head_ = tree_->root_;
 		//head_ = myAlloc_.allocate(0);
@@ -243,13 +246,13 @@ public:
 	/*************************************************************************/
 
 	//insert(single element) (1/3)	
-	pair<iterator,bool> insert (const value_type& val)
-	//void insert (const value_type& val)
+	//pair<iterator,bool> insert (const value_type& val)
+	void insert (const value_type& val)
 	{
-		iterator	it;
-		it = this->begin();
+		//iterator	it;
+		//it = this->begin();
 		tree_->insert(val.first, val.second);
-		return (ft::make_pair(it, true));
+		//return (ft::make_pair(it, true));
 		//iterator tmp;
 		//pair<iterator,bool>	ret;
 	}
