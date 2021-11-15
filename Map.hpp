@@ -92,46 +92,58 @@ class map
 public:
 	typedef	Key											key_type;
 	typedef	T											mapped_type;
-	typedef	std::pair<const Key, T>						value_type;
+	typedef	ft::pair<const Key, T>						value_type;
 	typedef	Allocator									allocator_type;
 	typedef Compare 									key_compare;
 	typedef typename	allocator_type::reference		reference;
 	typedef typename	allocator_type::const_reference	const_reference;
-	typedef typename	allocator_type::pointer			pointer;
+	typedef Tree<Key, T>*			pointer;
+	//typedef typename	allocator_type::pointer			pointer;
 	typedef typename	allocator_type::const_pointer	const_pointer;
-	typedef typename	ft::Viterator<pointer>			iterator;
-	typedef typename	ft::Viterator<const_pointer>	const_iterator;
+	typedef typename	ft::Miterator<pointer>			iterator;
+	typedef typename	ft::Miterator<const_pointer>	const_iterator;
 	typedef typename	ft::Reviterator<pointer>		reverse_iterator;
 	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
 	typedef	size_t										size_type;
+	typedef	ptrdiff_t									difference_type;
+
+	class	value_compare: public std::binary_function<value_type, value_type, bool>
+	{
+		friend class map;
+    protected:
+		key_compare comp;
+		value_compare(key_compare c) : comp(c) {}
+	public:
+		bool operator()(const value_type& x, const value_type& y) const
+			{return comp(x.first, y.first);}
+    };
 
 	Tree<Key, T>*	tree_;
-private:
-/*  	struct Node
-	{
-		key_type	index_;
-		mapped_type	data_;
-		Node*		pleft;
-		Node*		pright;
-	};
-	Node*			root_; */
+
 	allocator_type	myAlloc_;
-	size_type		size_;
-	pointer			head_;
+
+	//pointer			head_;
 	
 
 public:
 	//constructor: empty (1/3)
-	explicit map (const key_compare& comp = key_compare(),
+	explicit map (/* const key_compare& comp = key_compare(), */
 					const allocator_type& alloc = allocator_type())
-	:myAlloc_(alloc), size_(0)
+	:myAlloc_(alloc)
 	{
-		comp(1,0);
+		//std::cout << "comp=" << comp(make_pair<int,int>(1,1),make_pair<int,int>(0,0)) <<std::endl;
 		tree_ = new Tree<Key, T>;
-		head_ = myAlloc_.allocate(size_);
 		//tree_ = myAlloc_.allocate(sizeof(Tree<Key, T>));
+		//head_ = tree_->root_;
+		//head_ = myAlloc_.allocate(0);
+		//head_ = myAlloc_.allocate(sizeof(Tree<Key, T>));
 		
 	}
+
+	iterator	begin() { return iterator(tree_);}
+	iterator	end() { return iterator(tree_ + tree_->size_);}
+/* 	    explicit map(const key_compare& __comp, const allocator_type& __a)
+        : tree_(__vc(__comp), typename __base::allocator_type(__a)) {} */
 	
 	//constructor: range(2/3)
 	template <class InputIterator>
@@ -182,14 +194,14 @@ public:
 	/*************************************************************************/
 
 	//iterators
-	iterator	begin() { ;}
-	iterator	end() {  ;}
-	const_iterator	begin() const { ; }
-	const_iterator	end() const { ;}
-	reverse_iterator	rbegin() { ; }
-	reverse_iterator	rend() {  ;}
-	const_reverse_iterator	rbegin() const { ; }
-	const_reverse_iterator	rend() const { ;}
+	
+	// iterator	end() {  ;}
+	// const_iterator	begin() const { ; }
+	// const_iterator	end() const { ;}
+	// reverse_iterator	rbegin() { ; }
+	// reverse_iterator	rend() {  ;}
+	// const_reverse_iterator	rbegin() const { ; }
+	// const_reverse_iterator	rend() const { ;}
 /* 	iterator	begin() { return iterator(array_); }
 	iterator	end() { return iterator(array_ + size_); }
 	const_iterator	begin() const { return const_iterator(array_); }
@@ -201,7 +213,7 @@ public:
  */
 	//Capacity all done
 	/*************************************************************************/
-	size_type	size() const { return size_; }
+	size_type	size() const { return tree_->size_ ; }
 	size_type max_size() const;
 	// size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
 	// void		resize(size_t n, value_type val = value_type())
@@ -217,7 +229,7 @@ public:
 	// 		size_ = n;
 	// 	}
 	// }
-	bool		empty() const { return size_ == 0; }
+	bool		empty() const { return tree_->size_ == 0; }
 
 	//Element access all done
 	/*************************************************************************/
@@ -231,10 +243,13 @@ public:
 	/*************************************************************************/
 
 	//insert(single element) (1/3)	
-	//pair<iterator,bool> insert (const value_type& val);
-	void insert (const value_type& val)
+	pair<iterator,bool> insert (const value_type& val)
+	//void insert (const value_type& val)
 	{
+		iterator	it;
+		it = this->begin();
 		tree_->insert(val.first, val.second);
+		return (ft::make_pair(it, true));
 		//iterator tmp;
 		//pair<iterator,bool>	ret;
 	}
