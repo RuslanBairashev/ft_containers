@@ -3,9 +3,12 @@
 
 #include <cstddef>
 #include <unistd.h>
+#include <memory>
 #include "Miterator.hpp"
 
-template < class Key, class T, class Compare>
+struct Node;
+
+template < class Key, class T, class Compare, class Allocator = std::allocator<Node> >
 class	Tree
 {
 public:
@@ -22,6 +25,7 @@ public:
 	unsigned	size_;
 	Node*		first_;
 	Node*		last_;
+	std::allocator<Node>	myAlloc_;
 
 	Tree() : root_(NULL), size_(0) {}
 	~Tree() {}
@@ -91,7 +95,9 @@ public:
 	{
 		if (!root_)
 		{
-			root_ = new Node(k, val);
+			//root_ = new Node(k, val);
+			root_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
+			myAlloc_.construct(root_, Node(k, val)); //констракт вызывает конструктор
 			size_++;
 			root_ = balance(root_);
 			return ;
@@ -109,7 +115,12 @@ public:
 	Node*			insert(Node *p, Key k, T val, Compare comp)
 	{
 		if (!p)
-			return new Node(k, val);
+		{
+			p = myAlloc_.allocate(1); //аллокатор только аллоцирует память
+			myAlloc_.construct(p, Node(k, val)); //констракт вызывает конструктор
+			return p;
+			// return new Node(k, val);
+		}	
 		if (comp(k,root_->first)) //std::less<Key>
 			p->pleft = insert(p->pleft, k, val, comp);
 		else
@@ -147,7 +158,9 @@ public:
 		{
 			Node*	q = p->pleft;
 			Node*	r = p->pright;
-			delete p;
+			myAlloc_.destroy(p);
+			myAlloc_.deallocate(p, 1);
+			//delete p;
 			if (!r)
 				return q;
 			Node*	min = findmin(r);
@@ -183,13 +196,16 @@ public:
 	}
 	void			clear()
 	{
-		Node*	tmp;
-		while (size_ > 1)
+		/* Node*	tmp;
+		while (size_ > 0)
 		{
 			tmp = findmin(root_);
 			remove(tmp->first);
+		} */
+		while (size_ > 0)
+		{
+			remove(root_->first);
 		}
-		delete root_;
 	}
 };
 

@@ -38,8 +38,8 @@ int	main()
 	std::cout << "Final: root is: " << mymap.tree_->root_->first << ". Size is: " << mymap.tree_->size_ << std::endl;
 	std::cout << "height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
 	mymap.clear();
-	std::cout << "Final: root is: " << mymap.tree_->root_->first << ". Size is: " << mymap.tree_->size_ << std::endl;
-	std::cout << mymap.tree_->root_->first << mymap.tree_->root_->second << std::endl;
+	std::cout /* << "Final: root is: " << mymap.tree_->root_->first */ << ". Size is: " << mymap.tree_->size_ << std::endl;
+	// std::cout << mymap.tree_->root_->first << mymap.tree_->root_->second << std::endl;
 	//test.print_tree();
 /*  	std::map test1;
 	mymap.insert(std::make_pair(1, "phone"));
