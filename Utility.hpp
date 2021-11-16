@@ -2,17 +2,13 @@
 #define UTILITY_HPP
 
 namespace ft {
+
 template<bool Condition, class T = void>
 struct enable_if {};
 
 template<class T>
 struct enable_if<true, T> { typedef T type; };
-}
 
-template<class T>
-bool	is_integral(T){ return false; }
-
-namespace ft {
 template <class T1, class T2>
 struct pair
 {
@@ -67,10 +63,12 @@ struct pair
 template <class T1, class T2>
 pair<T1,T2>	make_pair(T1 x, T2 y)
 {
-    return pair<T1, T2>(x, y);
+	return pair<T1, T2>(x, y);
 }
 
-} //namespace ft
+} //end of namespace ft
 
+template<class T>
+bool	is_integral(T){ return false; }
 
 #endif

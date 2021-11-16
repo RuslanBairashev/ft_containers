@@ -92,7 +92,7 @@ class map
 public:
 	typedef	Key											key_type;
 	typedef	T											mapped_type;
-	typedef	ft::pair<const Key, T>				value_type;
+	typedef	ft::pair<const Key, T>						value_type;
 	typedef	Allocator									allocator_type;
 	typedef Compare										key_compare;
 	typedef typename	allocator_type::reference		reference;
@@ -111,13 +111,13 @@ public:
 /* 	class	value_compare: public std::binary_function<value_type, value_type, bool>
 	{
 		friend class map;
-    protected:
+	protected:
 		key_compare comp;
 		value_compare(key_compare c) : comp(c) {}
 	public:
 		bool operator()(const value_type& x, const value_type& y) const
 			{return comp(x.first, y.first);}
-    }; */
+	}; */
 
 	Tree<Key, T, Compare>*					tree_;
 	std::allocator<Tree<Key, T, Compare> >	myAlloc_;
@@ -126,9 +126,9 @@ public:
 
 public:
 	//constructor: empty (1/3)
-	explicit map (const key_compare& comp = key_compare()
-					/* const allocator_type& alloc = allocator_type() */)
-	 :comp_(comp)
+	explicit map (const key_compare& comp = key_compare(),
+					const allocator_type& alloc = allocator_type())
+	 : myAlloc_(alloc), comp_(comp)
 	{
 		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
 		myAlloc_.construct(tree_); //констракт вызывает конструктор

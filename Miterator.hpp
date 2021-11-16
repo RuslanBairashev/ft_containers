@@ -65,16 +65,16 @@ public:
 	Miterator(const Miterator<M> & it) : m_ptr(it.m_ptr) {}
 	~Miterator() {}
 
-	reference	operator=(const Miterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }
+	reference	operator=(const Miterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }//ok
 
 	bool		operator== (const Miterator& it) const { return m_ptr == it.m_ptr; };//ok
 	bool		operator!= (const Miterator& it) const { return m_ptr != it.m_ptr; };//ok
 	reference	operator*() { return *m_ptr; } //ok
 	pointer		operator->() { return m_ptr; }
-	Miterator&	operator++() { ++m_ptr; return *this; }//ok
-	Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }//ok
-	Miterator&	operator--() { --m_ptr; return *this; }//ok
-	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }//ok
+	Miterator&	operator++() { ++m_ptr; return *this; }//
+	Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }//
+	Miterator&	operator--() { --m_ptr; return *this; }//
+	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }//
 };
 
 }
