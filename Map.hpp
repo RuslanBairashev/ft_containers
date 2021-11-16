@@ -11,7 +11,7 @@
 #include <utility>
 #include "Miterator.hpp"
 #include "Reviterator.hpp"
-#include "Vextras.hpp"
+#include "Utility.hpp"
 #include "Tree.hpp"
 
 namespace ft
@@ -92,22 +92,23 @@ class map
 public:
 	typedef	Key											key_type;
 	typedef	T											mapped_type;
-	typedef	ft::pair<const Key, T>						value_type;
+	typedef	ft::pair<const Key, T>				value_type;
 	typedef	Allocator									allocator_type;
-	typedef Compare 									key_compare;
+	typedef Compare										key_compare;
 	typedef typename	allocator_type::reference		reference;
 	typedef typename	allocator_type::const_reference	const_reference;
-	typedef Tree<Key, T>*			pointer;
+	typedef Tree<Key, T, Compare>*			pointer;
+	typedef typename Tree<Key, T, Compare>::Node*		node_;
 	//typedef typename	allocator_type::pointer			pointer;
 	typedef typename	allocator_type::const_pointer	const_pointer;
-	typedef typename	ft::Miterator<pointer>			iterator;
+	typedef typename	ft::Miterator<node_>			iterator;
 	typedef typename	ft::Miterator<const_pointer>	const_iterator;
 	typedef typename	ft::Reviterator<pointer>		reverse_iterator;
 	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
 	typedef	size_t										size_type;
 	typedef	ptrdiff_t									difference_type;
 
-	class	value_compare: public std::binary_function<value_type, value_type, bool>
+/* 	class	value_compare: public std::binary_function<value_type, value_type, bool>
 	{
 		friend class map;
     protected:
@@ -116,13 +117,10 @@ public:
 	public:
 		bool operator()(const value_type& x, const value_type& y) const
 			{return comp(x.first, y.first);}
-    };
+    }; */
 
-	Tree<Key, T>*	tree_;
-
-	std::allocator<Tree<Key, T> >	myAlloc_;
-
-	//pointer			head_;
+	Tree<Key, T, Compare>*					tree_;
+	std::allocator<Tree<Key, T, Compare> >	myAlloc_;
 	private:
 		key_compare	comp_;
 
@@ -132,20 +130,32 @@ public:
 					/* const allocator_type& alloc = allocator_type() */)
 	 :comp_(comp)
 	{
-		//tree_ = new Tree<Key, T>(); //аллоцирует память и вызывает конструктор типа
 		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
 		myAlloc_.construct(tree_); //констракт вызывает конструктор
-		//std::cout << "comp=" << comp(make_pair<int,int>(1,1),make_pair<int,int>(0,0)) <<std::endl;
-		//tree_ = new Tree<Key, T>;
-		//tree_ = myAlloc_.allocate(sizeof(Tree<Key, T>));
-		//head_ = tree_->root_;
-		//head_ = myAlloc_.allocate(0);
-		//head_ = myAlloc_.allocate(sizeof(Tree<Key, T>));
-		
+		//tree_ = new Tree<Key, T>(); //аллоцирует память и вызывает конструктор типа
 	}
 
-	iterator	begin() { return iterator(tree_);}
-	iterator	end() { return iterator(tree_ + tree_->size_);}
+	pair<iterator,bool> insert (const value_type& val)
+	{
+		//node_	tmp;
+		tree_->insert(val.first, val.second, comp_);
+		return (make_pair(tree_->root_, true));
+	}
+
+	iterator	begin()
+	{
+		node_	tmp = tree_->root_;
+		while (tmp->pleft != NULL)
+			tmp = tmp->pleft;
+		return iterator(tmp);
+	}
+	iterator	end()
+	{
+		node_	tmp = tree_->root_;
+		while (tmp->pright != NULL)
+			tmp = tmp->pright;
+		return iterator(tmp);
+	}
 /* 	    explicit map(const key_compare& __comp, const allocator_type& __a)
         : tree_(__vc(__comp), typename __base::allocator_type(__a)) {} */
 	
@@ -218,21 +228,7 @@ public:
 	//Capacity all done
 	/*************************************************************************/
 	size_type	size() const { return tree_->size_ ; }
-	size_type max_size() const;
-	// size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
-	// void		resize(size_t n, value_type val = value_type())
-	// {
-	// 	if (n < size_)
-	// 		size_ = n;
-	// 	else
-	// 	{
-	// 		if (n > capacity_)
-	// 			this->reserve(n);
-	// 		for (size_t i = size_; i < n; ++i)
-	// 			array_[i] = val;
-	// 		size_ = n;
-	// 	}
-	// }
+	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
 	bool		empty() const { return tree_->size_ == 0; }
 
 	//Element access all done
@@ -248,15 +244,7 @@ public:
 
 	//insert(single element) (1/3)	
 	//pair<iterator,bool> insert (const value_type& val)
-	void insert (const value_type& val)
-	{
-		//iterator	it;
-		//it = this->begin();
-		tree_->insert(val.first, val.second);
-		//return (ft::make_pair(it, true));
-		//iterator tmp;
-		//pair<iterator,bool>	ret;
-	}
+
 	//insert(with hint) (2/3)	
 	//iterator insert (iterator position, const value_type& val);
 	//insert(range) (3/3)	
@@ -266,13 +254,27 @@ public:
 	//erase (1/3)	
 	void erase (iterator position);
 	//erase (2/3)	
-	size_type erase (const key_type& k);
+	size_type erase (const key_type& k) { tree_->remove(k); return 1;}
 	//erase (3/3)	
 	void erase (iterator first, iterator last);
 
-	void swap (map& x);
+	// void swap (map& x);
+	// {
+	// 	pointer		tmp = this->array_;
+	// 	this->array_ = x.array_;
+	// 	x.array_ = tmp;
+	// 	size_type	tmp_s = this->size_;
+	// 	this->size_ = x.size_;
+	// 	x.size_ = tmp_s;
+	// 	size_type	tmp_c = this->capacity_;
+	// 	this->capacity_ = x.capacity_;
+	// 	x.capacity_ = tmp_c;
+	// }
 
-	void clear();
+	void clear()
+	{
+		tree_->clear();
+	}
 
 	//Observers:
 	/*************************************************************************/

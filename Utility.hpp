@@ -1,13 +1,14 @@
-#ifndef VEXTRAS_HPP
-#define VEXTRAS_HPP
+#ifndef UTILITY_HPP
+#define UTILITY_HPP
 
 namespace ft {
 template<bool Condition, class T = void>
 struct enable_if {};
- 
+
 template<class T>
 struct enable_if<true, T> { typedef T type; };
 }
+
 template<class T>
 bool	is_integral(T){ return false; }
 

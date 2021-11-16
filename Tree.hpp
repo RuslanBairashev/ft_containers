@@ -3,22 +3,25 @@
 
 #include <cstddef>
 #include <unistd.h>
+#include "Miterator.hpp"
 
-template < class Key, class T>
+template < class Key, class T, class Compare>
 class	Tree
 {
 public:
 	struct Node
 	{
-		Key		index_;
-		T		data_;
+		Key		first;
+		T		second;
 		Node*	pleft;
 		Node*	pright;
 		unsigned char	height;
-		Node(Key k, T val) { index_ = k; data_ = val; pleft = NULL; pright = NULL; height = 1; }
+		Node(Key k, T val) : first(k), second(val), pleft(NULL), pright(NULL), height(1) {}
 	};
 	Node*		root_;
 	unsigned	size_;
+	Node*		first_;
+	Node*		last_;
 
 	Tree() : root_(NULL), size_(0) {}
 	~Tree() {}
@@ -67,29 +70,50 @@ public:
 		}
 		return p;
 	}
-	void			insert(Key k, T val)
+	bool			isnot_dublicate(Key k, Node* nod)
 	{
-		size_++;
+		if (nod->first == k)
+			return false;
+		if (nod->pleft != NULL)
+		{
+			if (!isnot_dublicate(k, nod->pleft))
+				return false;
+		}
+		if (nod->pright != NULL)
+		{
+			if (!isnot_dublicate(k, nod->pright))
+				return false;
+		}
+		return true;
+	}
+
+	void			insert(Key k, T val, Compare comp)
+	{
 		if (!root_)
 		{
 			root_ = new Node(k, val);
+			size_++;
 			root_ = balance(root_);
 			return ;
 		}
-		if (k < root_->index_)
-			root_->pleft = insert(root_->pleft, k, val);
-		else
-			root_->pright = insert(root_->pright, k, val);
-		root_ = balance(root_);
+		if (isnot_dublicate(k, root_))
+		{
+			if (comp(k,root_->first)) //std::less<Key>
+				root_->pleft = insert(root_->pleft, k, val, comp);
+			else
+				root_->pright = insert(root_->pright, k, val, comp);
+			size_++;
+			root_ = balance(root_);
+		}
 	}
-	Node*			insert(Node *p, Key k, T val)
+	Node*			insert(Node *p, Key k, T val, Compare comp)
 	{
 		if (!p)
 			return new Node(k, val);
-		if (k < p->index_)
-			p->pleft = insert(p->pleft, k, val);
+		if (comp(k,root_->first)) //std::less<Key>
+			p->pleft = insert(p->pleft, k, val, comp);
 		else
-			p->pright = insert(p->pright, k, val);
+			p->pright = insert(p->pright, k, val, comp);
 		return balance(p);
 	}
 
@@ -105,16 +129,19 @@ public:
 	{
 		if (!root_)
 			return ;
-		root_ = remove(root_, k);
-		size_--;
+		if (!isnot_dublicate(k, root_))
+		{
+			root_ = remove(root_, k);
+			size_--;
+		}
 	}
 	Node*			remove(Node* p, Key k)
 	{
 		if (!p)
 			return 0;
-		if (k < p->index_)
+		if (k < p->first)
 			p->pleft = remove(p->pleft, k);
-		else if (k > p->index_)
+		else if (k > p->first)
 			p->pright = remove(p->pright, k);
 		else
 		{
@@ -134,23 +161,35 @@ public:
 	{
 		if (root_ && size_ < 10000)
 		{
-			std::cout << &root_ << "=" << "root_->index_=" << root_->index_ << std::endl;
+			std::cout << &root_ << "=" << "root_->first=" << root_->first << std::endl;
 			if (root_->pleft)
 				print_tree(root_->pleft);
 			if (root_->pright)
 				print_tree(root_->pright);
 		}
+		else
+			std::cout << "root_ IS NULL" << std::endl;
 	}
 	void			print_tree(Node* p)
 	{
 		if (p)
 		{
-			std::cout << &p << "=" << p->index_ << std::endl;
+			std::cout << &p << "=" << p->first << std::endl;
 			if (p->pleft)
 				print_tree(p->pleft);
 			if (p->pright)
 				print_tree(p->pright);
 		}
+	}
+	void			clear()
+	{
+		Node*	tmp;
+		while (size_ > 1)
+		{
+			tmp = findmin(root_);
+			remove(tmp->first);
+		}
+		delete root_;
 	}
 };
 
