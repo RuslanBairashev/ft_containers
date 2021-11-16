@@ -123,17 +123,18 @@ public:
 	std::allocator<Tree<Key, T> >	myAlloc_;
 
 	//pointer			head_;
-	
+	private:
+		key_compare	comp_;
 
 public:
 	//constructor: empty (1/3)
-	explicit map (/* const key_compare& comp = key_compare(), */
+	explicit map (const key_compare& comp = key_compare()
 					/* const allocator_type& alloc = allocator_type() */)
-	/* :myAlloc_(alloc) */
+	 :comp_(comp)
 	{
-		//tree_ = new Tree<Key, T>();
-		tree_ = myAlloc_.allocate(1);
-
+		//tree_ = new Tree<Key, T>(); //аллоцирует память и вызывает конструктор типа
+		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
+		myAlloc_.construct(tree_); //констракт вызывает конструктор
 		//std::cout << "comp=" << comp(make_pair<int,int>(1,1),make_pair<int,int>(0,0)) <<std::endl;
 		//tree_ = new Tree<Key, T>;
 		//tree_ = myAlloc_.allocate(sizeof(Tree<Key, T>));

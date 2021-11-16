@@ -8,8 +8,8 @@
 
 int	main()
 {
-	// ft::pair<int, std::string> pair1(2, "Notebook");
-	// std::cout << pair1.first << ' ' << pair1.second << std::endl;
+	ft::pair<int, std::string> pair1(2, "Notebook");
+	std::cout << pair1.first << ' ' << pair1.second << std::endl;
 	ft::map<int, std::string> mymap;
 	mymap.tree_->insert(1, "1.3");
 	std::cout << mymap.tree_->root_->index_ << std::endl;
@@ -22,8 +22,8 @@ int	main()
 	ft::map<int, std::string>::iterator it;
 	it  = mymap.begin();
 	if (it == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
-	//mymap.insert(ft::pair<int, std::string>(1003, "notebook"));
-	//mymap.insert(ft::make_pair<int, std::string>(1003, "notebook"));
+	mymap.insert(ft::pair<int, std::string>(1003, "notebook"));
+	mymap.insert(ft::make_pair<int, std::string>(1003, "notebook"));
 	std::cout << "Final: root is: " << mymap.tree_->root_->index_ << ". Size is: " << mymap.tree_->size_ << std::endl;
 	std::cout << "height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
 
