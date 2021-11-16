@@ -284,7 +284,12 @@ public:
 	iterator find (const key_type& k);
 	const_iterator find (const key_type& k) const;
 
-	size_type count (const key_type& k) const;
+	size_type count (const key_type& k) const
+	{
+		if (tree_->isnot_dublicate(k, tree_->root_))
+			return 0;
+		return 1;
+	}
 
 	iterator lower_bound (const key_type& k);
 	const_iterator lower_bound (const key_type& k) const;
@@ -297,11 +302,10 @@ public:
 
 	//Allocator:
 	/*************************************************************************/
-	allocator_type get_allocator() const;
-	// allocator_type get_allocator() const
-	// {
-	// 	return myAlloc_;
-	// }
+	allocator_type get_allocator() const
+	{
+		return myAlloc_;
+	}
 
 	//Non-member function overloads
 	/*************************************************************************/
