@@ -12,14 +12,15 @@ template < class Key, class T, class Compare, class Allocator = std::allocator<N
 class	Tree
 {
 public:
+	typedef	ft::pair<const Key, T>		value_type;
+
 	struct Node
 	{
-		Key		first;
-		T		second;
-		Node*	pleft;
-		Node*	pright;
+		value_type		value;
+		Node*			pleft;
+		Node*			pright;
 		unsigned char	height;
-		Node(Key k, T val) : first(k), second(val), pleft(NULL), pright(NULL), height(1) {}
+		Node(value_type val) : value(val), pleft(NULL), pright(NULL), height(1) {}
 	};
 	Node*		root_;
 	unsigned	size_;
@@ -76,7 +77,7 @@ public:
 	}
 	bool			isnot_dublicate(Key k, Node* nod)
 	{
-		if (nod->first == k)
+		if (nod->value.first == k)
 			return false;
 		if (nod->pleft != NULL)
 		{
@@ -91,40 +92,40 @@ public:
 		return true;
 	}
 
-	void			insert(Key k, T val, Compare comp)
+	void			insert(value_type val, Compare comp)
 	{
 		if (!root_)
 		{
 			//root_ = new Node(k, val);
 			root_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
-			myAlloc_.construct(root_, Node(k, val)); //констракт вызывает конструктор
+			myAlloc_.construct(root_, Node(val)); //констракт вызывает конструктор
 			size_++;
 			root_ = balance(root_);
 			return ;
 		}
-		if (isnot_dublicate(k, root_))
+		if (isnot_dublicate(val.first, root_))
 		{
-			if (comp(k,root_->first)) //std::less<Key>
-				root_->pleft = insert(root_->pleft, k, val, comp);
+			if (comp(val.first, root_->value.first)) //std::less<Key>
+				root_->pleft = insert(root_->pleft, val, comp);
 			else
-				root_->pright = insert(root_->pright, k, val, comp);
+				root_->pright = insert(root_->pright, val, comp);
 			size_++;
 			root_ = balance(root_);
 		}
 	}
-	Node*			insert(Node *p, Key k, T val, Compare comp)
+	Node*			insert(Node *p, value_type val, Compare comp)
 	{
 		if (!p)
 		{
 			p = myAlloc_.allocate(1); //аллокатор только аллоцирует память
-			myAlloc_.construct(p, Node(k, val)); //констракт вызывает конструктор
+			myAlloc_.construct(p, Node(val)); //констракт вызывает конструктор
 			return p;
 			// return new Node(k, val);
 		}	
-		if (comp(k,root_->first)) //std::less<Key>
-			p->pleft = insert(p->pleft, k, val, comp);
+		if (comp(val.first,root_->value.first)) //std::less<Key>
+			p->pleft = insert(p->pleft, val, comp);
 		else
-			p->pright = insert(p->pright, k, val, comp);
+			p->pright = insert(p->pright, val, comp);
 		return balance(p);
 	}
 
@@ -150,9 +151,9 @@ public:
 	{
 		if (!p)
 			return 0;
-		if (k < p->first)
+		if (k < p->value.first)
 			p->pleft = remove(p->pleft, k);
-		else if (k > p->first)
+		else if (k > p->value.first)
 			p->pright = remove(p->pright, k);
 		else
 		{
@@ -174,7 +175,7 @@ public:
 	{
 		if (root_ && size_ < 10000)
 		{
-			std::cout << &root_ << "=" << "root_->first=" << root_->first << std::endl;
+			std::cout << &root_ << "=" << "root_->first=" << root_->value->first << std::endl;
 			if (root_->pleft)
 				print_tree(root_->pleft);
 			if (root_->pright)
@@ -187,7 +188,7 @@ public:
 	{
 		if (p)
 		{
-			std::cout << &p << "=" << p->first << std::endl;
+			std::cout << &p << "=" << p->value->first << std::endl;
 			if (p->pleft)
 				print_tree(p->pleft);
 			if (p->pright)
@@ -204,7 +205,7 @@ public:
 		} */
 		while (size_ > 0)
 		{
-			remove(root_->first);
+			remove(root_->value.first);
 		}
 	}
 };

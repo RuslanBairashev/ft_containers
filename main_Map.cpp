@@ -20,9 +20,9 @@ int	main()
 	// mymap.tree_->remove(1);
 	// mymap.tree_->remove(3);
 	mymap.insert(ft::make_pair<int, std::string>(1, "1.3"));
-	std::cout << mymap.tree_->root_->first << std::endl;
+	std::cout << mymap.tree_->root_->value.first << std::endl;
 	mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
-	std::cout << mymap.tree_->root_->pright->first << std::endl;
+	std::cout << mymap.tree_->root_->pright->value.first << std::endl;
 	for(int i = 3; i < 1003; i++)
 		mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
 	mymap.erase(1);
@@ -30,12 +30,12 @@ int	main()
 	ft::map<int, std::string>::iterator it;
 	it  = mymap.begin();
 	if (it == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
-	std::cout << "it.begin= " << it->first << std::endl;
+	std::cout << "it.begin= " << it->value.first << std::endl;
 	it  = mymap.end();
-	std::cout << "it.end= " << it->first << std::endl;
+	std::cout << "it.end= " << it->value.first << std::endl;
 	mymap.insert(ft::pair<int, std::string>(1003, "notebook"));
 	mymap.insert(ft::make_pair<int, std::string>(100, "notebook"));
-	std::cout << "Final: root is: " << mymap.tree_->root_->first << ". Size is: " << mymap.tree_->size_ << std::endl;
+	std::cout << "Final: root is: " << mymap.tree_->root_->value.first << ". Size is: " << mymap.tree_->size_ << std::endl;
 	std::cout << "height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
 	mymap.clear();
 	std::cout /* << "Final: root is: " << mymap.tree_->root_->first */ << ". Size is: " << mymap.tree_->size_ << std::endl;

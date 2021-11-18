@@ -138,7 +138,7 @@ public:
 	pair<iterator,bool> insert (const value_type& val)
 	{
 		//node_	tmp;
-		tree_->insert(val.first, val.second, comp_);
+		tree_->insert(val, comp_);
 		return (make_pair(tree_->root_, true));
 	}
 
