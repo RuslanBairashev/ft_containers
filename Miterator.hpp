@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iterator>
 #include <cstddef>
+#include "Utility.hpp"
 
 namespace ft
 {
@@ -57,12 +58,12 @@ public:
 	typedef typename Miterator_traits<T>::pointer			pointer;
 	typedef typename Miterator_traits<T>::reference			reference;
 
-	pointer m_ptr;
+	pointer m_ptr; //pointer to node
 
 	Miterator() : m_ptr(NULL) {}
 	Miterator(pointer ptr) : m_ptr(ptr) {}
-	template <class M>
-	Miterator(const Miterator<M> & it) : m_ptr(it.m_ptr) {}
+	template <class Constornot>
+	Miterator(const Miterator<Constornot> & it) : m_ptr(it.m_ptr) {}
 	~Miterator() {}
 
 	reference	operator=(const Miterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }//ok

@@ -73,20 +73,10 @@ bool	operator<=(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
 	return !(rhs < lhs);
 } */
 
-/* template < class Key, class T>
-class Node
-{
-	public:
-	Key		index_;
-	T		data_;
-	Node*	pleft;
-	Node*	pright;
-}; */
-
 /*************************************************************************/
 //**	CLASS DECLARATION START											**/
 /*************************************************************************/
-template < class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > >
+template < class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
 class map
 {
 public:
@@ -97,16 +87,16 @@ public:
 	typedef Compare										key_compare;
 	typedef typename	allocator_type::reference		reference;
 	typedef typename	allocator_type::const_reference	const_reference;
-	typedef Tree<Key, T, Compare>*			pointer;
-	typedef typename Tree<Key, T, Compare>::Node*		node_;
-	//typedef typename	allocator_type::pointer			pointer;
+	typedef typename	allocator_type::pointer			pointer;
 	typedef typename	allocator_type::const_pointer	const_pointer;
-	typedef typename	ft::Miterator<node_>			iterator;
+	typedef typename	ft::Miterator<pointer>			iterator;
 	typedef typename	ft::Miterator<const_pointer>	const_iterator;
 	typedef typename	ft::Reviterator<pointer>		reverse_iterator;
 	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
 	typedef	size_t										size_type;
 	typedef	ptrdiff_t									difference_type;
+	typedef typename	Tree<Key, T, Compare>::Node		node_type;
+	typedef Tree<Key, T, Compare>						tree_type;
 
 /* 	class	value_compare: public std::binary_function<value_type, value_type, bool>
 	{
@@ -119,8 +109,8 @@ public:
 			{return comp(x.first, y.first);}
 	}; */
 
-	Tree<Key, T, Compare>*					tree_;
-	std::allocator<Tree<Key, T, Compare> >	myAlloc_;
+	tree_type*					tree_;
+	std::allocator<tree_type>	myAlloc_;
 	private:
 		key_compare	comp_;
 
@@ -128,33 +118,32 @@ public:
 	//constructor: empty (1/3)
 	explicit map (const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type())
-	 : myAlloc_(alloc), comp_(comp)
 	{
-		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
-		myAlloc_.construct(tree_); //констракт вызывает конструктор
-		//tree_ = new Tree<Key, T>(); //аллоцирует память и вызывает конструктор типа
+		tree_ = new Tree<Key, T, Compare>(comp, alloc); //аллоцирует память и вызывает конструктор типа
+		// tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
+		// myAlloc_.construct(comp, alloc); //констракт вызывает конструктор
 	}
 
 	pair<iterator,bool> insert (const value_type& val)
 	{
 		//node_	tmp;
 		tree_->insert(val, comp_);
-		return (make_pair(tree_->root_, true));
+		return (ft::make_pair(&(tree_->root_->value), true));
 	}
 
 	iterator	begin()
 	{
-		node_	tmp = tree_->root_;
+		node_type*	tmp = tree_->root_;
 		while (tmp->pleft != NULL)
 			tmp = tmp->pleft;
-		return iterator(tmp);
+		return iterator(&(tmp->value));
 	}
 	iterator	end()
 	{
-		node_	tmp = tree_->root_;
+		node_type*	tmp = tree_->root_;
 		while (tmp->pright != NULL)
 			tmp = tmp->pright;
-		return iterator(tmp);
+		return iterator(&(tmp->value));
 	}
 /* 	    explicit map(const key_compare& __comp, const allocator_type& __a)
         : tree_(__vc(__comp), typename __base::allocator_type(__a)) {} */
@@ -304,7 +293,7 @@ public:
 	/*************************************************************************/
 	allocator_type get_allocator() const
 	{
-		return myAlloc_;
+		return tree_->nodeAlloc_;
 	}
 
 	//Non-member function overloads

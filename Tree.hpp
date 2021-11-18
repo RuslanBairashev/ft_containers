@@ -8,12 +8,12 @@
 
 struct Node;
 
-template < class Key, class T, class Compare, class Allocator = std::allocator<Node> >
+template < class Key, class T, class Compare, class Allocator = std::allocator<std::pair<const Key, T> > >
 class	Tree
 {
 public:
 	typedef	ft::pair<const Key, T>		value_type;
-
+	typedef	Allocator					allocator_type;
 	struct Node
 	{
 		value_type		value;
@@ -21,14 +21,27 @@ public:
 		Node*			pright;
 		unsigned char	height;
 		Node(value_type val) : value(val), pleft(NULL), pright(NULL), height(1) {}
+		Node&	operator=(const Node& rhs)
+		{
+			if (this == &rhs)
+				return *this;
+			this->value = rhs->value;
+			this->pleft = rhs->pleft;
+			this->pright = rhs->pright;
+			this->height = rhs->height;
+			return *this;
+		} 
 	};
 	Node*		root_;
 	unsigned	size_;
 	Node*		first_;
 	Node*		last_;
-	std::allocator<Node>	myAlloc_;
+	//std::allocator<ft::pair<const Key, T> >	pairAlloc_;
+	std::allocator<Node>	nodeAlloc_;
+	std::less<Key>			comp_;
 
-	Tree() : root_(NULL), size_(0) {}
+	Tree(const std::less<Key>& comp, const allocator_type& alloc)
+	: root_(NULL), size_(0), nodeAlloc_(alloc), comp_(comp) {}
 	~Tree() {}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
 	int				bfactor(Node *p) { return height(p->pright) - height(p->pleft); }
@@ -97,8 +110,10 @@ public:
 		if (!root_)
 		{
 			//root_ = new Node(k, val);
-			root_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
-			myAlloc_.construct(root_, Node(val)); //констракт вызывает конструктор
+			root_ = nodeAlloc_.allocate(1); //аллокатор только аллоцирует память
+			nodeAlloc_.construct(root_, Node(val)); //констракт вызывает конструктор
+			// root_->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
+			// pairAlloc_.construct(val); //констракт вызывает конструктор
 			size_++;
 			root_ = balance(root_);
 			return ;
@@ -117,8 +132,10 @@ public:
 	{
 		if (!p)
 		{
-			p = myAlloc_.allocate(1); //аллокатор только аллоцирует память
-			myAlloc_.construct(p, Node(val)); //констракт вызывает конструктор
+			p = nodeAlloc_.allocate(1); //аллокатор только аллоцирует память
+			nodeAlloc_.construct(p, Node(val)); //констракт вызывает конструктор
+			// p->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
+			// pairAlloc_.construct(val); //констракт вызывает конструктор
 			return p;
 			// return new Node(k, val);
 		}	
@@ -159,8 +176,8 @@ public:
 		{
 			Node*	q = p->pleft;
 			Node*	r = p->pright;
-			myAlloc_.destroy(p);
-			myAlloc_.deallocate(p, 1);
+			nodeAlloc_.destroy(p);
+			nodeAlloc_.deallocate(p, 1);
 			//delete p;
 			if (!r)
 				return q;
