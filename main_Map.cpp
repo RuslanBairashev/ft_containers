@@ -23,7 +23,11 @@ int	main()
 	ft::map<int, std::string>::iterator it;
 	it  = mymap.begin();
 	if (it == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
+	//++it;
 	std::cout << "it.begin= " << it->first << std::endl;
+	ft::pair<const int, std::string> &	for_adr = *it;
+	std::cout << "it.begin address= " << &for_adr << std::endl;
+	std::cout << "mymap address= " << &mymap << std::endl;
 	it  = mymap.end();
 	std::cout << "it.end= " << it->first << std::endl;
 	mymap.insert(ft::pair<int, std::string>(1003, "notebook"));

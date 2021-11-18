@@ -17,15 +17,17 @@ public:
 	struct Node
 	{
 		value_type		value;
+		Node*			parent;
 		Node*			pleft;
 		Node*			pright;
 		unsigned char	height;
-		Node(value_type val) : value(val), pleft(NULL), pright(NULL), height(1) {}
+		Node(value_type val) : value(val), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
 		Node&	operator=(const Node& rhs)
 		{
 			if (this == &rhs)
 				return *this;
 			this->value = rhs->value;
+			this->parent = rhs->parent;
 			this->pleft = rhs->pleft;
 			this->pright = rhs->pright;
 			this->height = rhs->height;
@@ -34,6 +36,7 @@ public:
 	};
 	Node*		root_;
 	unsigned	size_;
+
 	Node*		first_;
 	Node*		last_;
 	//std::allocator<ft::pair<const Key, T> >	pairAlloc_;
@@ -57,6 +60,8 @@ public:
 		Node*	q = p->pleft;
 		p->pleft = q->pright;
 		q->pright = p;
+		q->parent = NULL;
+		p->parent = q;
 		fixheight(p);
 		fixheight(q);
 		return q;
@@ -67,6 +72,8 @@ public:
 		Node*	p = q->pright;
 		q->pright = p->pleft;
 		p->pleft = q;
+		p->parent = NULL;
+		q->parent = p;
 		fixheight(q);
 		fixheight(p);
 		return p;
@@ -109,26 +116,25 @@ public:
 	{
 		if (!root_)
 		{
-			//root_ = new Node(k, val);
 			root_ = nodeAlloc_.allocate(1); //аллокатор только аллоцирует память
 			nodeAlloc_.construct(root_, Node(val)); //констракт вызывает конструктор
 			// root_->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
 			// pairAlloc_.construct(val); //констракт вызывает конструктор
 			size_++;
-			root_ = balance(root_);
+			root_ = balance(root_); //maybe can del this
 			return ;
 		}
 		if (isnot_dublicate(val.first, root_))
 		{
 			if (comp(val.first, root_->value.first)) //std::less<Key>
-				root_->pleft = insert(root_->pleft, val, comp);
+				root_->pleft = insert(root_->pleft, root_, val, comp);
 			else
-				root_->pright = insert(root_->pright, val, comp);
+				root_->pright = insert(root_->pright, root_, val, comp);
 			size_++;
 			root_ = balance(root_);
 		}
 	}
-	Node*			insert(Node *p, value_type val, Compare comp)
+	Node*			insert(Node *p, Node *parent, value_type val, Compare comp)
 	{
 		if (!p)
 		{
@@ -136,13 +142,14 @@ public:
 			nodeAlloc_.construct(p, Node(val)); //констракт вызывает конструктор
 			// p->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
 			// pairAlloc_.construct(val); //констракт вызывает конструктор
+			p->parent = parent;
 			return p;
 			// return new Node(k, val);
 		}	
 		if (comp(val.first,root_->value.first)) //std::less<Key>
-			p->pleft = insert(p->pleft, val, comp);
+			p->pleft = insert(p->pleft, p, val, comp);
 		else
-			p->pright = insert(p->pright, val, comp);
+			p->pright = insert(p->pright, p, val, comp);
 		return balance(p);
 	}
 
@@ -214,12 +221,6 @@ public:
 	}
 	void			clear()
 	{
-		/* Node*	tmp;
-		while (size_ > 0)
-		{
-			tmp = findmin(root_);
-			remove(tmp->first);
-		} */
 		while (size_ > 0)
 		{
 			remove(root_->value.first);

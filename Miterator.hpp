@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iterator>
 #include <cstddef>
+//#include "Tree.hpp" //error if include
 #include "Utility.hpp"
 
 namespace ft
@@ -57,10 +58,12 @@ public:
 	typedef typename Miterator_traits<T>::difference_type	difference_type;
 	typedef typename Miterator_traits<T>::pointer			pointer;
 	typedef typename Miterator_traits<T>::reference			reference;
+	// typedef typename	Tree<Key, T, Compare>::Node		node_type;
 
-	pointer m_ptr; //pointer to node
+	pointer m_ptr; //pointer to pair
+	// node_type	node_ptr;
 
-	Miterator() : m_ptr(NULL) {}
+	Miterator() : m_ptr(NULL)/* , node_ptr(NULL) */ {}
 	Miterator(pointer ptr) : m_ptr(ptr) {}
 	template <class Constornot>
 	Miterator(const Miterator<Constornot> & it) : m_ptr(it.m_ptr) {}
@@ -72,8 +75,8 @@ public:
 	bool		operator!= (const Miterator& it) const { return m_ptr != it.m_ptr; };//ok
 	reference	operator*() { return *m_ptr; } //ok
 	pointer		operator->() { return m_ptr; }
-	Miterator&	operator++() { ++m_ptr; return *this; }//
-	Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }//
+	//Miterator&	operator++() { m_ptr = m_ptr->parent; return *this; }//
+	//Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }//
 	Miterator&	operator--() { --m_ptr; return *this; }//
 	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }//
 };
