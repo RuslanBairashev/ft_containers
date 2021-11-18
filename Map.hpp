@@ -119,14 +119,12 @@ public:
 	explicit map (const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type())
 	{
-		tree_ = new Tree<Key, T, Compare>(comp, alloc); //аллоцирует память и вызывает конструктор типа
-		// tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
-		// myAlloc_.construct(comp, alloc); //констракт вызывает конструктор
+		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
+		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc)); //констракт вызывает конструктор
 	}
 
 	pair<iterator,bool> insert (const value_type& val)
 	{
-		//node_	tmp;
 		tree_->insert(val, comp_);
 		return (ft::make_pair(&(tree_->root_->value), true));
 	}
@@ -155,11 +153,11 @@ public:
 			const allocator_type& alloc = allocator_type());
 	//constructor: copy(3/3)
 	map (const map& x);
-	~map() {}
-	// ~vector()
-	// {
-	// 	myAlloc_.deallocate(array_, capacity_);
-	// }
+	~map()
+	{
+		myAlloc_.destroy(tree_);
+		myAlloc_.deallocate(tree_, 1);
+	}
 
 	//insert: single element (1/3)	
 /* 	ft::pair<iterator,bool> insert (const value_type& val)
