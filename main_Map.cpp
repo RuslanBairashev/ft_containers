@@ -18,12 +18,12 @@ int	main()
 	std::cout << mymap.tree_->root_->pright->value.first << std::endl;
 	for(int i = 3; i < 1003; i++)
 		mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
-	mymap.erase(1);
+	mymap.erase(10);
 	mymap.erase(0);
 	ft::map<int, std::string>::iterator it;
 	it  = mymap.begin();
 	if (it == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
-	//++it;
+	++it;
 	std::cout << "it.begin= " << it->first << std::endl;
 	ft::pair<const int, std::string> &	for_adr = *it;
 	std::cout << "it.begin address= " << &for_adr << std::endl;

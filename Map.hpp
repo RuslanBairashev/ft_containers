@@ -85,18 +85,18 @@ public:
 	typedef	ft::pair<const Key, T>						value_type;
 	typedef	Allocator									allocator_type;
 	typedef Compare										key_compare;
+	typedef Tree<Key, T, Compare>						tree_type;
+	typedef typename	Tree<Key, T, Compare>::Node		node_type;
 	typedef typename	allocator_type::reference		reference;
 	typedef typename	allocator_type::const_reference	const_reference;
 	typedef typename	allocator_type::pointer			pointer;
 	typedef typename	allocator_type::const_pointer	const_pointer;
-	typedef typename	ft::Miterator<pointer>			iterator;
-	typedef typename	ft::Miterator<const_pointer>	const_iterator;
+	typedef typename	ft::Miterator<pointer, node_type*, tree_type*>			iterator;
+	typedef typename	ft::Miterator<const_pointer, node_type*, tree_type*>	const_iterator;
 	typedef typename	ft::Reviterator<pointer>		reverse_iterator;
 	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
 	typedef	size_t										size_type;
 	typedef	ptrdiff_t									difference_type;
-	typedef typename	Tree<Key, T, Compare>::Node		node_type;
-	typedef Tree<Key, T, Compare>						tree_type;
 
 /* 	class	value_compare: public std::binary_function<value_type, value_type, bool>
 	{
@@ -134,14 +134,17 @@ public:
 		node_type*	tmp = tree_->root_;
 		while (tmp->pleft != NULL)
 			tmp = tmp->pleft;
-		return iterator(&(tmp->value));
+		// if (tmp == NULL) { std::cout << "\"tmp ITERATOR IS NULL!!!\"" << std::endl; }
+		// std::cout << tmp << std::endl;
+		// std::cout << &(tmp->value) << std::endl;
+		return iterator(&(tmp->value), tmp, tree_); //pointer,Node*,Tree*
 	}
 	iterator	end()
 	{
 		node_type*	tmp = tree_->root_;
 		while (tmp->pright != NULL)
 			tmp = tmp->pright;
-		return iterator(&(tmp->value));
+		return iterator(&(tmp->value), tmp, tree_);
 	}
 /* 	    explicit map(const key_compare& __comp, const allocator_type& __a)
         : tree_(__vc(__comp), typename __base::allocator_type(__a)) {} */

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iterator>
 #include <cstddef>
-//#include "Tree.hpp" //error if include
+#include "Tree.hpp" //error if include
 #include "Utility.hpp"
 
 namespace ft
@@ -49,7 +49,7 @@ public:
 	typedef Reference	reference;
 };
 
-template <class T>
+template <class T, class ptrNode, class ptrTree>
 class Miterator : public iterator<T>
 {
 public:
@@ -58,15 +58,23 @@ public:
 	typedef typename Miterator_traits<T>::difference_type	difference_type;
 	typedef typename Miterator_traits<T>::pointer			pointer;
 	typedef typename Miterator_traits<T>::reference			reference;
-	// typedef typename	Tree<Key, T, Compare>::Node		node_type;
+	//typedef typename	Tree<Key, T, Compare>::Node		node_type;
 
 	pointer m_ptr; //pointer to pair
-	// node_type	node_ptr;
+	ptrNode	currnode_ptr;
+	ptrTree	tree_ptr;
 
-	Miterator() : m_ptr(NULL)/* , node_ptr(NULL) */ {}
+	Miterator() : m_ptr(NULL), currnode_ptr(NULL), tree_ptr(NULL) {}
 	Miterator(pointer ptr) : m_ptr(ptr) {}
-	template <class Constornot>
-	Miterator(const Miterator<Constornot> & it) : m_ptr(it.m_ptr) {}
+	Miterator(pointer ptr, ptrNode node, ptrTree tree)
+		: m_ptr(ptr)/* , currnode_ptr(node), tree_ptr(tree) */
+		 { 
+			currnode_ptr = node;
+			tree_ptr = tree;
+			 std::cout << "constr\n";}
+	template <class Constornot, class cNode, class cTree>
+	Miterator(const Miterator<Constornot, cNode, cTree> & it)
+	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr), tree_ptr(it.tree_ptr) {}
 	~Miterator() {}
 
 	reference	operator=(const Miterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }//ok
@@ -75,7 +83,21 @@ public:
 	bool		operator!= (const Miterator& it) const { return m_ptr != it.m_ptr; };//ok
 	reference	operator*() { return *m_ptr; } //ok
 	pointer		operator->() { return m_ptr; }
-	//Miterator&	operator++() { m_ptr = m_ptr->parent; return *this; }//
+	Miterator&	operator++()
+	{
+		std::cout << "azaza\n";
+		//std::cout << typeid(this).name() << std::endl;
+		//std::cout << this <<std::endl;
+		if (this->currnode_ptr == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
+		std::cout << "it. " << this->m_ptr->first << std::endl;
+		if (this->tree_ptr == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
+		if (currnode_ptr != NULL)
+		{
+			currnode_ptr = currnode_ptr->parent;
+			m_ptr = &(currnode_ptr->value);
+		}
+		return *this;
+	}
 	//Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }//
 	Miterator&	operator--() { --m_ptr; return *this; }//
 	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }//
