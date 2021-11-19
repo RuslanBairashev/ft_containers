@@ -67,11 +67,13 @@ public:
 	Miterator() : m_ptr(NULL), currnode_ptr(NULL), tree_ptr(NULL) {}
 	Miterator(pointer ptr) : m_ptr(ptr) {}
 	Miterator(pointer ptr, ptrNode node, ptrTree tree)
-		: m_ptr(ptr)/* , currnode_ptr(node), tree_ptr(tree) */
+		: m_ptr(ptr), currnode_ptr(node), tree_ptr(tree)
 		 { 
-			currnode_ptr = node;
-			tree_ptr = tree;
-			 std::cout << "constr\n";}
+			std::cout << "currnode_ptr address= " << currnode_ptr << std::endl;
+			std::cout << "        node address= " << node << std::endl;
+			std::cout << "    tree_ptr address= " << tree_ptr << std::endl;
+			std::cout << "        tree address= " << tree << std::endl;
+			std::cout << "constr\n";}
 	template <class Constornot, class cNode, class cTree>
 	Miterator(const Miterator<Constornot, cNode, cTree> & it)
 	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr), tree_ptr(it.tree_ptr) {}
@@ -88,6 +90,7 @@ public:
 		std::cout << "azaza\n";
 		//std::cout << typeid(this).name() << std::endl;
 		//std::cout << this <<std::endl;
+		std::cout << " ++it       tree address= " << tree_ptr << std::endl;
 		if (this->currnode_ptr == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
 		std::cout << "it. " << this->m_ptr->first << std::endl;
 		if (this->tree_ptr == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
