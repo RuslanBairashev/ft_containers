@@ -79,7 +79,13 @@ public:
 	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr), tree_ptr(it.tree_ptr) {}
 	~Miterator() {}
 
-	reference	operator=(const Miterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }//ok
+	reference	operator=(const Miterator & rhs)
+	{
+		m_ptr = rhs.m_ptr;
+		currnode_ptr = rhs.currnode_ptr;
+		tree_ptr = rhs.tree_ptr;
+		return *m_ptr;
+	}
 
 	bool		operator== (const Miterator& it) const { return m_ptr == it.m_ptr; };//ok
 	bool		operator!= (const Miterator& it) const { return m_ptr != it.m_ptr; };//ok

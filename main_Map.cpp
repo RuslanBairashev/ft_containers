@@ -25,6 +25,9 @@ int	main()
 	it  = mymap.begin();
 	if (it == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
 	++it;
+	++it;
+	++it;
+	++it;
 	std::cout << "it.begin= " << it->first << std::endl;
 	ft::pair<const int, std::string> &	for_adr = *it;
 	std::cout << "it.begin address= " << &for_adr << std::endl;
