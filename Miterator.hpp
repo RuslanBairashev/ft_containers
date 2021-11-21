@@ -69,11 +69,12 @@ public:
 	Miterator(pointer ptr, ptrNode node, ptrTree tree)
 		: m_ptr(ptr), currnode_ptr(node), tree_ptr(tree)
 		 { 
-			std::cout << "currnode_ptr address= " << currnode_ptr << std::endl;
-			std::cout << "        node address= " << node << std::endl;
-			std::cout << "    tree_ptr address= " << tree_ptr << std::endl;
-			std::cout << "        tree address= " << tree << std::endl;
-			std::cout << "constr\n";}
+			// std::cout << "currnode_ptr address= " << currnode_ptr << std::endl;
+			// std::cout << "        node address= " << node << std::endl;
+			// std::cout << "    tree_ptr address= " << tree_ptr << std::endl;
+			// std::cout << "        tree address= " << tree << std::endl;
+			// std::cout << "constr\n";
+			}
 	template <class Constornot, class cNode, class cTree>
 	Miterator(const Miterator<Constornot, cNode, cTree> & it)
 	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr), tree_ptr(it.tree_ptr) {}
@@ -87,26 +88,70 @@ public:
 		return *m_ptr;
 	}
 
-	bool		operator== (const Miterator& it) const { return m_ptr == it.m_ptr; };//ok
-	bool		operator!= (const Miterator& it) const { return m_ptr != it.m_ptr; };//ok
-	reference	operator*() { return *m_ptr; } //ok
+	bool		operator== (const Miterator& it) const { return m_ptr == it.m_ptr; };
+	bool		operator!= (const Miterator& it) const { return m_ptr != it.m_ptr; };
+	reference	operator*() { return *m_ptr; }
 	pointer		operator->() { return m_ptr; }
 	Miterator&	operator++()
 	{
-		std::cout << "azaza\n";
-		//std::cout << typeid(this).name() << std::endl;
-		//std::cout << this <<std::endl;
-		std::cout << " ++it       tree address= " << tree_ptr << std::endl;
-		if (this->currnode_ptr == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
-		std::cout << "it. " << this->m_ptr->first << std::endl;
-		if (this->tree_ptr == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
-		if (currnode_ptr != NULL)
+		if (this->m_ptr->first < tree_ptr->root_->value.first)
 		{
-			currnode_ptr = currnode_ptr->parent;
-			m_ptr = &(currnode_ptr->value);
+			if (this->currnode_ptr->pright == NULL) //if pright == NULL branch
+			{
+				if (this->currnode_ptr->pleft == NULL) //if pright == NULL && pleft == NULL branch
+				{
+					if (this->currnode_ptr == this->currnode_ptr->parent->pright) //right child
+					{
+						if(this->currnode_ptr->parent->pright == this->currnode_ptr->parent->parent->pright)
+							currnode_ptr = tree_ptr->root_; // right grandchild
+						else
+							currnode_ptr = currnode_ptr->parent->parent; //left grandchild
+					}
+					else //if left child
+					{
+						if(this->currnode_ptr->parent->pright == this->currnode_ptr->parent->parent->pright)
+							currnode_ptr = currnode_ptr->parent->parent; // right grandchild
+						else
+							currnode_ptr = currnode_ptr->parent; //left grandchild
+					}
+				}
+				else //if pright == NULL && pleft != NULL branch
+				{
+					if (currnode_ptr->parent == currnode_ptr->parent->parent->pright)
+						currnode_ptr = currnode_ptr->parent->parent;
+				}
+			}
+			else //if pright != NULL branch
+			{
+				if (this->currnode_ptr->pright->pleft == NULL) //if pright != NULL && pleft == NULL branch
+					currnode_ptr = currnode_ptr->pright;
+				else //if pright != NULL && pleft != NULL branch
+					currnode_ptr = currnode_ptr->pright;
+			}
 		}
+		m_ptr = &(currnode_ptr->value);
 		return *this;
 	}
+	// 	Miterator&	operator++()
+	// {
+	// 	if (this->m_ptr->first < tree_ptr->root_->value.first)
+	// 	{
+	// 		if (this->currnode_ptr->pright == NULL)
+	// 		{
+	// 			if (this->currnode_ptr->pleft == NULL && this->currnode_ptr == this->currnode_ptr->parent->pright)
+	// 				currnode_ptr = tree_ptr->root_;
+	// 			else
+	// 				currnode_ptr = currnode_ptr->parent;
+	// 		}
+	// 		else
+	// 		{
+	// 			if (this->currnode_ptr->pright->pleft == NULL)
+	// 				currnode_ptr = currnode_ptr->pright;
+	// 		}
+	// 	}
+	// 	m_ptr = &(currnode_ptr->value);
+	// 	return *this;
+	// }
 	//Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }//
 	Miterator&	operator--() { --m_ptr; return *this; }//
 	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }//
