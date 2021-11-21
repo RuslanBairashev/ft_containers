@@ -7,6 +7,11 @@
 #include "Tree.hpp" //error if include
 #include "Utility.hpp"
 
+#define ROOT tree_ptr->root_
+#define GRANDP this->currnode_ptr->parent->parent
+#define PARENT this->currnode_ptr->parent
+#define THIS this->currnode_ptr
+
 namespace ft
 {
 template< class Iter >
@@ -94,39 +99,39 @@ public:
 	pointer		operator->() { return m_ptr; }
 	Miterator&	operator++()
 	{
-		if (this->m_ptr->first < tree_ptr->root_->value.first)
+		if (this->m_ptr->first < ROOT->value.first)
 		{
-			if (this->currnode_ptr->pright == NULL) //if pright == NULL branch
+			if (THIS->pright == NULL) // pright == NULL
 			{
-				if (this->currnode_ptr->pleft == NULL) //if pright == NULL && pleft == NULL branch
+				if (PARENT == GRANDP->pleft) //parent is left branch
 				{
-					if (this->currnode_ptr == this->currnode_ptr->parent->pright) //right child
+					if (THIS == PARENT->pleft)
 					{
-						if(this->currnode_ptr->parent->pright == this->currnode_ptr->parent->parent->pright)
-							currnode_ptr = tree_ptr->root_; // right grandchild
-						else
-							currnode_ptr = currnode_ptr->parent->parent; //left grandchild
+						THIS = PARENT;
+						std::cout << "hek\n";
 					}
-					else //if left child
+					else
 					{
-						if(this->currnode_ptr->parent->pright == this->currnode_ptr->parent->parent->pright)
-							currnode_ptr = currnode_ptr->parent->parent; // right grandchild
-						else
-							currnode_ptr = currnode_ptr->parent; //left grandchild
+						THIS = PARENT; // problem here? must be GRANDP
+						std::cout << "pek\n";
 					}
+					std::cout << "azaza2\n";
 				}
-				else //if pright == NULL && pleft != NULL branch
+				else // parent if right branch
 				{
-					if (currnode_ptr->parent == currnode_ptr->parent->parent->pright)
-						currnode_ptr = currnode_ptr->parent->parent;
+					if (THIS == PARENT->pleft)
+						THIS = PARENT;
+					else
+						THIS = ROOT;
+					std::cout << "azaza\n";
 				}
 			}
-			else //if pright != NULL branch
+			else //pright IS NOT NULL 
 			{
-				if (this->currnode_ptr->pright->pleft == NULL) //if pright != NULL && pleft == NULL branch
-					currnode_ptr = currnode_ptr->pright;
-				else //if pright != NULL && pleft != NULL branch
-					currnode_ptr = currnode_ptr->pright;
+				THIS = THIS->pright;
+				while (THIS->pleft != NULL)
+					THIS = THIS->pleft;
+				std::cout << "azaza3\n";
 			}
 		}
 		m_ptr = &(currnode_ptr->value);
