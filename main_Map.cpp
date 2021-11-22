@@ -9,7 +9,12 @@
 void	show_node(Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * node, unsigned level)
 {
 	if (node != NULL)
-		std::cout << "LEVEL:" << level << ' ' << node->value.first << std::endl;
+	{
+		std::cout << "LEVEL:" << level << ' ' << node->value.first ;
+		std::cout << " Node: " << node ;
+		std::cout << " Parent: " << node->parent ;
+		std::cout << std::endl;
+	}
 	if (node->pleft)
 		show_node(node->pleft, level + 1);
 	if (node->pright)
@@ -42,13 +47,13 @@ int	main()
 		mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
 	// mymap.erase(100);
 	// mymap.erase(0);
-	show_tree(mymap);
+	//show_tree(mymap);
 	//std::cout << "        tree address= " << mymap.tree_ << std::endl;
 	ft::map<int, std::string>::iterator it;
 	it  = mymap.begin();
 	if (it == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
 	std::cout << "before ++ it.begin= " << it->first << std::endl;
-	for(int plus = 0; plus < 7; ++plus)
+	for(int plus = 0; plus < 6; ++plus)
 		++it;
 	std::cout << "after ++ it.begin= " << it->first << std::endl;
 	// ft::pair<const int, std::string> &	for_adr = *it;

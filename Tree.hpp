@@ -56,29 +56,34 @@ public:
 		p->height = (hl>hr ? hl : hr) + 1;
 	}
 
-	Node*			rotateright(Node *p) //right turn around p
+	Node*			rotateright(Node *b) //right turn around p
 	{
-		Node*	q = p->pleft;
-		p->pleft = q->pright;
-		q->pright = p;
-		q->parent = NULL;
-		p->parent = q;
-		fixheight(p);
-		fixheight(q);
-		return q;
+		Node*	a = b->pleft;
+		b->pleft = a->pright;
+		a->pright = b;
+		a->parent = b->parent;
+		b->parent = a;
+		if (b->pright)
+			b->pright->parent = b;
+		fixheight(b);
+		fixheight(a);
+		return a;
 	}
 
-	Node*			rotateleft(Node *q) //left turn around p
+	Node*			rotateleft(Node *a) //left turn around p
 	{
-		Node*	p = q->pright;
-		q->pright = p->pleft;
-		p->pleft = q;
-		p->parent = NULL;
-		q->parent = p;
-		fixheight(q);
-		fixheight(p);
-		return p;
+		Node*	b = a->pright;
+		a->pright = b->pleft;
+		b->pleft = a;
+		b->parent = a->parent;
+		a->parent = b;
+		if (a->pright)
+			a->pright->parent = a;
+		fixheight(a);
+		fixheight(b);
+		return b;
 	}
+
 	Node*			balance(Node* p)
 	{
 		fixheight(p);

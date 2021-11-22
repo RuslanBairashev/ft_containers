@@ -106,16 +106,9 @@ public:
 				if (PARENT == GRANDP->pleft) //parent is left branch
 				{
 					if (THIS == PARENT->pleft)
-					{
 						THIS = PARENT;
-						std::cout << "hek\n";
-					}
 					else
-					{
-						THIS = PARENT; // problem here? must be GRANDP
-						std::cout << "pek\n";
-					}
-					std::cout << "azaza2\n";
+						THIS = GRANDP;
 				}
 				else // parent if right branch
 				{
@@ -123,7 +116,6 @@ public:
 						THIS = PARENT;
 					else
 						THIS = ROOT;
-					std::cout << "azaza\n";
 				}
 			}
 			else //pright IS NOT NULL 
@@ -131,32 +123,12 @@ public:
 				THIS = THIS->pright;
 				while (THIS->pleft != NULL)
 					THIS = THIS->pleft;
-				std::cout << "azaza3\n";
 			}
 		}
 		m_ptr = &(currnode_ptr->value);
 		return *this;
 	}
-	// 	Miterator&	operator++()
-	// {
-	// 	if (this->m_ptr->first < tree_ptr->root_->value.first)
-	// 	{
-	// 		if (this->currnode_ptr->pright == NULL)
-	// 		{
-	// 			if (this->currnode_ptr->pleft == NULL && this->currnode_ptr == this->currnode_ptr->parent->pright)
-	// 				currnode_ptr = tree_ptr->root_;
-	// 			else
-	// 				currnode_ptr = currnode_ptr->parent;
-	// 		}
-	// 		else
-	// 		{
-	// 			if (this->currnode_ptr->pright->pleft == NULL)
-	// 				currnode_ptr = currnode_ptr->pright;
-	// 		}
-	// 	}
-	// 	m_ptr = &(currnode_ptr->value);
-	// 	return *this;
-	// }
+
 	//Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }//
 	Miterator&	operator--() { --m_ptr; return *this; }//
 	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }//
