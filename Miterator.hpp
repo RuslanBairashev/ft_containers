@@ -7,10 +7,12 @@
 #include "Tree.hpp" //error if include
 #include "Utility.hpp"
 
-#define ROOT tree_ptr->root_
-#define GRANDP this->currnode_ptr->parent->parent
-#define PARENT this->currnode_ptr->parent
-#define THIS this->currnode_ptr
+#define	ROOT		tree_ptr->root_
+#define	GRANDP		this->currnode_ptr->parent->parent
+#define	PARENT		this->currnode_ptr->parent
+#define	THIS		this->currnode_ptr
+#define	QUASIBEGIN	tree_ptr->quasiBegin_;
+#define	QUASIEND	tree_ptr->quasiEnd_;
 
 namespace ft
 {
@@ -99,7 +101,20 @@ public:
 	pointer		operator->() { return m_ptr; }
 	Miterator&	operator++()
 	{
-		if (this->m_ptr->first < ROOT->value.first)
+		if (this->m_ptr->first == ROOT->value.first)
+		{
+			if (THIS->pright == NULL)
+			{
+				THIS = QUASIEND;
+			}
+			else
+			{
+				THIS = THIS->pright;
+				while (THIS->pleft != NULL)
+					THIS = THIS->pleft;
+			}
+		}
+		else
 		{
 			if (THIS->pright == NULL) // pright == NULL
 			{
@@ -115,7 +130,12 @@ public:
 					if (THIS == PARENT->pleft)
 						THIS = PARENT;
 					else
-						THIS = ROOT;
+					{
+						if (this->m_ptr->first < ROOT->value.first)
+							THIS = ROOT;
+						else
+							THIS = QUASIEND;
+					}
 				}
 			}
 			else //pright IS NOT NULL 
@@ -128,10 +148,60 @@ public:
 		m_ptr = &(currnode_ptr->value);
 		return *this;
 	}
+	Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }
 
-	//Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }//
-	Miterator&	operator--() { --m_ptr; return *this; }//
-	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }//
+	Miterator&	operator--()
+	{
+		if (this->m_ptr->first == ROOT->value.first)
+		{
+			if (THIS->pleft == NULL)
+			{
+				THIS = QUASIBEGIN;
+			}
+			else
+			{
+				THIS = THIS->pleft;
+				while (THIS->pright != NULL)
+					THIS = THIS->pright;
+			}
+		}
+		else
+		{
+			if (THIS->pleft == NULL) // pleft == NULL
+			{
+				if (PARENT == GRANDP->pleft) //parent is left branch
+				{
+					if (THIS == PARENT->pleft)
+					{
+						if (this->m_ptr->first < ROOT->value.first)
+						{
+							THIS = QUASIBEGIN;
+						}
+						else
+							THIS = ROOT;
+					}
+					else
+						THIS = PARENT;
+				}
+				else // parent if right branch
+				{
+					if (THIS == PARENT->pleft)
+						THIS = GRANDP;
+					else
+						THIS = PARENT;
+				}
+			}
+			else //pleft IS NOT NULL 
+			{
+				THIS = THIS->pleft;
+				while (THIS->pright != NULL)
+					THIS = THIS->pright;
+			}
+		}
+		m_ptr = &(currnode_ptr->value);
+		return *this;
+	}
+	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }
 };
 
 }

@@ -37,15 +37,14 @@ public:
 	};
 	Node*		root_;
 	unsigned	size_;
-
-	Node*		first_;
-	Node*		last_;
+	Node*		quasiBegin_;
+	Node*		quasiEnd_;
 	//std::allocator<ft::pair<const Key, T> >	pairAlloc_;
 	std::allocator<Node>	nodeAlloc_;
 	std::less<Key>			comp_;
 
 	Tree(const std::less<Key>& comp, const allocator_type& alloc)
-	: root_(NULL), size_(0), nodeAlloc_(alloc), comp_(comp) {}
+	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), nodeAlloc_(alloc), comp_(comp) {}
 	~Tree() {}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
 	int				bfactor(Node *p) { return height(p->pright) - height(p->pleft); }
