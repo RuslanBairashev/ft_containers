@@ -7,6 +7,8 @@
 //#include "Miterator.hpp"
 #include "Utility.hpp"
 
+namespace ft {
+
 struct Node;
 
 template < class Key, class T, class Compare, class Allocator = std::allocator<std::pair<const Key, T> > >
@@ -159,6 +161,22 @@ public:
 	}
 
 	Node*			findmin(Node* p) { return p->pleft ? findmin(p->pleft) : p; }
+	Node*			find(Node * p, Key k)
+	{
+		if (p->value->first == k)
+			;
+		else if (p->value->first < k)
+		{
+			p = p->pleft;
+			find(p, k);
+		}
+		else
+		{
+			p = p->pright;
+			find(p, k);
+		}
+		return p;
+	}
 	Node			*removemin(Node *p)
 	{
 		if (p->pleft == NULL)
@@ -230,7 +248,11 @@ public:
 		{
 			remove(root_->value.first);
 		}
+		root_ = NULL;
 	}
+
 };
+
+} //end of namespace ft
 
 #endif

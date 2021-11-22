@@ -6,7 +6,7 @@
 #include "Miterator.hpp"
 #include "Reviterator.hpp"
 
-void	show_node(Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * node, unsigned level)
+void	show_node(ft::Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * node, unsigned level)
 {
 	if (node != NULL)
 	{
@@ -25,12 +25,18 @@ void	show_tree(ft::map<int, std::string> & mymap)
 {
 	unsigned	level = 0;
 	// unsigned height = static_cast<unsigned>(mymap.tree_->root_->height);
-	Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * tmp;
+	ft::Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * tmp;
 	std::cout << "___START SHOW TREE___" << std::endl;
 	tmp = mymap.tree_->root_;
 	//for (; level < height; ++level)
 	show_node(tmp, level);
 	std::cout << "___FINISH SHOW TREE___" << std::endl;
+}
+
+void	map_info(ft::map<int, std::string> & mymap)
+{
+	std::cout << "Final: root is: " << mymap.tree_->root_->value.first << ". Size is: " << mymap.tree_->size_;
+	std::cout << ". Height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
 }
 
 int	main()
@@ -63,12 +69,21 @@ int	main()
 	// ft::pair<const int, std::string> &	for_adr = *it;
 	// std::cout << "it.begin address= " << &for_adr << std::endl;
 	// std::cout << "mymap address= " << &mymap << std::endl;
+	ft::map<int, std::string>::iterator it_tmp;
+	it_tmp = it;
+	for(int plus = 0; plus < 5; ++plus)
+		++it_tmp;
+	ft::map<int, std::string> newmap(it, it_tmp);
+
 	it  = mymap.end();
 	std::cout << "it.end= " << it->first << std::endl;
 	// mymap.insert(ft::pair<int, std::string>(1003, "notebook"));
 	// mymap.insert(ft::make_pair<int, std::string>(100, "notebook"));
-	std::cout << "Final: root is: " << mymap.tree_->root_->value.first << ". Size is: " << mymap.tree_->size_ << std::endl;
-	std::cout << "height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
+	map_info(mymap);
+	map_info(newmap);
+	ft::map<int, std::string> copymap;
+	copymap = newmap;
+
 	mymap.clear();
 	std::cout /* << "Final: root is: " << mymap.tree_->root_->first */ << ". Size is: " << mymap.tree_->size_ << std::endl;
 	// std::cout << mymap.tree_->root_->first << mymap.tree_->root_->second << std::endl;

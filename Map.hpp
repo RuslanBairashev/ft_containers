@@ -112,22 +112,48 @@ public:
 	tree_type*					tree_;
 	std::allocator<tree_type>	myAlloc_;
 	private:
-		key_compare	comp_;
+		key_compare				comp_;
 
 public:
-	//constructor: empty (1/3)
+	//constructor: empty (1/3) //ok
 	explicit map (const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type())
 	{
 		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
 		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc)); //констракт вызывает конструктор
 	}
-
-	pair<iterator,bool> insert (const value_type& val)
+	//constructor: range(2/3) //ok
+	template <class InputIterator>
+	map (InputIterator first, InputIterator last,
+			const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type())
 	{
-		tree_->insert(val, comp_);
-		return (ft::make_pair(&(tree_->root_->value), true));
+		tree_ = myAlloc_.allocate(1);
+		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
+		for(unsigned i = 0 ; first->first != last->first ; ++i, ++first)
+			tree_->insert(*first, comp_);
 	}
+	//constructor: copy(3/3)
+	// map (const map& x)
+	// {
+	// 	tree_ = myAlloc_.allocate(1);
+	// 	myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
+	// 	iterator	first = x.begin();
+	// 	iterator	last = x.end();
+	// 	for(unsigned i = 0 ; first->first != last->first ; ++i, ++first)
+	// 		tree_->insert(*first, comp_);
+	// }
+	~map()
+	{
+		myAlloc_.destroy(tree_);
+		myAlloc_.deallocate(tree_, 1);
+	}
+	map& operator= (const map& rhs)
+	{
+		if (this == &rhs)
+			return *this;
+		clear();
+		return *this;
+	} 
 
 	iterator	begin()
 	{
@@ -146,53 +172,10 @@ public:
 			tmp = tmp->pright;
 		return iterator(&(tmp->value), tmp, tree_);
 	}
-/* 	    explicit map(const key_compare& __comp, const allocator_type& __a)
-        : tree_(__vc(__comp), typename __base::allocator_type(__a)) {} */
-	
-	//constructor: range(2/3)
-	template <class InputIterator>
-	map (InputIterator first, InputIterator last,
-			const key_compare& comp = key_compare(),
-			const allocator_type& alloc = allocator_type());
-	//constructor: copy(3/3)
-	map (const map& x);
-	~map()
-	{
-		myAlloc_.destroy(tree_);
-		myAlloc_.deallocate(tree_, 1);
-	}
 
-	//insert: single element (1/3)	
-/* 	ft::pair<iterator,bool> insert (const value_type& val)
-	{
-		if (size_ == 0)
-		{
-			Node<key_type, mapped_type> tmp;
-			tmp.index_ = val.first;
-			tmp.data_ = val.second;
-			tmp.pleft = tmp.pright = NULL;
-		}
-		else
-		{
 
-		}
-	} */
-	map& operator= (const map& x);
-/*	vector&	operator=(const vector& rhs)
-	{
-		if (this == &rhs)
-			return *this;
-		if (rhs.size_ > size_) // >capacity_ ???
-		{
-			capacity_ = rhs.size_ + 3;
-			myAlloc_.deallocate(array_, capacity_);
-			array_ = myAlloc_.allocate(capacity_);
-		}
-		for (size_type i = 0; i < rhs.size(); ++i)
-			array_[i] = rhs.array_[i];
-		size_ = rhs.size_;
-		return *this;
-	} */
+
+
 	/*************************************************************************/
 	//			MEMBER FUNCTIONS										      /
 	/*************************************************************************/
@@ -215,25 +198,29 @@ public:
 	const_reverse_iterator	rbegin() const { return const_reverse_iterator(array_); }
 	const_reverse_iterator	rend() const { return const_reverse_iterator(array_ + size_); }
  */
-	//Capacity all done
+	//Capacity
 	/*************************************************************************/
 	size_type	size() const { return tree_->size_ ; }
 	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
 	bool		empty() const { return tree_->size_ == 0; }
 
-	//Element access all done
+	//Element access
 	/*************************************************************************/
-	mapped_type& operator[] (const key_type& k);
+	mapped_type& operator[] (const key_type& k); // depends on find
 	// reference	operator[](size_type index)
 	// {
 	// 	return array_[index];
 	// }
 
-	//Modifiers all done
+	//Modifiers
 	/*************************************************************************/
 
-	//insert(single element) (1/3)	
-	//pair<iterator,bool> insert (const value_type& val)
+	//insert: single element (1/3)	
+	pair<iterator,bool> insert (const value_type& val)
+	{
+		tree_->insert(val, comp_);
+		return (ft::make_pair(&(tree_->root_->value), true));
+	}
 
 	//insert(with hint) (2/3)	
 	//iterator insert (iterator position, const value_type& val);
@@ -265,7 +252,7 @@ public:
 
 	//Observers:
 	/*************************************************************************/
-	key_compare key_comp() const;
+	key_compare key_comp() const { return comp_; }
 
 	//value_compare value_comp() const;
 
@@ -299,12 +286,12 @@ public:
 
 	//Non-member function overloads
 	/*************************************************************************/
-	// friend	bool	operator== <> (const vector & lhs, const vector & rhs);
-	// friend	bool	operator!= <> (const vector & lhs, const vector & rhs);
-	// friend	bool	operator< <> (vector & lhs, vector & rhs);
-	// friend	bool	operator> <> (vector & lhs, vector & rhs);
-	// friend	bool	operator>= <> (vector & lhs, vector & rhs);
-	// friend	bool	operator<= <> (vector & lhs, vector & rhs);
+	// friend	bool	operator== <> (const map & lhs, const map & rhs);
+	// friend	bool	operator!= <> (const map & lhs, const map & rhs);
+	// friend	bool	operator< <> (map & lhs, map & rhs);
+	// friend	bool	operator> <> (map & lhs, map & rhs);
+	// friend	bool	operator>= <> (map & lhs, map & rhs);
+	// friend	bool	operator<= <> (map & lhs, map & rhs);
 	//Non-member function overloads
 	/*************************************************************************/
 	/* template < class Tx, class Allocatorx >
