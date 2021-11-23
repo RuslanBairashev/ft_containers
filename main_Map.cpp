@@ -84,8 +84,9 @@ int	main()
 	ft::map<int, std::string> copymap;
 	copymap = newmap;
 
-	mymap.clear();
+	//mymap.clear();
 	std::cout /* << "Final: root is: " << mymap.tree_->root_->first */ << ". Size is: " << mymap.tree_->size_ << std::endl;
+	ft::map<int, std::string> mp2(mymap.begin(), mymap.end());
 	// std::cout << mymap.tree_->root_->first << mymap.tree_->root_->second << std::endl;
 	//test.print_tree();
 /*  	std::map test1;

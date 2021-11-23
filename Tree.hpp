@@ -24,6 +24,7 @@ public:
 		Node*			pleft;
 		Node*			pright;
 		unsigned char	height;
+		Node() : value(ft::pair<const int, int>(0,0)), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
 		Node(value_type val) : value(val), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
 		Node&	operator=(const Node& rhs)
 		{
@@ -46,7 +47,11 @@ public:
 	std::less<Key>			comp_;
 
 	Tree(const std::less<Key>& comp, const allocator_type& alloc)
-	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), nodeAlloc_(alloc), comp_(comp) {}
+	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), nodeAlloc_(alloc), comp_(comp)
+	{
+		quasiBegin_ = nodeAlloc_.allocate(1);
+		nodeAlloc_.construct(quasiBegin_, Node());
+	}
 	~Tree() {}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
 	int				bfactor(Node *p) { return height(p->pright) - height(p->pleft); }

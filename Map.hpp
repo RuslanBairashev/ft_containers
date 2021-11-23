@@ -129,7 +129,7 @@ public:
 	{
 		tree_ = myAlloc_.allocate(1);
 		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
-		for(unsigned i = 0 ; first->first != last->first ; ++i, ++first)
+		for(unsigned i = 0 ; first != last ; ++i, ++first)
 			tree_->insert(*first, comp_);
 	}
 	//constructor: copy(3/3)
@@ -214,7 +214,6 @@ public:
 
 	//Modifiers
 	/*************************************************************************/
-
 	//insert: single element (1/3)	
 	pair<iterator,bool> insert (const value_type& val)
 	{
@@ -225,8 +224,11 @@ public:
 	//insert(with hint) (2/3)	
 	//iterator insert (iterator position, const value_type& val);
 	//insert(range) (3/3)	
-	//template <class InputIterator>
-	//	void insert (InputIterator first, InputIterator last);
+	// template <class InputIterator>
+	// void insert (InputIterator first, InputIterator last)
+	// {
+
+	// }
 
 	//erase (1/3)	
 	void erase (iterator position);
