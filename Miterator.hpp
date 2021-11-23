@@ -132,7 +132,7 @@ public:
 					else
 					{
 						if (this->m_ptr->first < ROOT->value.first)
-							THIS = ROOT;
+							THIS = GRANDP->parent; // ROOT
 						else
 							THIS = QUASIEND;
 					}

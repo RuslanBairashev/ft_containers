@@ -129,7 +129,7 @@ public:
 	{
 		tree_ = myAlloc_.allocate(1);
 		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
-		for(unsigned i = 0 ; first != last ; ++i, ++first)
+		for(/* unsigned i = 0 */ ; first != last ; /* ++i, */ ++first)
 			tree_->insert(*first, comp_);
 	}
 	//constructor: copy(3/3)
@@ -171,6 +171,7 @@ public:
 			tmp = tmp->pright;
 		tmp->pright = tree_->quasiEnd_;
 		tmp = tmp->pright;
+		//tmp->parent = tree_->findmax(tree_->root_); //sega
 		return iterator(&(tmp->value), tmp, tree_);
 	}
 

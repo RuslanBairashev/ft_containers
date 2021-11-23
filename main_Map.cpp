@@ -20,6 +20,20 @@ void	show_node(ft::Tree<int, std::string, std::less<int>, std::allocator<std::pa
 		show_node(node->pleft, level + 1);
 	if (node->pright)
 		show_node(node->pright, level + 1);
+}
+void	show_node(ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const int, int> > >::Node * node, unsigned level)
+{
+	if (node != NULL)
+	{
+		std::cout << "LEVEL:" << level << ' ' << node->value.first ;
+		std::cout << " Node: " << node ;
+		std::cout << " Parent: " << node->parent ;
+		std::cout << std::endl;
+	}
+	if (node->pleft)
+		show_node(node->pleft, level + 1);
+	if (node->pright)
+		show_node(node->pright, level + 1);
 
 }
 void	show_tree(ft::map<int, std::string> & mymap)
@@ -27,6 +41,17 @@ void	show_tree(ft::map<int, std::string> & mymap)
 	unsigned	level = 0;
 	// unsigned height = static_cast<unsigned>(mymap.tree_->root_->height);
 	ft::Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * tmp;
+	std::cout << "___START SHOW TREE___" << std::endl;
+	tmp = mymap.tree_->root_;
+	//for (; level < height; ++level)
+	show_node(tmp, level);
+	std::cout << "___FINISH SHOW TREE___" << std::endl;
+}
+void	show_tree(ft::map<int, int> & mymap)
+{
+	unsigned	level = 0;
+	// unsigned height = static_cast<unsigned>(mymap.tree_->root_->height);
+	ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const int, int> > >::Node * tmp;
 	std::cout << "___START SHOW TREE___" << std::endl;
 	tmp = mymap.tree_->root_;
 	//for (; level < height; ++level)
@@ -99,18 +124,27 @@ int	main()
     std::vector<int> v;
 
     mp.insert(ft::make_pair<int, int>(1, 5));
-    mp.insert(ft::make_pair(4, 5));
+    //mp.insert(ft::make_pair<int, int>(4, 5)); //check this
     for (int i = 0, j = 10; i < 300000; ++i, ++j) { //default 300000
         mp.insert(ft::make_pair(i, j));
     }
+	ft::map<int, int>::iterator it_mp00 = mp.begin();
+	for (int i = 0; i < 15; ++i)
+	{
+		++it_mp00;
+		std::cout << "it_mp00= " << it_mp00->first << std::endl;
+	}
+	ft::map<int, int>::iterator it_mp01 = mp.end();// --it_mp01;
+	std::cout << "it_mp01= " << it_mp01->first << std::endl;
     ft::map<int, int> mp2(mp.begin(), mp.end());
 	map_info<int, int>(mp);
 	map_info<int, int>(mp2);
- 	ft::map<int, int>::iterator itmp = mp2.begin();
-    for (int i = 0; i < 3; ++i, itmp++) { //default 300000
-        v.push_back(itmp->first);
-        v.push_back(itmp->second);
-    }
+	//show_tree(mp2);
+ 	// ft::map<int, int>::iterator itmp = mp2.begin();
+    // for (int i = 0; i < 3; ++i, itmp++) { //default 300000
+    //     v.push_back(itmp->first);
+    //     v.push_back(itmp->second);
+    // }
 
 	return 0;
 }

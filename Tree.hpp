@@ -172,6 +172,7 @@ public:
 	}
 
 	Node*			findmin(Node* p) { return p->pleft ? findmin(p->pleft) : p; }
+	Node*			findmax(Node* p) { return p->pright ? findmax(p->pright) : p; }
 	Node*			find(Node * p, Key k)
 	{
 		while (p)
