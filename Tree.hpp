@@ -109,22 +109,22 @@ public:
 		}
 		return p;
 	}
-	bool			isnot_dublicate(Key k, Node* nod)
-	{
-		if (nod->value.first == k)
-			return false;
-		if (nod->pleft != NULL)
-		{
-			if (!isnot_dublicate(k, nod->pleft))
-				return false;
-		}
-		if (nod->pright != NULL)
-		{
-			if (!isnot_dublicate(k, nod->pright))
-				return false;
-		}
-		return true;
-	}
+	// bool			isnot_dublicate(Key k, Node* nod)
+	// {
+	// 	if (nod->value.first == k)
+	// 		return false;
+	// 	if (nod->pleft != NULL)
+	// 	{
+	// 		if (!isnot_dublicate(k, nod->pleft))
+	// 			return false;
+	// 	}
+	// 	if (nod->pright != NULL)
+	// 	{
+	// 		if (!isnot_dublicate(k, nod->pright))
+	// 			return false;
+	// 	}
+	// 	return true;
+	// }
 
 	void			insert(value_type val, Compare comp)
 	{
@@ -142,7 +142,7 @@ public:
 			root_ = balance(root_); //maybe can del this
 			return ;
 		}
-		if (isnot_dublicate(val.first, root_))
+		if (find(root_, val.first) == quasiEnd_)
 		{
 			if (comp(val.first, root_->value.first)) //std::less<Key>
 				root_->pleft = insert(root_->pleft, root_, val, comp);
@@ -196,7 +196,7 @@ public:
 	{
 		if (!root_)
 			return ;
-		if (!isnot_dublicate(k, root_))
+		if (find(root_, k) != quasiEnd_)
 		{
 			root_ = remove(root_, k);
 			size_--;

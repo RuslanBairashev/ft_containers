@@ -160,9 +160,8 @@ public:
 		node_type*	tmp = tree_->root_;
 		while (tmp->pleft != NULL)
 			tmp = tmp->pleft;
-		// if (tmp == NULL) { std::cout << "\"tmp ITERATOR IS NULL!!!\"" << std::endl; }
-		// std::cout << tmp << std::endl;
-		// std::cout << &(tmp->value) << std::endl;
+		// tmp->pleft = tree_->quasiBegin_;
+		// tmp = tmp->pleft; // SEga
 		return iterator(&(tmp->value), tmp, tree_); //pointer,Node*,Tree*
 	}
 	iterator	end()
@@ -170,6 +169,8 @@ public:
 		node_type*	tmp = tree_->root_;
 		while (tmp->pright != NULL)
 			tmp = tmp->pright;
+		tmp->pright = tree_->quasiEnd_;
+		tmp = tmp->pright;
 		return iterator(&(tmp->value), tmp, tree_);
 	}
 

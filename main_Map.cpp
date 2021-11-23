@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
-//#include <vector>
+#include <vector>
 #include "Map.hpp"
 #include "Utility.hpp"
 #include "Miterator.hpp"
@@ -34,7 +34,8 @@ void	show_tree(ft::map<int, std::string> & mymap)
 	std::cout << "___FINISH SHOW TREE___" << std::endl;
 }
 
-void	map_info(ft::map<int, std::string> & mymap)
+template <class T, class U>
+void	map_info(ft::map<T, U> & mymap)
 {
 	std::cout << "Final: root is: " << mymap.tree_->root_->value.first << ". Size is: " << mymap.tree_->size_;
 	std::cout << ". Height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
@@ -84,17 +85,32 @@ int	main()
 	std::cout << "it.end= " << it->first << std::endl;
 	// mymap.insert(ft::pair<int, std::string>(1003, "notebook"));
 	// mymap.insert(ft::make_pair<int, std::string>(100, "notebook"));
-	map_info(mymap);
-	map_info(newmap);
+	map_info<int, std::string>(mymap);
+	map_info<int, std::string>(newmap);
 	ft::map<int, std::string> copymap;
 	copymap = newmap;
 
+	std::cout << "it.find= " << (mymap.find(100))->first << std::endl;
 	//mymap.clear();
 	std::cout /* << "Final: root is: " << mymap.tree_->root_->first */ << ". Size is: " << mymap.tree_->size_ << std::endl;
-	std::cout << "it.find= " << (mymap.find(100))->first << std::endl;
-	//ft::map<int, std::string> mp2(mymap.begin(), mymap.end());
-	// std::cout << mymap.tree_->root_->first << mymap.tree_->root_->second << std::endl;
-	//test.print_tree();
+	
+	ft::map<int, int> mp;
+
+    std::vector<int> v;
+
+    mp.insert(ft::make_pair<int, int>(1, 5));
+    mp.insert(ft::make_pair(4, 5));
+    for (int i = 0, j = 10; i < 300000; ++i, ++j) { //default 300000
+        mp.insert(ft::make_pair(i, j));
+    }
+    ft::map<int, int> mp2(mp.begin(), mp.end());
+	map_info<int, int>(mp);
+	map_info<int, int>(mp2);
+ 	ft::map<int, int>::iterator itmp = mp2.begin();
+    for (int i = 0; i < 3; ++i, itmp++) { //default 300000
+        v.push_back(itmp->first);
+        v.push_back(itmp->second);
+    }
 
 	return 0;
 }
