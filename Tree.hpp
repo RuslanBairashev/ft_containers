@@ -24,7 +24,7 @@ public:
 		Node*			pleft;
 		Node*			pright;
 		unsigned char	height;
-		Node() : value(ft::pair<const int, int>(0,0)), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
+		//Node() : value(ft::pair<const Key, T>(1,1)), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
 		Node(value_type val) : value(val), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
 		Node&	operator=(const Node& rhs)
 		{
@@ -49,8 +49,10 @@ public:
 	Tree(const std::less<Key>& comp, const allocator_type& alloc)
 	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), nodeAlloc_(alloc), comp_(comp)
 	{
-		quasiBegin_ = nodeAlloc_.allocate(1);
-		nodeAlloc_.construct(quasiBegin_, Node());
+		// quasiBegin_ = nodeAlloc_.allocate(1);
+		// nodeAlloc_.construct(quasiBegin_, Node());
+		// quasiEnd_ = nodeAlloc_.allocate(1);
+		// nodeAlloc_.construct(quasiEnd_, Node());
 	}
 	~Tree() {}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
@@ -132,6 +134,10 @@ public:
 			nodeAlloc_.construct(root_, Node(val)); //констракт вызывает конструктор
 			// root_->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
 			// pairAlloc_.construct(val); //констракт вызывает конструктор
+			quasiBegin_ = nodeAlloc_.allocate(1);
+			nodeAlloc_.construct(quasiBegin_, Node(val));
+			quasiEnd_ = nodeAlloc_.allocate(1);
+			nodeAlloc_.construct(quasiEnd_, Node(val));
 			size_++;
 			root_ = balance(root_); //maybe can del this
 			return ;
@@ -168,19 +174,16 @@ public:
 	Node*			findmin(Node* p) { return p->pleft ? findmin(p->pleft) : p; }
 	Node*			find(Node * p, Key k)
 	{
-		if (p->value->first == k)
-			;
-		else if (p->value->first < k)
+		while (p)
 		{
-			p = p->pleft;
-			find(p, k);
+			if (p->value.first == k)
+				return p;
+			else if (k < p->value.first)
+				p = p->pleft;
+			else
+				p = p->pright;
 		}
-		else
-		{
-			p = p->pright;
-			find(p, k);
-		}
-		return p;
+		return quasiEnd_;
 	}
 	Node			*removemin(Node *p)
 	{

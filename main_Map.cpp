@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+//#include <vector>
 #include "Map.hpp"
 #include "Utility.hpp"
 #include "Miterator.hpp"
@@ -49,12 +50,16 @@ int	main()
 	//std::cout << mymap.tree_->root_->value.first << std::endl;
 	mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
 	//std::cout << mymap.tree_->root_->pright->value.first << std::endl;
-	for(int i = 3; i < 11; i++)
+	for(int i = 3; i < 300; i++)
 		mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
 	// mymap.erase(100);
 	// mymap.erase(0);
 	//show_tree(mymap);
-	//std::cout << "        tree address= " << mymap.tree_ << std::endl;
+	std::cout << "        tree address= " << mymap.tree_ << std::endl;
+	std::cout << "        root address= " << mymap.tree_->root_ << std::endl;
+	std::cout << "       value address= " << &mymap.tree_->root_->value << std::endl;
+	std::cout << "       begin address= " << mymap.tree_->quasiBegin_ << std::endl;
+	std::cout << "         end address= " << mymap.tree_->quasiEnd_ << std::endl;
 	ft::map<int, std::string>::iterator it;
 	it  = mymap.begin();
 	if (it == NULL) { std::cout << "\"ITERATOR IS NULL!!!\"" << std::endl; }
@@ -86,14 +91,10 @@ int	main()
 
 	//mymap.clear();
 	std::cout /* << "Final: root is: " << mymap.tree_->root_->first */ << ". Size is: " << mymap.tree_->size_ << std::endl;
-	ft::map<int, std::string> mp2(mymap.begin(), mymap.end());
+	std::cout << "it.find= " << (mymap.find(100))->first << std::endl;
+	//ft::map<int, std::string> mp2(mymap.begin(), mymap.end());
 	// std::cout << mymap.tree_->root_->first << mymap.tree_->root_->second << std::endl;
 	//test.print_tree();
-/*  	std::map test1;
-	mymap.insert(std::make_pair(1, "phone"));
-	mymap.insert(ft::pair<int, std::string>(2, "notebook"));
-	std::cout << mymap[1] << std::endl;
-	mymap[18] = "TV";
-	std::cout << mymap[18] << std::endl;  */
+
 	return 0;
 }

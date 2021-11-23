@@ -182,7 +182,6 @@ public:
 
 	//iterators
 	
-	// iterator	end() {  ;}
 	// const_iterator	begin() const { ; }
 	// const_iterator	end() const { ;}
 	// reverse_iterator	rbegin() { ; }
@@ -260,7 +259,11 @@ public:
 
 	//Operations:
 	/*************************************************************************/
-	iterator find (const key_type& k);
+	iterator find (const key_type& k)
+	{
+		node_type*	tmp = tree_->find(tree_->root_, k);
+		return iterator(&(tmp->value), tmp, tree_);
+	}
 	const_iterator find (const key_type& k) const;
 
 	size_type count (const key_type& k) const
