@@ -75,6 +75,9 @@ public:
 			b->pright->parent = b;
 		fixheight(b);
 		fixheight(a);
+		// Node * tmp = findmax(root_);
+		// tmp->pright = quasiEnd_;
+		// quasiEnd_->parent = tmp;
 		return a;
 	}
 
@@ -89,6 +92,9 @@ public:
 			a->pright->parent = a;
 		fixheight(a);
 		fixheight(b);
+		// Node * tmp = findmax(root_);
+		// tmp->pright = quasiEnd_;
+		// quasiEnd_->parent = tmp;
 		return b;
 	}
 
@@ -107,6 +113,9 @@ public:
 				p->pleft = rotateleft(p->pleft);
 			return rotateright(p);
 		}
+		// Node * tmp = findmax(root_);
+		// tmp->pright = quasiEnd_;
+		// quasiEnd_->parent = tmp;
 		return p;
 	}
 	// bool			isnot_dublicate(Key k, Node* nod)

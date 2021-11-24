@@ -76,7 +76,7 @@ int	main()
 	//std::cout << mymap.tree_->root_->value.first << std::endl;
 	mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
 	//std::cout << mymap.tree_->root_->pright->value.first << std::endl;
-	for(int i = 3; i < 300; i++)
+	for(int i = 3; i < 30; i++)
 		mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
 	// mymap.erase(100);
 	// mymap.erase(0);
@@ -125,11 +125,11 @@ int	main()
 
     mp.insert(ft::make_pair<int, int>(1, 5));
     //mp.insert(ft::make_pair<int, int>(4, 5)); //check this
-    for (int i = 0, j = 10; i < 300000; ++i, ++j) { //default 300000
+    for (int i = 0, j = 10; i < 30; ++i, ++j) { //default 300000
         mp.insert(ft::make_pair(i, j));
     }
 	ft::map<int, int>::iterator it_mp00 = mp.begin();
-	for (int i = 0; i < 15; ++i)
+	for (int i = 0; i < 30; ++i)
 	{
 		++it_mp00;
 		std::cout << "it_mp00= " << it_mp00->first << std::endl;
