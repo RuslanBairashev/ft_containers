@@ -144,8 +144,8 @@ public:
 	// }
 	~map()
 	{
-		myAlloc_.destroy(tree_);
-		myAlloc_.deallocate(tree_, 1);
+		// myAlloc_.destroy(tree_);
+		// myAlloc_.deallocate(tree_, 1);
 	}
 	map& operator= (const map& rhs)
 	{
@@ -166,11 +166,12 @@ public:
 	}
 	iterator	end()
 	{
-		node_type*	tmp = tree_->root_;
-		while (tmp->pright != NULL)
-			tmp = tmp->pright;
-		tmp->pright = tree_->quasiEnd_;
-		tmp = tmp->pright;
+		node_type*	tmp = tree_->quasiEnd_;
+		// node_type*	tmp = tree_->root_;
+		// while (tmp->pright != NULL)
+		// 	tmp = tmp->pright;
+		// tmp->pright = tree_->quasiEnd_;
+		// tmp = tmp->pright;
 		//tmp->parent = tree_->findmax(tree_->root_); //sega
 		return iterator(&(tmp->value), tmp, tree_);
 	}

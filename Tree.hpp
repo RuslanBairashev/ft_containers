@@ -24,7 +24,6 @@ public:
 		Node*			pleft;
 		Node*			pright;
 		unsigned char	height;
-		//Node() : value(ft::pair<const Key, T>(1,1)), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
 		Node(value_type val) : value(val), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
 		Node&	operator=(const Node& rhs)
 		{

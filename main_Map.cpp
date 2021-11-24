@@ -120,25 +120,27 @@ int	main()
 	std::cout /* << "Final: root is: " << mymap.tree_->root_->first */ << ". Size is: " << mymap.tree_->size_ << std::endl;
 	
 	ft::map<int, int> mp;
-
+	
     std::vector<int> v;
 
     mp.insert(ft::make_pair<int, int>(1, 5));
+	std::cout << "         end address= " << mp.tree_->quasiEnd_ << std::endl;
     //mp.insert(ft::make_pair<int, int>(4, 5)); //check this
-    for (int i = 0, j = 10; i < 30; ++i, ++j) { //default 300000
+    for (int i = 0, j = 10; i < 10; ++i, ++j) { //default 300000
         mp.insert(ft::make_pair(i, j));
     }
 	ft::map<int, int>::iterator it_mp00 = mp.begin();
-	for (int i = 0; i < 30; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		++it_mp00;
 		std::cout << "it_mp00= " << it_mp00->first << std::endl;
 	}
 	ft::map<int, int>::iterator it_mp01 = mp.end();// --it_mp01;
 	std::cout << "it_mp01= " << it_mp01->first << std::endl;
-    ft::map<int, int> mp2(mp.begin(), mp.end());
-	map_info<int, int>(mp);
-	map_info<int, int>(mp2);
+	std::cout << "         end address= " << mp.tree_->quasiEnd_ << std::endl;
+    // ft::map<int, int> mp2(mp.begin(), mp.end());
+	// map_info<int, int>(mp);
+	// map_info<int, int>(mp2);
 	//show_tree(mp2);
  	// ft::map<int, int>::iterator itmp = mp2.begin();
     // for (int i = 0; i < 3; ++i, itmp++) { //default 300000

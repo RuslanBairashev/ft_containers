@@ -122,25 +122,14 @@ public:
 				{
 					while (this->m_ptr->first > this->currnode_ptr->parent->value.first)
 					{
-						if (this->m_ptr->first == ROOT->value.first)
-						{
-							THIS = QUASIEND;
-							// m_ptr = &(currnode_ptr->value);
-							// return *this;
-						}
-						else
-							THIS = PARENT;
+						THIS = PARENT;
+						if (THIS == ROOT)
+							break ;
 					}
-					// if (PARENT->parent == NULL)
-					// {
-					// 	THIS = QUASIEND;
-					// }
-					// else
-					// {
-					if (this->currnode_ptr != tree_ptr->quasiEnd_)
-						THIS = PARENT; //goto root
-					//std::cout << " str131\n";
-					// }
+					if (THIS != ROOT)
+						THIS = PARENT;
+					else
+						THIS = QUASIEND;
 				}
 				else //pright IS NOT NULL 
 				{
