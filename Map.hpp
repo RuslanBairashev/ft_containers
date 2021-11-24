@@ -129,7 +129,7 @@ public:
 	{
 		tree_ = myAlloc_.allocate(1);
 		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
-		for(/* unsigned i = 0 */ ; first != last ; /* ++i, */ ++first)
+		for( ; first != last ; ++first)
 			tree_->insert(*first, comp_);
 	}
 	//constructor: copy(3/3)
@@ -157,11 +157,15 @@ public:
 
 	iterator	begin()
 	{
-		node_type*	tmp = tree_->root_;
-		while (tmp->pleft != NULL)
-			tmp = tmp->pleft;
-		// tmp->pleft = tree_->quasiBegin_;
-		// tmp = tmp->pleft; // SEga
+		node_type*	tmp;
+		if (tree_->size_ == 0)
+			tmp = tree_->quasiEnd_;
+		else
+		{
+			tmp = tree_->root_;
+			while (tmp->pleft != NULL)
+				tmp = tmp->pleft;
+		}
 		return iterator(&(tmp->value), tmp, tree_); //pointer,Node*,Tree*
 	}
 	iterator	end()

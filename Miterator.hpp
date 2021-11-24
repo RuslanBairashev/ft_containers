@@ -136,7 +136,6 @@ public:
 					THIS = THIS->pright;
 					while (THIS->pleft != NULL)
 						THIS = THIS->pleft;
-					//std::cout << " str137\n";
 				}
 			}
 			m_ptr = &(currnode_ptr->value);
@@ -147,53 +146,58 @@ public:
 
 	Miterator&	operator--()
 	{
-		if (this->m_ptr->first == ROOT->value.first)
+		if (this->currnode_ptr != tree_ptr->quasiBegin_)
 		{
-			if (THIS->pleft == NULL)
+			if (this->m_ptr->first == ROOT->value.first)
 			{
-				THIS = QUASIBEGIN;
+				if (THIS->pleft == NULL)
+				{
+					THIS = QUASIBEGIN;
+				}
+				else
+				{
+					THIS = THIS->pleft;
+					while (THIS->pright != NULL)
+						THIS = THIS->pright;
+				}
+			}
+			else if (this->currnode_ptr == tree_ptr->quasiEnd_)
+			{
+				if (tree_ptr->size_ != 0)
+				{
+					THIS = ROOT;
+					while (THIS->pright != NULL)
+						THIS = THIS->pright;
+				}
+				else
+				{
+					THIS = QUASIBEGIN;
+				}
 			}
 			else
 			{
-				THIS = THIS->pleft;
-				while (THIS->pright != NULL)
-					THIS = THIS->pright;
-			}
-		}
-		else
-		{
-			if (THIS->pleft == NULL) // pleft == NULL
-			{
-				if (PARENT == GRANDP->pleft) //parent is left branch
+				if (THIS->pleft == NULL) // pleft == NULL
 				{
-					if (THIS == PARENT->pleft)
+					while (this->m_ptr->first < this->currnode_ptr->parent->value.first)
 					{
-						if (this->m_ptr->first < ROOT->value.first)
-						{
-							THIS = QUASIBEGIN;
-						}
-						else
-							THIS = ROOT;
+						THIS = PARENT;
+						if (THIS == ROOT)
+							break ;
 					}
-					else
+					if (THIS != ROOT)
 						THIS = PARENT;
+					else
+						THIS = QUASIBEGIN;
 				}
-				else // parent if right branch
+				else //pleft IS NOT NULL 
 				{
-					if (THIS == PARENT->pleft)
-						THIS = GRANDP;
-					else
-						THIS = PARENT;
+					THIS = THIS->pleft;
+					while (THIS->pright != NULL)
+						THIS = THIS->pright;
 				}
 			}
-			else //pleft IS NOT NULL 
-			{
-				THIS = THIS->pleft;
-				while (THIS->pright != NULL)
-					THIS = THIS->pright;
-			}
+			m_ptr = &(currnode_ptr->value);
 		}
-		m_ptr = &(currnode_ptr->value);
 		return *this;
 	}
 	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }

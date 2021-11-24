@@ -53,7 +53,15 @@ public:
 		// quasiEnd_ = nodeAlloc_.allocate(1);
 		// nodeAlloc_.construct(quasiEnd_, Node());
 	}
-	~Tree() {}
+	~Tree()
+	{
+		// nodeAlloc_.destroy(root_); //sega
+		// nodeAlloc_.deallocate(root_, 1);
+		// nodeAlloc_.destroy(quasiBegin_);
+		// nodeAlloc_.deallocate(quasiBegin_, 1);
+		// nodeAlloc_.destroy(quasiEnd_);
+		// nodeAlloc_.deallocate(quasiEnd_, 1);
+	}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
 	int				bfactor(Node *p) { return height(p->pright) - height(p->pleft); }
 	void			fixheight(Node *p)
@@ -117,22 +125,6 @@ public:
 		// quasiEnd_->parent = tmp;
 		return p;
 	}
-	// bool			isnot_dublicate(Key k, Node* nod)
-	// {
-	// 	if (nod->value.first == k)
-	// 		return false;
-	// 	if (nod->pleft != NULL)
-	// 	{
-	// 		if (!isnot_dublicate(k, nod->pleft))
-	// 			return false;
-	// 	}
-	// 	if (nod->pright != NULL)
-	// 	{
-	// 		if (!isnot_dublicate(k, nod->pright))
-	// 			return false;
-	// 	}
-	// 	return true;
-	// }
 
 	void			insert(value_type val, Compare comp)
 	{

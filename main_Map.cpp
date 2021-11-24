@@ -78,8 +78,10 @@ int	main()
 	//std::cout << mymap.tree_->root_->pright->value.first << std::endl;
 	for(int i = 3; i < 30; i++)
 		mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
-	// mymap.erase(100);
-	// mymap.erase(0);
+	mymap.erase(3);
+	mymap.erase(5);
+	mymap.erase(15);
+	map_info<int, std::string>(mymap);
 	//show_tree(mymap);
 	std::cout << "        tree address= " << mymap.tree_ << std::endl;
 	std::cout << "        root address= " << mymap.tree_->root_ << std::endl;
@@ -116,7 +118,7 @@ int	main()
 	copymap = newmap;
 
 	std::cout << "it.find= " << (mymap.find(100))->first << std::endl;
-	//mymap.clear();
+	mymap.clear();
 	std::cout /* << "Final: root is: " << mymap.tree_->root_->first */ << ". Size is: " << mymap.tree_->size_ << std::endl;
 	
 	ft::map<int, int> mp;
@@ -138,15 +140,10 @@ int	main()
 	ft::map<int, int>::iterator it_mp01 = mp.end();// --it_mp01;
 	std::cout << "it_mp01= " << it_mp01->first << std::endl;
 	std::cout << "         end address= " << mp.tree_->quasiEnd_ << std::endl;
-    // ft::map<int, int> mp2(mp.begin(), mp.end());
-	// map_info<int, int>(mp);
-	// map_info<int, int>(mp2);
-	//show_tree(mp2);
- 	// ft::map<int, int>::iterator itmp = mp2.begin();
-    // for (int i = 0; i < 3; ++i, itmp++) { //default 300000
-    //     v.push_back(itmp->first);
-    //     v.push_back(itmp->second);
-    // }
+	ft::map<int, int>::iterator it3 = mp.begin();
+    for (; it3 != mp.end(); ++it3) {
+        std::cout << "sega=" << it3->first << '\n';
+    }
 
 	return 0;
 }
