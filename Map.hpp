@@ -239,7 +239,7 @@ public:
 	//erase (1/3)	
 	void erase (iterator position);
 	//erase (2/3)	
-	size_type erase (const key_type& k) { tree_->remove(k); return 1;}
+	size_type erase (const key_type& k) { tree_->root_ = tree_->remove(tree_->root_, k); return 1;}
 	//erase (3/3)	
 	void erase (iterator first, iterator last);
 

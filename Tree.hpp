@@ -186,22 +186,12 @@ public:
 		}
 		return quasiEnd_;
 	}
-	Node			*removemin(Node *p)
+	Node*			removemin(Node *p)
 	{
 		if (p->pleft == NULL)
 			return p->pright;
 		p->pleft = removemin(p->pleft);
 		return balance(p);
-	}
-	void			remove(Key k)
-	{
-		if (!root_)
-			return ;
-		if (find(root_, k) != quasiEnd_)
-		{
-			root_ = remove(root_, k);
-			size_--;
-		}
 	}
 	Node*			remove(Node* p, Key k)
 	{
@@ -213,19 +203,76 @@ public:
 			p->pright = remove(p->pright, k);
 		else
 		{
-			Node*	q = p->pleft;
-			Node*	r = p->pright;
-			nodeAlloc_.destroy(p);
-			nodeAlloc_.deallocate(p, 1);
-			//delete p;
-			if (!r)
-				return q;
-			Node*	min = findmin(r);
-			min->pright = removemin(r);
-			min->pleft = q;
-			return balance(min);
+			Node*	tmp_parent = p->parent;
+			Node*	tmp_left = p->pleft;
+			Node*	tmp_right = p->pright;
+			std::cout << "p= " << p->value.first << std::endl;
+			std::cout << "tmp_parent->value.first= " << tmp_parent->value.first << std::endl;
+			delete p;
+			--size_;
+			if (!tmp_right)
+			{
+				// if (tmp_parent->pleft == p) //left branch
+				// 	tmp_parent->pleft = tmp_left;
+				// else
+				// 	tmp_parent->pright = tmp_left;
+				std::cout << "azaza\n";
+				if (tmp_left)
+					tmp_left->parent = tmp_parent;
+				return tmp_left;
+			}
+			Node*	min = findmin(tmp_right);
+			min->pright = removemin(tmp_right);
+			min->pleft = tmp_left;
+			min->parent = tmp_parent;
+			tmp_left->parent = min;
+			balance(min);
 		}
-		return balance(p);
+		return balance (p);
+	}
+	void			remove(Key k)
+	{
+		Node*	tmp;
+		if (!root_)
+			return ;
+		tmp = find(root_, k);
+		if (tmp  != quasiEnd_)
+		{
+			remove(tmp);
+			size_--;
+		}
+	}
+	void			remove(Node* p)
+	{
+		Node*	tmp_parent = p->parent;
+		Node*	tmp_left = p->pleft;
+		Node*	tmp_right = p->pright;
+
+		if (!tmp_right)
+		{
+			if (tmp_parent->pleft == p) //left branch
+				tmp_parent->pleft = tmp_left;
+			else
+				tmp_parent->pright = tmp_left;
+			if (tmp_left)
+				tmp_left->parent = tmp_parent;
+		}
+		else
+		{
+			Node*	min = findmin(tmp_right);
+			min->pright = removemin(tmp_right);
+			min->pleft = tmp_left;
+			min->parent = tmp_parent;
+			tmp_left->parent = min;
+			if (tmp_parent->pleft == p) //left branch
+				tmp_parent->pleft = min;
+			else
+				tmp_parent->pright = min;
+			balance(min);
+		}
+		nodeAlloc_.destroy(p);
+		nodeAlloc_.deallocate(p, 1);
+		balance(root_);
 	}
 	void			print_tree()
 	{
