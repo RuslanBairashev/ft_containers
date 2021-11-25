@@ -71,15 +71,15 @@ public:
 		p->height = (hl>hr ? hl : hr) + 1;
 	}
 
-	Node*			rotateright(Node *b) //right turn around p
+	Node*			rotateright(Node *b) //right turn around p/b
 	{
 		Node*	a = b->pleft;
 		b->pleft = a->pright;
 		a->pright = b;
 		a->parent = b->parent;
 		b->parent = a;
-		if (b->pright)
-			b->pright->parent = b;
+		if (b->pleft)
+			b->pleft->parent = b;
 		fixheight(b);
 		fixheight(a);
 		// Node * tmp = findmax(root_);
@@ -206,17 +206,12 @@ public:
 			Node*	tmp_parent = p->parent;
 			Node*	tmp_left = p->pleft;
 			Node*	tmp_right = p->pright;
-			std::cout << "p= " << p->value.first << std::endl;
-			std::cout << "tmp_parent->value.first= " << tmp_parent->value.first << std::endl;
-			delete p;
+			//delete p;
+			nodeAlloc_.destroy(p);
+			nodeAlloc_.deallocate(p, 1);
 			--size_;
 			if (!tmp_right)
 			{
-				// if (tmp_parent->pleft == p) //left branch
-				// 	tmp_parent->pleft = tmp_left;
-				// else
-				// 	tmp_parent->pright = tmp_left;
-				std::cout << "azaza\n";
 				if (tmp_left)
 					tmp_left->parent = tmp_parent;
 				return tmp_left;
@@ -226,7 +221,8 @@ public:
 			min->pleft = tmp_left;
 			min->parent = tmp_parent;
 			tmp_left->parent = min;
-			balance(min);
+			tmp_right->parent = min;
+			p = balance(min);
 		}
 		return balance (p);
 	}

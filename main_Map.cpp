@@ -120,8 +120,12 @@ int	main()
 	mymap.erase(1);
 	mymap.erase(2);
 	mymap.erase(6);
-	map_info<int, std::string>(mymap);
-	show_tree(mymap);
+	mymap.erase(7);
+	mymap.erase(8);
+	mymap.erase(9);
+	mymap.erase(4);
+	// map_info<int, std::string>(mymap);
+	// show_tree(mymap);
 
 	// std::cout << "        tree address= " << mymap.tree_ << std::endl;
 	// std::cout << "        root address= " << mymap.tree_->root_ << std::endl;
