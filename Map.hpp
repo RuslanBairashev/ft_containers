@@ -268,7 +268,7 @@ public:
 	// 	x.capacity_ = tmp_c;
 	// }
 
-	void clear() { tree_->clear(); }
+	void clear() { tree_->clear(tree_->root_); tree_->size_ = 0; }
 
 	//Observers:
 	/*************************************************************************/

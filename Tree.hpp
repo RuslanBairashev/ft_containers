@@ -262,10 +262,13 @@ public:
 			min->pleft = tmp_left;
 			min->parent = tmp_parent;
 			tmp_left->parent = min;
-			if (tmp_parent->pleft == p) //left branch
-				tmp_parent->pleft = min;
-			else
-				tmp_parent->pright = min;
+			if (tmp_parent)
+			{
+				if (tmp_parent->pleft == p) //left branch
+					tmp_parent->pleft = min;
+				else
+					tmp_parent->pright = min;
+			}
 			balance(min);
 		}
 		nodeAlloc_.destroy(p);
@@ -296,14 +299,26 @@ public:
 				print_tree(p->pright);
 		}
 	}
-	void			clear()
+	void			clear(Node *p)
 	{
-		while (size_ > 0)
+		if (p)
 		{
-			remove(root_->value.first);
+			if (p->pleft)
+				clear(p->pleft);
+			if (p->pright)
+				clear(p->pright);
+			nodeAlloc_.destroy(p);
+			nodeAlloc_.deallocate(p, 1);
 		}
-		root_ = NULL;
 	}
+	// 	void			clear()
+	// {
+	// 	while (size_ > 0)
+	// 	{
+	// 		remove(root_->value.first);
+	// 	}
+	// 	root_ = NULL;
+	// }
 
 };
 
