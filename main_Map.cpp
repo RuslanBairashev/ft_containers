@@ -109,35 +109,48 @@ int	main()
 		// std::cout << ". Size is: " << mymap.tree_->size_ << std::endl;
 	}
 	{
-		ft::map<int, int> mp;
-		std::vector<int> v;
-		mp.insert(ft::make_pair(7, 7));
-		mp.insert(ft::make_pair(9, 9));
-		std::cout << "size: " << mp.size() << std::endl;
-		ft::map<int, int>::iterator itx = mp.begin();
-		for (; itx != mp.end(); ++itx) {
-			std::cout << itx->first << ' ';
-		}
-		std::cout << std::endl;
-		show_tree(mp);
-		for (int i = 0, j = 0; i < 10; ++i, ++j) { //default 500
-			mp.insert(ft::make_pair(i, j));
-		}
-		show_tree(mp);
-		ft::map<int, int>::iterator it3 = mp.begin();
-		for (; it3 != mp.end(); ++it3) {
-			v.push_back(it3->first);
-			v.push_back(it3->second);
-		}
-		v.push_back(mp.size());
-		std::cout << "size: " << mp.size() << std::endl;
-		ft::map<int, int>::iterator ity = mp.begin();
-		for (; ity != mp.end(); ++ity) {
-			std::cout << ity->first << ' ';
-		}
-		std::cout << std::endl;
+		// ft::map<int, int> mp;
+		// std::vector<int> v;
+		// mp.insert(ft::make_pair(7, 7));
+		// mp.insert(ft::make_pair(9, 9));
+		// std::cout << "size: " << mp.size() << std::endl;
+		// ft::map<int, int>::iterator itx = mp.begin();
+		// for (; itx != mp.end(); ++itx) {
+		// 	std::cout << itx->first << ' ';
+		// }
+		// std::cout << std::endl;
+		// show_tree(mp);
+		// for (int i = 0, j = 0; i < 10; ++i, ++j) { //default 500
+		// 	mp.insert(ft::make_pair(i, j));
+		// }
+		// show_tree(mp);
+		// ft::map<int, int>::iterator it3 = mp.begin();
+		// for (; it3 != mp.end(); ++it3) {
+		// 	v.push_back(it3->first);
+		// 	v.push_back(it3->second);
+		// }
+		// v.push_back(mp.size());
+		// std::cout << "size: " << mp.size() << std::endl;
+		// ft::map<int, int>::iterator ity = mp.begin();
+		// for (; ity != mp.end(); ++ity) {
+		// 	std::cout << ity->first << ' ';
+		// }
+		// std::cout << std::endl;
 	}
 	std::cout << "/* ********************* insert() *********************** */" << std::endl;
+	std::cout << "/* ********************* iterator *********************** */" << std::endl;
+
+	ft::map<int, int> mp;
+    std::vector<int> v;
+    std::cout << mp.size() << '\n';
+
+    ft::map<int, int> mp0;
+	mp0.insert(ft::make_pair<int, int>(3,3));
+    //ft::map<int, int>::iterator ii = mp0.insert(ft::make_pair(3, 3)).first; //sega
+	ft::map<int, int>::iterator ii = mp0.begin();
+    ii++;
+    v.push_back((--ii)->first);
+	std::cout << "/* ********************* iterator *********************** */" << std::endl;
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 	// mymap.erase(3);
 	// mymap.erase(5);
