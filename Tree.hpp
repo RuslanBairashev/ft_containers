@@ -217,26 +217,28 @@ public:
 				return tmp_left;
 			}
 			Node*	min = findmin(tmp_right);
-			min->pright = removemin(tmp_right);
-			min->pleft = tmp_left;
-			min->parent = tmp_parent;
-			tmp_left->parent = min;
-			tmp_right->parent = min;
+			min->pright = removemin(tmp_right);//3
+			min->pleft = tmp_left;//1
+			min->parent = tmp_parent;//2
+			if (tmp_left)
+				tmp_left->parent = min;
+			// if (min->pright->parent != min)
+			// 	tmp_right->parent = min;
 			p = balance(min);
 		}
 		return balance (p);
 	}
-	void			remove(Key k)
+	int			remove(Key k)
 	{
 		Node*	tmp;
 		if (!root_)
-			return ;
+			return 0;
 		tmp = find(root_, k);
-		if (tmp  != quasiEnd_)
-		{
-			remove(tmp);
-			size_--;
-		}
+		if (tmp  == quasiEnd_)
+			return 0;
+		remove(tmp);
+		size_--;
+		return 1;
 	}
 	void			remove(Node* p)
 	{

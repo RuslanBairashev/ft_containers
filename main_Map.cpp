@@ -8,6 +8,7 @@
 #include "Reviterator.hpp"
 
 static std::multimap<int, int> multi;
+static std::multimap<int, int> multi2;
 
 void	show_node(ft::Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * node, unsigned level)
 {
@@ -32,6 +33,7 @@ void	show_node(ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const
 		std::cout << " Node: " << node ;
 		std::cout << " Parent: " << node->parent ;
 		std::cout << std::endl;
+		multi2.insert(std::make_pair(level, node->value.first));
 	}
 	if (node->pleft)
 		show_node(node->pleft, level + 1);
@@ -39,6 +41,7 @@ void	show_node(ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const
 		show_node(node->pright, level + 1);
 
 }
+
 void	show_tree(ft::map<int, std::string> & mymap)
 {
 	int	level = 0;
@@ -47,27 +50,6 @@ void	show_tree(ft::map<int, std::string> & mymap)
 	std::cout << "___START SHOW TREE___" << std::endl;
 	tmp = mymap.tree_->root_;
 	show_node(tmp, level);
-
-	// std::cout << ' ' << tmp->value.first << ' ';
-	// ++level;
-	// std::multimap<int,int>	pr_map;
-	// if (tmp->pleft)
-	// 	pr_map.insert(std::make_pair(level, std::make_pair(tmp->pleft->value.first, tmp->pleft)));
-	// if (tmp->pright)
-	// 	pr_map.insert(std::make_pair(level, std::make_pair(tmp->pright->value.first, tmp->pright)));
-	// for (; level < height; ++level)
-	// {
-	// 	std::multimap<int,int>::iterator	it1 = pr_map.begin();
-	// 	std::multimap<int,int>::iterator	it2 = pr_map.end();
-	// 	for( ; it1 != it2; ++it1)
-	// 	{
-	// 		if (it1->first == level)
-	// 			std::cout << ' ' << it1->second << ' ';
-	// 		if (tmp->pleft)
-	// 			pr_map.insert(std::make_pair(level, tmp->pleft->value.first));
-	// 	}
-	// 	multi.erase(level);
-	// }
 	
 	for (; level < height; ++level)
 	{
@@ -80,19 +62,28 @@ void	show_tree(ft::map<int, std::string> & mymap)
 		}
 		std::cout << std::endl;
 	}
-
-
 	std::cout << "___FINISH SHOW TREE___" << std::endl;
 }
 void	show_tree(ft::map<int, int> & mymap)
 {
-	unsigned	level = 0;
-	// unsigned height = static_cast<unsigned>(mymap.tree_->root_->height);
+	int	level = 0;
+	int height = static_cast<int>(mymap.tree_->root_->height);
 	ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const int, int> > >::Node * tmp;
 	std::cout << "___START SHOW TREE___" << std::endl;
 	tmp = mymap.tree_->root_;
-	//for (; level < height; ++level)
 	show_node(tmp, level);
+
+	for (; level < height; ++level)
+	{
+		std::multimap<int,int>::iterator it1 = multi2.begin();
+		std::multimap<int,int>::iterator it2 = multi2.end();
+		for( ; it1 != it2; ++it1)
+		{
+			if (it1->first == level)
+				std::cout << ' ' << it1->second << ' ';
+		}
+		std::cout << std::endl;
+	}
 	std::cout << "___FINISH SHOW TREE___" << std::endl;
 }
 
@@ -115,15 +106,54 @@ int	main()
 	//std::cout << mymap.tree_->root_->pright->value.first << std::endl;
 	for(int i = 3; i < 10; i++)
 		mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
-	mymap.erase(3);
-	mymap.erase(5);
-	mymap.erase(1);
-	mymap.erase(2);
-	mymap.erase(6);
-	mymap.erase(7);
-	mymap.erase(8);
-	mymap.erase(9);
-	mymap.erase(4);
+	std::cout << "/* ********************* erase() *********************** */" << std::endl;
+	// mymap.erase(3);
+	// mymap.erase(5);
+	// mymap.erase(1);
+	// mymap.erase(2);
+	// mymap.erase(6);
+	// mymap.erase(7);
+	// mymap.erase(8);
+	// mymap.erase(9);
+	// //mymap.erase(4);
+	// map_info<int, std::string>(mymap);
+	// show_tree(mymap);
+	{
+		ft::map<int, int> mp;
+		std::vector<int> v;
+		v.push_back(mp.erase(3));
+		for (int i = 0, j = 0; i < 300000 ; ++i, ++j)
+			mp.insert(ft::make_pair(i, j));
+		ft::map<int, int>::iterator it = mp.begin();
+		v.push_back(it->first);
+		v.push_back(mp.erase(-5));
+		v.push_back(mp.size());
+		v.push_back(mp.erase(0));
+		v.push_back(mp.size());
+		it = mp.begin();
+		v.push_back(it->first);
+		ft::map<int, int>::iterator it4 = mp.begin();
+		for (; it4 != mp.end(); it4 = mp.begin())
+			mp.erase(it4->first);
+		ft::map<int, int>::iterator it2 = mp.end();
+    	it2--;
+		ft::map<int, int> mp2;
+		for (int i = 0, j = 0; i < 10 ; ++i, ++j) //default 10
+			mp2.insert(ft::make_pair(i, j));
+		mp2.erase(2);
+		mp2.erase(7);
+		show_tree(mp2);
+		std::cout << "size=" << mp2.size() << '\n';
+		ft::map<int, int>::iterator it3 = mp2.begin();
+		for (; it3 != mp2.end(); ++it3) {
+			std::cout << "it3->first=" << it3->first << '\n';
+			sleep(1);
+		}
+	}
+	std::cout << "/* ********************* erase() *********************** */" << std::endl;
+	std::cout << "/* ********************* size() *********************** */" << std::endl;
+
+	std::cout << "/* ********************* size() *********************** */" << std::endl;
 	// map_info<int, std::string>(mymap);
 	// show_tree(mymap);
 
@@ -166,7 +196,7 @@ int	main()
 
 	// std::cout << "it.find= " << (mymap.find(100))->first << std::endl;
 	// mymap.clear();
-	// std::cout << ". Size is: " << mymap.tree_->size_ << std::endl;
+	std::cout << ". Size is: " << mymap.tree_->size_ << std::endl;
 	
 	// ft::map<int, int> mp;
 	
@@ -190,17 +220,7 @@ int	main()
 	// std::cout << "         end address= " << mp.tree_->quasiEnd_ << std::endl;
 
 
-	// ft::map<int, int> mp2;
-    // for (int i = 0, j = 0; i < 10 ; ++i, ++j) //default 10
-    //     mp2.insert(ft::make_pair(i, j));
-    // mp2.erase(2);
-    // mp2.erase(5);
-	// show_tree(mp2);
-    // std::cout << "size=" << mp2.size() << '\n';
-	// ft::map<int, int>::iterator it3 = mp2.begin();
-    // for (; it3 != mp2.end(); ++it3) {
-    //     std::cout << "it3->first=" << it3->first << '\n';
-    // }
+
 
 	return 0;
 }

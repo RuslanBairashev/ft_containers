@@ -148,20 +148,7 @@ public:
 	{
 		if (this->currnode_ptr != tree_ptr->quasiBegin_)
 		{
-			if (this->m_ptr->first == ROOT->value.first)
-			{
-				if (THIS->pleft == NULL)
-				{
-					THIS = QUASIBEGIN;
-				}
-				else
-				{
-					THIS = THIS->pleft;
-					while (THIS->pright != NULL)
-						THIS = THIS->pright;
-				}
-			}
-			else if (this->currnode_ptr == tree_ptr->quasiEnd_)
+			if (this->currnode_ptr == tree_ptr->quasiEnd_)
 			{
 				if (tree_ptr->size_ != 0)
 				{
@@ -172,6 +159,19 @@ public:
 				else
 				{
 					THIS = QUASIBEGIN;
+				}
+			}
+			else if (this->m_ptr->first == ROOT->value.first)
+			{
+				if (THIS->pleft == NULL)
+				{
+					THIS = QUASIBEGIN;
+				}
+				else
+				{
+					THIS = THIS->pleft;
+					while (THIS->pright != NULL)
+						THIS = THIS->pright;
 				}
 			}
 			else
