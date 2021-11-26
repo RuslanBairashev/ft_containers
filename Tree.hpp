@@ -164,7 +164,7 @@ public:
 			return p;
 			// return new Node(k, val);
 		}	
-		if (comp(val.first,root_->value.first)) //std::less<Key>
+		if (comp(val.first,p->value.first)) //std::less<Key>
 			p->pleft = insert(p->pleft, p, val, comp);
 		else
 			p->pright = insert(p->pright, p, val, comp);

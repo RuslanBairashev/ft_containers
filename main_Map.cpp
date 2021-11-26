@@ -99,13 +99,45 @@ int	main()
 	// ft::pair<int, std::string> pair1(2, "Notebook");
 	// std::cout << pair1.first << ' ' << pair1.second << std::endl;
 
-	// ft::map<int, std::string> mymap;
-	// mymap.insert(ft::make_pair<int, std::string>(1, "1.3"));
-	// //std::cout << mymap.tree_->root_->value.first << std::endl;
-	// mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
-	// //std::cout << mymap.tree_->root_->pright->value.first << std::endl;
-	// for(int i = 3; i < 10; i++)
-	// 	mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
+	std::cout << "/* ********************* insert() *********************** */" << std::endl;
+	{
+		// ft::map<int, std::string> mymap;
+		// mymap.insert(ft::make_pair<int, std::string>(1, "1.3"));
+		// mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
+		// for(int i = 0; i < 10; i++)
+		// 	mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
+		// std::cout << ". Size is: " << mymap.tree_->size_ << std::endl;
+	}
+	{
+		ft::map<int, int> mp;
+		std::vector<int> v;
+		mp.insert(ft::make_pair(7, 7));
+		mp.insert(ft::make_pair(9, 9));
+		std::cout << "size: " << mp.size() << std::endl;
+		ft::map<int, int>::iterator itx = mp.begin();
+		for (; itx != mp.end(); ++itx) {
+			std::cout << itx->first << ' ';
+		}
+		std::cout << std::endl;
+		show_tree(mp);
+		for (int i = 0, j = 0; i < 10; ++i, ++j) { //default 500
+			mp.insert(ft::make_pair(i, j));
+		}
+		show_tree(mp);
+		ft::map<int, int>::iterator it3 = mp.begin();
+		for (; it3 != mp.end(); ++it3) {
+			v.push_back(it3->first);
+			v.push_back(it3->second);
+		}
+		v.push_back(mp.size());
+		std::cout << "size: " << mp.size() << std::endl;
+		ft::map<int, int>::iterator ity = mp.begin();
+		for (; ity != mp.end(); ++ity) {
+			std::cout << ity->first << ' ';
+		}
+		std::cout << std::endl;
+	}
+	std::cout << "/* ********************* insert() *********************** */" << std::endl;
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 	// mymap.erase(3);
 	// mymap.erase(5);
@@ -153,18 +185,18 @@ int	main()
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
 	{
-		ft::map<int, int> mp;
-		std::vector<int> v;
-		mp.clear();
-		for (int i = 0, j = 0; i < 250000; ++i, ++j)
-			mp.insert(ft::make_pair(i, j));
-		v.push_back(mp.size());
-		mp.clear();
-		v.push_back(mp.size());
-		std::cout << "size =" << mp.size() << '\n';
-		ft::map<int, int>::iterator it = mp.begin();
-		if (it == mp.end())
-			v.push_back(1);
+		// ft::map<int, int> mp;
+		// std::vector<int> v;
+		// mp.clear();
+		// for (int i = 0, j = 0; i < 250000; ++i, ++j)
+		// 	mp.insert(ft::make_pair(i, j));
+		// v.push_back(mp.size());
+		// mp.clear();
+		// v.push_back(mp.size());
+		// std::cout << "size =" << mp.size() << '\n';
+		// ft::map<int, int>::iterator it = mp.begin();
+		// if (it == mp.end())
+		// 	v.push_back(1);
 	}
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
 	std::cout << "/* ********************* size() *********************** */" << std::endl;

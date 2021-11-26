@@ -223,6 +223,8 @@ public:
 	//insert: single element (1/3)	
 	pair<iterator,bool> insert (const value_type& val)
 	{
+		if (find(val.first) != end())
+			return (ft::make_pair(find(val.first), false));
 		tree_->insert(val, comp_);
 		return (ft::make_pair(&(tree_->root_->value), true));
 	}
