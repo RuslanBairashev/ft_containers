@@ -17,21 +17,23 @@
 namespace ft
 {
 
-/* template < class T, class Allocator >
-class vector;
-template < class T, class Allocator >
-bool	operator==(const vector<T, Allocator> & lhs, const vector<T, Allocator> & rhs)
+template < class Key, class T, class Compare, class Allocator >
+class map;
+template < class Key, class T, class Compare, class Allocator >
+bool	operator==(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
 {
 	if (lhs.size() != rhs.size())
 		return false;
-	for (size_t i = 0; i < lhs.size(); ++i)
+	typename ft::map<Key, T, Compare, Allocator>::iterator lit = lhs.begin();
+	typename ft::map<Key, T, Compare, Allocator>::iterator rit = rhs.begin();
+	for (size_t i = 0; i < lhs.size(); ++i, ++lit, ++rit)
 	{
-		if (lhs.array_[i] != rhs.array_[i])
+		if (*lit != *rit)
 			return false;
 	}
 	return true;
 }
-
+/*
 template < class T, class Allocator >
 bool	operator!=(const vector<T, Allocator> & lhs, const vector<T, Allocator> & rhs)
 {
@@ -301,7 +303,10 @@ public:
 		return 1;
 	}
 
-	iterator lower_bound (const key_type& k);
+	iterator lower_bound (const key_type& k)
+	{
+		return find(k);
+	}
 	const_iterator lower_bound (const key_type& k) const;
 
 	iterator upper_bound (const key_type& k);
@@ -314,13 +319,14 @@ public:
 	/*************************************************************************/
 	allocator_type get_allocator() const
 	{
-		return tree_->nodeAlloc_;
+		allocator_type	tmp;
+		return tmp;
 	}
 
 	//Non-member function overloads
 	/*************************************************************************/
-	// friend	bool	operator== <> (const map & lhs, const map & rhs);
-	// friend	bool	operator!= <> (const map & lhs, const map & rhs);
+	friend	bool	operator== <> (const map & lhs, const map & rhs);
+	friend	bool	operator!= <> (const map & lhs, const map & rhs);
 	// friend	bool	operator< <> (map & lhs, map & rhs);
 	// friend	bool	operator> <> (map & lhs, map & rhs);
 	// friend	bool	operator>= <> (map & lhs, map & rhs);

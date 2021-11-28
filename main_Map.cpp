@@ -231,6 +231,15 @@ int	main()
 	std::cout << "/* ********************* size() *********************** */" << std::endl;
 
 	std::cout << "/* ********************* size() *********************** */" << std::endl;
+	std::cout << "/* ********************* lower_bound() *********************** */" << std::endl;
+	{
+	// ft::map<int, int> mp;
+    // std::vector<int> v;
+    // ft::map<int, int, std::greater<int> > mp2;
+    // mp.insert(ft::make_pair(10, 10));
+    // mp2.insert(ft::make_pair(10, 10));
+	}
+	std::cout << "/* ********************* lower_bound() *********************** */" << std::endl;
 	// map_info<int, std::string>(mymap);
 	// show_tree(mymap);
 
