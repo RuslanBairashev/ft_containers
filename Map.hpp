@@ -139,8 +139,7 @@ public:
 	// 	myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
 	// 	iterator	first = x.begin();
 	// 	iterator	last = x.end();
-	// 	for(unsigned i = 0 ; first->first != last->first ; ++i, ++first)
-	// 		tree_->insert(*first, comp_);
+	// 	insert(first, last);
 	// }
 	~map()
 	{
@@ -152,6 +151,10 @@ public:
 		if (this == &rhs)
 			return *this;
 		clear();
+		map<Key, T> tmp(rhs);
+		iterator	first = tmp.begin();
+		iterator	last = tmp.end();
+		insert(first, last);
 		return *this;
 	} 
 
@@ -212,11 +215,12 @@ public:
 
 	//Element access
 	/*************************************************************************/
-	mapped_type& operator[] (const key_type& k); // depends on find
-	// reference	operator[](size_type index)
-	// {
-	// 	return array_[index];
-	// }
+	mapped_type& operator[] (const key_type& k) // depends on find
+	{
+		if (find(k) != end())
+			return (find(k).m_ptr->second);
+		return (insert(make_pair(k,0)).second);
+	}
 
 	//Modifiers
 	/*************************************************************************/
@@ -232,14 +236,18 @@ public:
 	//insert(with hint) (2/3)	
 	//iterator insert (iterator position, const value_type& val);
 	//insert(range) (3/3)	
-	// template <class InputIterator>
-	// void insert (InputIterator first, InputIterator last)
-	// {
-
-	// }
+	template <class InputIterator>
+	void insert (InputIterator first, InputIterator last)
+	{
+		for( ; first != last; ++first)
+			insert(*first);
+	}
 
 	//erase (1/3)	
-	void erase (iterator position);
+	void erase (iterator position)
+	{
+		erase(position.m_ptr->first);
+	}
 	//erase (2/3)	
 	size_type erase (const key_type& k)
 	{
@@ -249,13 +257,12 @@ public:
 			return 0;
 		return 1;
 	}
-	// 	  	size_type erase (const key_type& k)
-	//  { 
-	// 	 tree_->root_ = tree_->remove(tree_->root_, k);
-	// 	  return 1;
-	// 	  }
 	//erase (3/3)	
-	void erase (iterator first, iterator last);
+	void erase (iterator first, iterator last)
+	{
+		for ( ; first != last; ++first)
+			erase(first.m_ptr->first);
+	}
 
 	// void swap (map& x);
 	// {
@@ -289,7 +296,7 @@ public:
 
 	size_type count (const key_type& k) const
 	{
-		if (tree_->isnot_dublicate(k, tree_->root_))
+		if (tree_->find(tree_->root_, k) == tree_->quasiEnd_)
 			return 0;
 		return 1;
 	}

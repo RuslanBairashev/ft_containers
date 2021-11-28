@@ -98,7 +98,13 @@ int	main()
 {
 	// ft::pair<int, std::string> pair1(2, "Notebook");
 	// std::cout << pair1.first << ' ' << pair1.second << std::endl;
+	std::cout << "/* ********************* key_redefinition *********************** */" << std::endl;
+	{
+	// ft::map<int, int>::iterator it;
 
+    // it->first = 1;
+	}
+	std::cout << "/* ********************* key_redefinition *********************** */" << std::endl;
 	std::cout << "/* ********************* insert() *********************** */" << std::endl;
 	{
 		// ft::map<int, std::string> mymap;
@@ -139,17 +145,18 @@ int	main()
 	}
 	std::cout << "/* ********************* insert() *********************** */" << std::endl;
 	std::cout << "/* ********************* iterator *********************** */" << std::endl;
+	{
+		// ft::map<int, int> mp;
+		// std::vector<int> v;
+		// std::cout << mp.size() << '\n';
 
-	ft::map<int, int> mp;
-    std::vector<int> v;
-    std::cout << mp.size() << '\n';
-
-    ft::map<int, int> mp0;
-	mp0.insert(ft::make_pair<int, int>(3,3));
-    //ft::map<int, int>::iterator ii = mp0.insert(ft::make_pair(3, 3)).first; //sega
-	ft::map<int, int>::iterator ii = mp0.begin();
-    ii++;
-    v.push_back((--ii)->first);
+		// ft::map<int, int> mp0;
+		// mp0.insert(ft::make_pair<int, int>(3,3));
+		// //ft::map<int, int>::iterator ii = mp0.insert(ft::make_pair(3, 3)).first; //sega
+		// ft::map<int, int>::iterator ii = mp0.begin();
+		// ii++;
+		// v.push_back((--ii)->first);
+	}
 	std::cout << "/* ********************* iterator *********************** */" << std::endl;
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 	// mymap.erase(3);
@@ -194,6 +201,15 @@ int	main()
 	// 		std::cout << "it3->first=" << it3->first << '\n';
 	// 		sleep(1);
 	// 	}
+	}
+	{
+		ft::map<int, int> mp;
+		std::vector<int> v;
+		for (int i = 0, j = 0; i < 500000; ++i, ++j)
+			mp.insert(ft::make_pair(i, j));
+
+		mp.erase(mp.begin(), --mp.end());
+		v.push_back(mp.begin()->first);
 	}
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
