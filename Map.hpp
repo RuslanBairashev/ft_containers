@@ -17,29 +17,29 @@
 namespace ft
 {
 
-// template < class Key, class T, class Compare, class Allocator >
-// class map;
-// template < class Key, class T, class Compare, class Allocator >
-// bool	operator==(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
-// {
-// 	if (lhs.size() != rhs.size())
-// 		return false;
-// 	typename ft::map<Key, T, Compare, Allocator>::iterator lit = lhs.begin();
-// 	typename ft::map<Key, T, Compare, Allocator>::iterator rit = rhs.begin();
-// 	for (size_t i = 0; i < lhs.size(); ++i, ++lit, ++rit)
-// 	{
-// 		if (*lit != *rit)
-// 			return false;
-// 	}
-// 	return true;
-// }
-/*
-template < class T, class Allocator >
-bool	operator!=(const vector<T, Allocator> & lhs, const vector<T, Allocator> & rhs)
+template < class Key, class T, class Compare, class Allocator >
+class map;
+template < class Key, class T, class Compare, class Allocator >
+bool	operator==(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
+{
+	if (lhs.size() != rhs.size())
+		return false;
+	typename ft::map<Key, T, Compare, Allocator>::iterator lit = lhs.begin();
+	typename ft::map<Key, T, Compare, Allocator>::iterator rit = rhs.begin();
+	for (size_t i = 0; i < lhs.size(); ++i, ++lit, ++rit)
+	{
+		if (*(lit) != *(rit))
+			return false;
+	}
+	return true;
+}
+
+template < class Key, class T, class Compare, class Allocator >
+bool	operator!=(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
 {
 	return !(lhs == rhs);
 }
-
+/*
 template < class T, class Allocator >
 bool	operator<(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
 {
@@ -176,16 +176,26 @@ public:
 	iterator	end()
 	{
 		node_type*	tmp = tree_->quasiEnd_;
-		// node_type*	tmp = tree_->root_;
-		// while (tmp->pright != NULL)
-		// 	tmp = tmp->pright;
-		// tmp->pright = tree_->quasiEnd_;
-		// tmp = tmp->pright;
-		//tmp->parent = tree_->findmax(tree_->root_); //sega
 		return iterator(&(tmp->value), tmp, tree_);
 	}
-
-
+	const_iterator	begin() const
+	{
+		node_type*	tmp;
+		if (tree_->size_ == 0)
+			tmp = tree_->quasiEnd_;
+		else
+		{
+			tmp = tree_->root_;
+			while (tmp->pleft != NULL)
+				tmp = tmp->pleft;
+		}
+		return const_iterator(&(tmp->value), tmp, tree_); //pointer,Node*,Tree*
+	}
+	const_iterator	end() const
+	{
+		node_type*	tmp = tree_->quasiEnd_;
+		return const_iterator(&(tmp->value), tmp, tree_);
+	}
 
 
 	/*************************************************************************/
@@ -325,8 +335,8 @@ public:
 
 	//Non-member function overloads
 	/*************************************************************************/
-	// friend	bool	operator== <> (const map & lhs, const map & rhs);
-	// friend	bool	operator!= <> (const map & lhs, const map & rhs);
+	friend	bool	operator== <> (const map & lhs, const map & rhs);
+	friend	bool	operator!= <> (const map & lhs, const map & rhs);
 	// friend	bool	operator< <> (map & lhs, map & rhs);
 	// friend	bool	operator> <> (map & lhs, map & rhs);
 	// friend	bool	operator>= <> (map & lhs, map & rhs);

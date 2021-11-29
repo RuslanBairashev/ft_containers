@@ -16,6 +16,7 @@ class	Tree
 {
 public:
 	typedef	ft::pair<const Key, T>		value_type;
+	typedef Compare						key_compare;
 	typedef	Allocator					allocator_type;
 	struct Node
 	{
@@ -43,9 +44,9 @@ public:
 	Node*		quasiEnd_;
 	//std::allocator<ft::pair<const Key, T> >	pairAlloc_;
 	std::allocator<Node>	nodeAlloc_;
-	std::less<Key>			comp_;
+	key_compare				comp_;
 
-	Tree(const std::less<Key>& comp, const allocator_type& alloc)
+	Tree(const key_compare& comp, const allocator_type& alloc)
 	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), nodeAlloc_(alloc), comp_(comp)
 	{
 		// quasiBegin_ = nodeAlloc_.allocate(1);
@@ -179,7 +180,7 @@ public:
 		{
 			if (p->value.first == k)
 				return p;
-			else if (k < p->value.first)
+			else if (k < p->value.first)//comp?
 				p = p->pleft;
 			else
 				p = p->pright;
