@@ -17,22 +17,22 @@
 namespace ft
 {
 
-template < class Key, class T, class Compare, class Allocator >
-class map;
-template < class Key, class T, class Compare, class Allocator >
-bool	operator==(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
-{
-	if (lhs.size() != rhs.size())
-		return false;
-	typename ft::map<Key, T, Compare, Allocator>::iterator lit = lhs.begin();
-	typename ft::map<Key, T, Compare, Allocator>::iterator rit = rhs.begin();
-	for (size_t i = 0; i < lhs.size(); ++i, ++lit, ++rit)
-	{
-		if (*lit != *rit)
-			return false;
-	}
-	return true;
-}
+// template < class Key, class T, class Compare, class Allocator >
+// class map;
+// template < class Key, class T, class Compare, class Allocator >
+// bool	operator==(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
+// {
+// 	if (lhs.size() != rhs.size())
+// 		return false;
+// 	typename ft::map<Key, T, Compare, Allocator>::iterator lit = lhs.begin();
+// 	typename ft::map<Key, T, Compare, Allocator>::iterator rit = rhs.begin();
+// 	for (size_t i = 0; i < lhs.size(); ++i, ++lit, ++rit)
+// 	{
+// 		if (*lit != *rit)
+// 			return false;
+// 	}
+// 	return true;
+// }
 /*
 template < class T, class Allocator >
 bool	operator!=(const vector<T, Allocator> & lhs, const vector<T, Allocator> & rhs)
@@ -325,8 +325,8 @@ public:
 
 	//Non-member function overloads
 	/*************************************************************************/
-	friend	bool	operator== <> (const map & lhs, const map & rhs);
-	friend	bool	operator!= <> (const map & lhs, const map & rhs);
+	// friend	bool	operator== <> (const map & lhs, const map & rhs);
+	// friend	bool	operator!= <> (const map & lhs, const map & rhs);
 	// friend	bool	operator< <> (map & lhs, map & rhs);
 	// friend	bool	operator> <> (map & lhs, map & rhs);
 	// friend	bool	operator>= <> (map & lhs, map & rhs);
