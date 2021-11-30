@@ -227,11 +227,10 @@ public:
 
 	//Element access
 	/*************************************************************************/
-	mapped_type& operator[] (const key_type& k) // depends on find
+	mapped_type& operator[] (const key_type& k)
 	{
-		if (find(k) != end())
-			return (find(k).m_ptr->second);
-		return (insert(make_pair(k,0)).second);
+		this->insert(ft::make_pair(k,mapped_type()));
+		return find(k)->second;
 	}
 
 	//Modifiers
@@ -246,7 +245,14 @@ public:
 	}
 
 	//insert(with hint) (2/3)	
-	//iterator insert (iterator position, const value_type& val);
+	iterator insert (iterator position, const value_type& val)
+	{
+		if (find(val.first) != end())
+			return find(val.first);
+		tree_->insert(val, key_compare());
+		position = &(tree_->root_->value);
+		return position;
+	}
 	//insert(range) (3/3)	
 	template <class InputIterator>
 	void insert (InputIterator first, InputIterator last)
@@ -321,18 +327,32 @@ public:
 			return iterator(&(tmp->value), tmp); // if found k
 		iterator	it = begin();
 		iterator	last = end();
-		while (k > it->first && it != last)
+		while (k > it->first && it != last) // comp?
 			++it;
 		return it;
-		//return iterator(&(tmp->value), tmp); //default quasiend
 	}
 	const_iterator lower_bound (const key_type& k) const;
 
-	iterator upper_bound (const key_type& k);
+	iterator upper_bound (const key_type& k)
+	{
+		node_type*	tmp = tree_->find(tree_->root_, k);
+		if (tmp != tree_->quasiEnd_)
+			return iterator(&(tmp->parent->value), tmp); // if found k
+		iterator	it = begin();
+		iterator	last = end();
+		while (k > it->first && it != last)
+			++it;
+		return it;
+	}
 	const_iterator upper_bound (const key_type& k) const;
 
 	pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;
-	pair<iterator,iterator>				equal_range (const key_type& k);
+	pair<iterator,iterator>				equal_range (const key_type& k)
+	{
+		if (find() == end())
+			return (ft::make_pair(upper_bound(k), upper_bound(k)));
+		return (ft::make_pair(lower_bound(k), upper_bound(k)));
+	}
 
 	//Allocator:
 	/*************************************************************************/
