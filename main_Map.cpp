@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <iterator>
 #include <vector>
 #include "Map.hpp"
 #include "Utility.hpp"
@@ -10,89 +11,89 @@
 static std::multimap<int, int> multi;
 static std::multimap<int, int> multi2;
 
-void	show_node(ft::Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * node, unsigned level)
-{
-	if (node != NULL)
-	{
-		std::cout << "LEVEL:" << level << ' ' << node->value.first ;
-		std::cout << " Node: " << node ;
-		std::cout << " Parent: " << node->parent ;
-		std::cout << std::endl;
-		multi.insert(std::make_pair(level, node->value.first));
-	}
-	if (node->pleft)
-		show_node(node->pleft, level + 1);
-	if (node->pright)
-		show_node(node->pright, level + 1);
-}
-void	show_node(ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const int, int> > >::Node * node, unsigned level)
-{
-	if (node != NULL)
-	{
-		std::cout << "LEVEL:" << level << ' ' << node->value.first ;
-		std::cout << " Node: " << node ;
-		std::cout << " Parent: " << node->parent ;
-		std::cout << std::endl;
-		multi2.insert(std::make_pair(level, node->value.first));
-	}
-	if (node->pleft)
-		show_node(node->pleft, level + 1);
-	if (node->pright)
-		show_node(node->pright, level + 1);
+// void	show_node(ft::Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * node, unsigned level)
+// {
+// 	if (node != NULL)
+// 	{
+// 		std::cout << "LEVEL:" << level << ' ' << node->value.first ;
+// 		std::cout << " Node: " << node ;
+// 		std::cout << " Parent: " << node->parent ;
+// 		std::cout << std::endl;
+// 		multi.insert(std::make_pair(level, node->value.first));
+// 	}
+// 	if (node->pleft)
+// 		show_node(node->pleft, level + 1);
+// 	if (node->pright)
+// 		show_node(node->pright, level + 1);
+// }
+// void	show_node(ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const int, int> > >::Node * node, unsigned level)
+// {
+// 	if (node != NULL)
+// 	{
+// 		std::cout << "LEVEL:" << level << ' ' << node->value.first ;
+// 		std::cout << " Node: " << node ;
+// 		std::cout << " Parent: " << node->parent ;
+// 		std::cout << std::endl;
+// 		multi2.insert(std::make_pair(level, node->value.first));
+// 	}
+// 	if (node->pleft)
+// 		show_node(node->pleft, level + 1);
+// 	if (node->pright)
+// 		show_node(node->pright, level + 1);
 
-}
+// }
 
-void	show_tree(ft::map<int, std::string> & mymap)
-{
-	int	level = 0;
-	int height = static_cast<int>(mymap.tree_->root_->height);
-	ft::Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * tmp;
-	std::cout << "___START SHOW TREE___" << std::endl;
-	tmp = mymap.tree_->root_;
-	show_node(tmp, level);
+// void	show_tree(ft::map<int, std::string> & mymap)
+// {
+// 	int	level = 0;
+// 	int height = static_cast<int>(mymap.tree_->root_->height);
+// 	ft::Tree<int, std::string, std::less<int>, std::allocator<std::pair<const int, std::string> > >::Node * tmp;
+// 	std::cout << "___START SHOW TREE___" << std::endl;
+// 	tmp = mymap.tree_->root_;
+// 	show_node(tmp, level);
 	
-	for (; level < height; ++level)
-	{
-		std::multimap<int,int>::iterator it1 = multi.begin();
-		std::multimap<int,int>::iterator it2 = multi.end();
-		for( ; it1 != it2; ++it1)
-		{
-			if (it1->first == level)
-				std::cout << ' ' << it1->second << ' ';
-		}
-		std::cout << std::endl;
-	}
-	std::cout << "___FINISH SHOW TREE___" << std::endl;
-}
-void	show_tree(ft::map<int, int> & mymap)
-{
-	int	level = 0;
-	int height = static_cast<int>(mymap.tree_->root_->height);
-	ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const int, int> > >::Node * tmp;
-	std::cout << "___START SHOW TREE___" << std::endl;
-	tmp = mymap.tree_->root_;
-	show_node(tmp, level);
+// 	for (; level < height; ++level)
+// 	{
+// 		std::multimap<int,int>::iterator it1 = multi.begin();
+// 		std::multimap<int,int>::iterator it2 = multi.end();
+// 		for( ; it1 != it2; ++it1)
+// 		{
+// 			if (it1->first == level)
+// 				std::cout << ' ' << it1->second << ' ';
+// 		}
+// 		std::cout << std::endl;
+// 	}
+// 	std::cout << "___FINISH SHOW TREE___" << std::endl;
+// }
+// void	show_tree(ft::map<int, int> & mymap)
+// {
+// 	int	level = 0;
+// 	int height = static_cast<int>(mymap.tree_->root_->height);
+// 	ft::Tree<int, int, std::less<int>, std::allocator<std::pair<const int, int> > >::Node * tmp;
+// 	std::cout << "___START SHOW TREE___" << std::endl;
+// 	tmp = mymap.tree_->root_;
+// 	show_node(tmp, level);
 
-	for (; level < height; ++level)
-	{
-		std::multimap<int,int>::iterator it1 = multi2.begin();
-		std::multimap<int,int>::iterator it2 = multi2.end();
-		for( ; it1 != it2; ++it1)
-		{
-			if (it1->first == level)
-				std::cout << ' ' << it1->second << ' ';
-		}
-		std::cout << std::endl;
-	}
-	std::cout << "___FINISH SHOW TREE___" << std::endl;
-}
+// 	for (; level < height; ++level)
+// 	{
+// 		std::multimap<int,int>::iterator it1 = multi2.begin();
+// 		std::multimap<int,int>::iterator it2 = multi2.end();
+// 		for( ; it1 != it2; ++it1)
+// 		{
+// 			if (it1->first == level)
+// 				std::cout << ' ' << it1->second << ' ';
+// 		}
+// 		std::cout << std::endl;
+// 	}
+// 	std::cout << "___FINISH SHOW TREE___" << std::endl;
+// }
 
-template <class T, class U>
-void	map_info(ft::map<T, U> & mymap)
-{
-	std::cout << "Final: root is: " << mymap.tree_->root_->value.first << ". Size is: " << mymap.tree_->size_;
-	std::cout << ". Height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
-}
+// template <class T, class U>
+// void	map_info(ft::map<T, U> & mymap)
+// {
+// 	std::cout << "Final: root is: " << mymap.tree_->root_->value.first << ". Size is: " << mymap.tree_->size_;
+// 	std::cout << ". Height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
+// }
 
 int	main()
 {
@@ -260,13 +261,39 @@ int	main()
 	//show_tree(mp);
 	//std::cout << std::endl;
 	//show_tree(mp2);
+	// ft::map<int, int, std::greater<int> >::iterator it2;
+	// it2 = mp2.begin();
     // for (int i = 11; i < 70; i += 10) {
-    //     it = mp2.lower_bound(i);
-    //     v.push_back(it->first);
+    //     it2= mp2.lower_bound(i);
+    //     v.push_back(it2->first);
     // }
 
 	}
 	std::cout << "/* ********************* lower_bound() *********************** */" << std::endl;
+	std::cout << "/* ********************* std::map tests *********************** */" << std::endl;
+
+	{
+		std::map<int, int>	mp;
+		std::map<int, int, std::greater<int> >	mpg;
+		mp.insert(std::make_pair(0,0));
+		mp.insert(std::make_pair(1,1));
+		std::map<int,int>::iterator	it = mp.begin();
+		std::cout << it->first << std::endl;
+		std::cout << ++it->second << std::endl;
+		it = mpg.begin();
+
+
+		ft::map<int, int>	mp2;
+		ft::map<int, int, std::greater<int> >	mpg2;
+		mp2.insert(ft::make_pair(0,0));
+		mp2.insert(ft::make_pair(1,1));
+		ft::map<int,int>::iterator	it2 = mp2.begin();
+		std::cout << it2->first << std::endl;
+		std::cout << ++it2->second << std::endl;
+		//it2 = mpg2.begin();
+	}
+
+	std::cout << "/* ********************* std::map tests *********************** */" << std::endl;
 	// map_info<int, std::string>(mymap);
 	// show_tree(mymap);
 

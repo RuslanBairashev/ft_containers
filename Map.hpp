@@ -84,7 +84,7 @@ class map
 public:
 	typedef	Key											key_type;
 	typedef	T											mapped_type;
-	typedef	ft::pair<const Key, T>						value_type;
+	typedef	ft::pair<const key_type, mapped_type>		value_type;
 	typedef	Allocator									allocator_type;
 	typedef Compare										key_compare;
 	typedef Tree<Key, T, Compare>						tree_type;
@@ -100,7 +100,7 @@ public:
 	typedef	size_t										size_type;
 	typedef	ptrdiff_t									difference_type;
 
-/* 	class	value_compare: public std::binary_function<value_type, value_type, bool>
+ 	class	value_compare: public std::binary_function<value_type, value_type, bool>
 	{
 		friend class map;
 	protected:
@@ -109,12 +109,12 @@ public:
 	public:
 		bool operator()(const value_type& x, const value_type& y) const
 			{return comp(x.first, y.first);}
-	}; */
+	};
 
 	tree_type*					tree_;
 	std::allocator<tree_type>	myAlloc_;
-	private:
-		key_compare				comp_;
+	// private:
+	// 	key_compare				comp_;
 
 public:
 	//constructor: empty (1/3) //ok
@@ -132,7 +132,7 @@ public:
 		tree_ = myAlloc_.allocate(1);
 		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
 		for( ; first != last ; ++first)
-			tree_->insert(*first, comp_);
+			tree_->insert(*first, comp);
 	}
 	//constructor: copy(3/3)
 	// map (const map& x)
@@ -241,7 +241,7 @@ public:
 	{
 		if (find(val.first) != end())
 			return (ft::make_pair(find(val.first), false));
-		tree_->insert(val, comp_);
+		tree_->insert(val, key_compare());
 		return (ft::make_pair(&(tree_->root_->value), true));
 	}
 
@@ -293,9 +293,10 @@ public:
 
 	//Observers:
 	/*************************************************************************/
-	key_compare key_comp() const { return comp_; }
+	//key_compare key_comp() const { return comp_; }
+	key_compare key_comp() const { return key_compare(); }
 
-	//value_compare value_comp() const;
+	value_compare value_comp() const { return value_compare(key_compare()); }
 
 	//Operations:
 	/*************************************************************************/

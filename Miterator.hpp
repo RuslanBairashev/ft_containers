@@ -8,6 +8,7 @@
 #include "Utility.hpp"
 
 #define	ROOT		tree_ptr->root_
+//#define	ROOT		find_root(THIS)
 #define	GRANDP		this->currnode_ptr->parent->parent
 #define	PARENT		this->currnode_ptr->parent
 #define	THIS		this->currnode_ptr
@@ -87,6 +88,14 @@ public:
 	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr), tree_ptr(it.tree_ptr) {}
 	~Miterator() {}
 
+	ptrNode			find_root(ptrNode p)
+	{
+		// if (size_ == 0)
+		// 	return NULL;
+		while (p->parent)
+			p = p->parent;
+		return p;
+	}
 	reference	operator=(const Miterator & rhs)
 	{
 		m_ptr = rhs.m_ptr;
@@ -103,7 +112,7 @@ public:
 	{
 		if (this->currnode_ptr != tree_ptr->quasiEnd_)
 		{
-			if (this->m_ptr->first == ROOT->value.first)
+			if (this->m_ptr->first == find_root(THIS)->value.first)
 			{
 				if (THIS->pright == NULL)
 				{
@@ -123,10 +132,10 @@ public:
 					while (this->m_ptr->first > this->currnode_ptr->parent->value.first)
 					{
 						THIS = PARENT;
-						if (THIS == ROOT)
+						if (THIS == find_root(THIS))
 							break ;
 					}
-					if (THIS != ROOT)
+					if (THIS != find_root(THIS))
 						THIS = PARENT;
 					else
 						THIS = QUASIEND;
@@ -152,7 +161,7 @@ public:
 			{
 				if (tree_ptr->size_ != 0)
 				{
-					THIS = ROOT;
+					THIS = ROOT; //find_root(THIS) - TIMEOUT
 					while (THIS->pright != NULL)
 						THIS = THIS->pright;
 				}
@@ -161,7 +170,7 @@ public:
 					THIS = QUASIBEGIN;
 				}
 			}
-			else if (this->m_ptr->first == ROOT->value.first)
+			else if (this->m_ptr->first == find_root(THIS)->value.first)
 			{
 				if (THIS->pleft == NULL)
 				{
@@ -181,10 +190,10 @@ public:
 					while (this->m_ptr->first < this->currnode_ptr->parent->value.first)
 					{
 						THIS = PARENT;
-						if (THIS == ROOT)
+						if (THIS == find_root(THIS))
 							break ;
 					}
-					if (THIS != ROOT)
+					if (THIS != find_root(THIS))
 						THIS = PARENT;
 					else
 						THIS = QUASIBEGIN;

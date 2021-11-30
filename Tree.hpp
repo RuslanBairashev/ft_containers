@@ -63,6 +63,14 @@ public:
 		// nodeAlloc_.destroy(quasiEnd_);
 		// nodeAlloc_.deallocate(quasiEnd_, 1);
 	}
+	Node*			find_root(Node *p)
+	{
+		if (size_ == 0)
+			return NULL;
+		while (p->parent)
+			p = p->parent;
+		return p;
+	}
 	unsigned char	height(Node *p) { return p ? p->height : 0; }
 	int				bfactor(Node *p) { return height(p->pright) - height(p->pleft); }
 	void			fixheight(Node *p)
