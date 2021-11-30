@@ -13,11 +13,11 @@ template<class T>
 struct enable_if<true, T> { typedef T type; };
 
 // template <class T1, class T2>
-// bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+// bool operator== (const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs)
 // { return lhs.first==rhs.first && lhs.second==rhs.second; }
 
 // template <class T1, class T2>
-// bool operator!= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
+// bool operator!= (const ft::pair<T1,T2>& lhs, const ft::pair<T1,T2>& rhs)
 // { return !(lhs==rhs); }
 
 template <class T1, class T2>
@@ -43,8 +43,8 @@ struct pair
 		return *this;
 	}
 
-	// friend bool operator==(const pair & lhs, const pair & rhs);
-	// friend bool operator!= (const pair & lhs, const pair & rhs);
+	friend bool operator==(const pair & lhs, const pair & rhs);
+	friend bool operator!= (const pair & lhs, const pair & rhs);
 
 
 

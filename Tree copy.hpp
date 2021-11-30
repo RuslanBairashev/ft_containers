@@ -17,11 +17,8 @@ struct Node
 	Node*			parent;
 	Node*			pleft;
 	Node*			pright;
-	Node*			pbegin;
-	Node*			pend;
 	unsigned char	height;
-	Node(value_type val)
-	 : value(val), parent(NULL), pleft(NULL), pright(NULL), pbegin(NULL), pend(NULL), height(1) {}
+	Node(value_type val) : value(val), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
 	Node&	operator=(const Node& rhs)
 	{
 		if (this == &rhs)
@@ -30,8 +27,6 @@ struct Node
 		this->parent = rhs->parent;
 		this->pleft = rhs->pleft;
 		this->pright = rhs->pright;
-		this->pbegin = rhs->pbegin;
-		this->pend = rhs->pend;
 		this->height = rhs->height;
 		return *this;
 	} 
@@ -89,7 +84,7 @@ public:
 		// nodeAlloc_.destroy(quasiEnd_);
 		// nodeAlloc_.deallocate(quasiEnd_, 1);
 	}
-	Node<const Key, T>*			find_root(Node<const Key, T> *p)
+	Node*			find_root(Node *p)
 	{
 		if (size_ == 0)
 			return NULL;
@@ -97,24 +92,18 @@ public:
 			p = p->parent;
 		return p;
 	}
-	// Node<const Key, T>*			lower_bound(Key k)
-	// {
-	// 	Node<const Key, T>*	tmp = findmin(root_);
-	// 	while (k < tmp->value.first && tmp != quasiEnd_)
-
-	// }
-	unsigned char	height(Node<const Key, T> *p) { return p ? p->height : 0; }
-	int				bfactor(Node<const Key, T> *p) { return height(p->pright) - height(p->pleft); }
-	void			fixheight(Node<const Key, T> *p)
+	unsigned char	height(Node *p) { return p ? p->height : 0; }
+	int				bfactor(Node *p) { return height(p->pright) - height(p->pleft); }
+	void			fixheight(Node *p)
 	{
 		unsigned char hl = height(p->pleft);
 		unsigned char hr = height(p->pright);
 		p->height = (hl>hr ? hl : hr) + 1;
 	}
 
-	Node<const Key, T>*			rotateright(Node<const Key, T> *b) //right turn around p/b
+	Node*			rotateright(Node *b) //right turn around p/b
 	{
-		Node<const Key, T>*	a = b->pleft;
+		Node*	a = b->pleft;
 		b->pleft = a->pright;
 		a->pright = b;
 		a->parent = b->parent;
@@ -129,9 +118,9 @@ public:
 		return a;
 	}
 
-	Node<const Key, T>*			rotateleft(Node<const Key, T> *a) //left turn around p
+	Node*			rotateleft(Node *a) //left turn around p
 	{
-		Node<const Key, T>*	b = a->pright;
+		Node*	b = a->pright;
 		a->pright = b->pleft;
 		b->pleft = a;
 		b->parent = a->parent;
@@ -146,7 +135,7 @@ public:
 		return b;
 	}
 
-	Node<const Key, T>*			balance(Node<const Key, T>* p)
+	Node*			balance(Node* p)
 	{
 		fixheight(p);
 		if (bfactor(p) == 2)
@@ -172,19 +161,13 @@ public:
 		if (!root_)
 		{
 			root_ = nodeAlloc_.allocate(1); //аллокатор только аллоцирует память
-			nodeAlloc_.construct(root_, Node<const Key, T>(val)); //констракт вызывает конструктор
+			nodeAlloc_.construct(root_, Node(val)); //констракт вызывает конструктор
 			// root_->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
 			// pairAlloc_.construct(val); //констракт вызывает конструктор
 			quasiBegin_ = nodeAlloc_.allocate(1);
-			nodeAlloc_.construct(quasiBegin_, Node<const Key, T>(val));
+			nodeAlloc_.construct(quasiBegin_, Node(val));
 			quasiEnd_ = nodeAlloc_.allocate(1);
-			nodeAlloc_.construct(quasiEnd_, Node<const Key, T>(val));
-			root_->pbegin = quasiBegin_;
-			root_->pend = quasiEnd_;
-			quasiBegin_->pbegin = quasiBegin_;
-			quasiBegin_->pend = quasiEnd_;
-			quasiEnd_->pbegin = quasiBegin_;
-			quasiEnd_->pend = quasiEnd_;
+			nodeAlloc_.construct(quasiEnd_, Node(val));
 			size_++;
 			root_ = balance(root_); //maybe can del this
 			return ;
@@ -199,17 +182,15 @@ public:
 			root_ = balance(root_);
 		}
 	}
-	Node<const Key, T>*			insert(Node<const Key, T> *p, Node<const Key, T> *parent, value_type val, Compare comp)
+	Node*			insert(Node *p, Node *parent, value_type val, Compare comp)
 	{
 		if (!p)
 		{
 			p = nodeAlloc_.allocate(1); //аллокатор только аллоцирует память
-			nodeAlloc_.construct(p, Node<const Key, T>(val)); //констракт вызывает конструктор
+			nodeAlloc_.construct(p, Node(val)); //констракт вызывает конструктор
 			// p->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
 			// pairAlloc_.construct(val); //констракт вызывает конструктор
 			p->parent = parent;
-			p->pbegin = quasiBegin_;
-			p->pend = quasiEnd_;
 			return p;
 			// return new Node(k, val);
 		}	
@@ -220,39 +201,29 @@ public:
 		return balance(p);
 	}
 
-	Node<const Key, T>*			findmin(Node<const Key, T>* p) { return p->pleft ? findmin(p->pleft) : p; }
-	Node<const Key, T>*			findmax(Node<const Key, T>* p) { return p->pright ? findmax(p->pright) : p; }
-	Node<const Key, T>*			find(Node<const Key, T> * p, Key k)
+	Node*			findmin(Node* p) { return p->pleft ? findmin(p->pleft) : p; }
+	Node*			findmax(Node* p) { return p->pright ? findmax(p->pright) : p; }
+	Node*			find(Node * p, Key k)
 	{
 		while (p)
 		{
 			if (p->value.first == k)
 				return p;
-			//else if (k < p->value.first)//comp?
-			else if (comp_(k, p->value.first))
+			else if (k < p->value.first)//comp?
 				p = p->pleft;
 			else
 				p = p->pright;
 		}
 		return quasiEnd_;
 	}
-	// Node<const Key, T>*			closest_max(Node<const Key, T> * p, Key k)
-	// {
-	// 	while (p)
-	// 	{
-	// 		while (k > p->value.first && p != quasiEnd_)
-
-	// 	}
-	// 	return quasiEnd_;
-	// }
-	Node<const Key, T>*			removemin(Node<const Key, T> *p)
+	Node*			removemin(Node *p)
 	{
 		if (p->pleft == NULL)
 			return p->pright;
 		p->pleft = removemin(p->pleft);
 		return balance(p);
 	}
-	Node<const Key, T>*			remove(Node<const Key, T>* p, Key k)
+	Node*			remove(Node* p, Key k)
 	{
 		if (!p)
 			return 0;
@@ -262,9 +233,9 @@ public:
 			p->pright = remove(p->pright, k);
 		else
 		{
-			Node<const Key, T>*	tmp_parent = p->parent;
-			Node<const Key, T>*	tmp_left = p->pleft;
-			Node<const Key, T>*	tmp_right = p->pright;
+			Node*	tmp_parent = p->parent;
+			Node*	tmp_left = p->pleft;
+			Node*	tmp_right = p->pright;
 			//delete p;
 			nodeAlloc_.destroy(p);
 			nodeAlloc_.deallocate(p, 1);
@@ -275,7 +246,7 @@ public:
 					tmp_left->parent = tmp_parent;
 				return tmp_left;
 			}
-			Node<const Key, T>*	min = findmin(tmp_right);
+			Node*	min = findmin(tmp_right);
 			min->pright = removemin(tmp_right);//3
 			min->pleft = tmp_left;//1
 			min->parent = tmp_parent;//2
@@ -289,7 +260,7 @@ public:
 	}
 	int			remove(Key k)
 	{
-		Node<const Key, T>*	tmp;
+		Node*	tmp;
 		if (!root_)
 			return 0;
 		tmp = find(root_, k);
@@ -299,11 +270,11 @@ public:
 		size_--;
 		return 1;
 	}
-	void			remove(Node<const Key, T>* p)
+	void			remove(Node* p)
 	{
-		Node<const Key, T>*	tmp_parent = p->parent;
-		Node<const Key, T>*	tmp_left = p->pleft;
-		Node<const Key, T>*	tmp_right = p->pright;
+		Node*	tmp_parent = p->parent;
+		Node*	tmp_left = p->pleft;
+		Node*	tmp_right = p->pright;
 
 		if (!tmp_right)
 		{
@@ -316,7 +287,7 @@ public:
 		}
 		else
 		{
-			Node<const Key, T>*	min = findmin(tmp_right);
+			Node*	min = findmin(tmp_right);
 			min->pright = removemin(tmp_right);
 			min->pleft = tmp_left;
 			min->parent = tmp_parent;
@@ -347,7 +318,7 @@ public:
 		else
 			std::cout << "root_ IS NULL" << std::endl;
 	}
-	void			print_tree(Node<const Key, T>* p)
+	void			print_tree(Node* p)
 	{
 		if (p)
 		{
@@ -358,7 +329,7 @@ public:
 				print_tree(p->pright);
 		}
 	}
-	void			clear(Node<const Key, T> *p)
+	void			clear(Node *p)
 	{
 		if (p)
 		{

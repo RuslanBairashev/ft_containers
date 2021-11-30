@@ -7,13 +7,15 @@
 #include "Tree.hpp" //error if include
 #include "Utility.hpp"
 
-#define	ROOT		tree_ptr->root_
+//#define	ROOT		tree_ptr->root_
 //#define	ROOT		find_root(THIS)
 #define	GRANDP		this->currnode_ptr->parent->parent
 #define	PARENT		this->currnode_ptr->parent
 #define	THIS		this->currnode_ptr
-#define	QUASIBEGIN	tree_ptr->quasiBegin_;
-#define	QUASIEND	tree_ptr->quasiEnd_;
+#define	QUASIBEGIN	this->currnode_ptr->pbegin;
+#define	QUASIEND	this->currnode_ptr->pend;
+// #define	QUASIBEGIN	tree_ptr->quasiBegin_;
+// #define	QUASIEND	tree_ptr->quasiEnd_;
 
 namespace ft
 {
@@ -57,7 +59,7 @@ public:
 	typedef Reference	reference;
 };
 
-template <class T, class ptrNode, class ptrTree>
+template <class T, class ptrNode>
 class Miterator : public iterator<T>
 {
 public:
@@ -70,12 +72,12 @@ public:
 
 	pointer m_ptr; //pointer to pair
 	ptrNode	currnode_ptr;
-	ptrTree	tree_ptr;
+	//ptrTree	tree_ptr;
 
-	Miterator() : m_ptr(NULL), currnode_ptr(NULL), tree_ptr(NULL) {}
+	Miterator() : m_ptr(NULL), currnode_ptr(NULL)/* , tree_ptr(NULL) */ {}
 	Miterator(pointer ptr) : m_ptr(ptr) {}
-	Miterator(pointer ptr, ptrNode node, ptrTree tree)
-		: m_ptr(ptr), currnode_ptr(node), tree_ptr(tree)
+	Miterator(pointer ptr, ptrNode node/* , ptrTree tree */)
+		: m_ptr(ptr), currnode_ptr(node)/* , tree_ptr(tree)*/
 		 { 
 			// std::cout << "currnode_ptr address= " << currnode_ptr << std::endl;
 			// std::cout << "        node address= " << node << std::endl;
@@ -83,9 +85,9 @@ public:
 			// std::cout << "        tree address= " << tree << std::endl;
 			// std::cout << "constr\n";
 			}
-	template <class Constornot, class cNode, class cTree>
-	Miterator(const Miterator<Constornot, cNode, cTree> & it)
-	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr), tree_ptr(it.tree_ptr) {}
+	template <class Constornot, class cNode/* , class cTree */>
+	Miterator(const Miterator<Constornot, cNode/* , cTree */> & it)
+	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr)/* , tree_ptr(it.tree_ptr) */ {}
 	~Miterator() {}
 
 	ptrNode			find_root(ptrNode p)
@@ -100,7 +102,7 @@ public:
 	{
 		m_ptr = rhs.m_ptr;
 		currnode_ptr = rhs.currnode_ptr;
-		tree_ptr = rhs.tree_ptr;
+		/* tree_ptr = rhs.tree_ptr; */
 		return *m_ptr;
 	}
 
@@ -110,12 +112,13 @@ public:
 	pointer		operator->() { return m_ptr; }
 	Miterator&	operator++()
 	{
-		if (this->currnode_ptr != tree_ptr->quasiEnd_)
+		if (this->currnode_ptr != this->currnode_ptr->pbegin)
 		{
 			if (this->m_ptr->first == find_root(THIS)->value.first)
 			{
 				if (THIS->pright == NULL)
 				{
+					this->currnode_ptr->pend->parent = THIS;
 					THIS = QUASIEND;
 				}
 				else
@@ -138,7 +141,10 @@ public:
 					if (THIS != find_root(THIS))
 						THIS = PARENT;
 					else
+					{
+						this->currnode_ptr->pend->parent = THIS;
 						THIS = QUASIEND;
+					}
 				}
 				else //pright IS NOT NULL 
 				{
@@ -155,13 +161,13 @@ public:
 
 	Miterator&	operator--()
 	{
-		if (this->currnode_ptr != tree_ptr->quasiBegin_)
+		if (this->currnode_ptr != this->currnode_ptr->pbegin)
 		{
-			if (this->currnode_ptr == tree_ptr->quasiEnd_)
+			if (this->currnode_ptr == this->currnode_ptr->pend)
 			{
-				if (tree_ptr->size_ != 0)
+				if (this->currnode_ptr->pbegin != NULL)
 				{
-					THIS = ROOT; //find_root(THIS) - TIMEOUT
+					THIS = find_root(THIS); //find_root(THIS) - TIMEOUT
 					while (THIS->pright != NULL)
 						THIS = THIS->pright;
 				}

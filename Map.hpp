@@ -88,13 +88,13 @@ public:
 	typedef	Allocator									allocator_type;
 	typedef Compare										key_compare;
 	typedef Tree<Key, T, Compare>						tree_type;
-	typedef typename	Tree<Key, T, Compare>::Node		node_type;
+	typedef Node<const Key, T>							node_type;
 	typedef typename	allocator_type::reference		reference;
 	typedef typename	allocator_type::const_reference	const_reference;
 	typedef typename	allocator_type::pointer			pointer;
 	typedef typename	allocator_type::const_pointer	const_pointer;
-	typedef typename	ft::Miterator<pointer, node_type*, tree_type*>			iterator;
-	typedef typename	ft::Miterator<const_pointer, node_type*, tree_type*>	const_iterator;
+	typedef typename	ft::Miterator<pointer, node_type*>			iterator;
+	typedef typename	ft::Miterator<const_pointer, node_type*>	const_iterator;
 	typedef typename	ft::Reviterator<pointer>		reverse_iterator;
 	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
 	typedef	size_t										size_type;
@@ -171,12 +171,12 @@ public:
 			while (tmp->pleft != NULL)
 				tmp = tmp->pleft;
 		}
-		return iterator(&(tmp->value), tmp, tree_); //pointer,Node*,Tree*
+		return iterator(&(tmp->value), tmp); //pointer,Node*
 	}
 	iterator	end()
 	{
 		node_type*	tmp = tree_->quasiEnd_;
-		return iterator(&(tmp->value), tmp, tree_);
+		return iterator(&(tmp->value), tmp);
 	}
 	const_iterator	begin() const
 	{
@@ -189,12 +189,12 @@ public:
 			while (tmp->pleft != NULL)
 				tmp = tmp->pleft;
 		}
-		return const_iterator(&(tmp->value), tmp, tree_); //pointer,Node*,Tree*
+		return const_iterator(&(tmp->value), tmp); //pointer,Node*
 	}
 	const_iterator	end() const
 	{
 		node_type*	tmp = tree_->quasiEnd_;
-		return const_iterator(&(tmp->value), tmp, tree_);
+		return const_iterator(&(tmp->value), tmp);
 	}
 
 
@@ -303,7 +303,7 @@ public:
 	iterator find (const key_type& k)
 	{
 		node_type*	tmp = tree_->find(tree_->root_, k);
-		return iterator(&(tmp->value), tmp, tree_);
+		return iterator(&(tmp->value), tmp);
 	}
 	const_iterator find (const key_type& k) const;
 
@@ -316,7 +316,15 @@ public:
 
 	iterator lower_bound (const key_type& k)
 	{
-		return find(k);
+		node_type*	tmp = tree_->find(tree_->root_, k);
+		if (tmp != tree_->quasiEnd_)
+			return iterator(&(tmp->value), tmp); // if found k
+		iterator	it = begin();
+		iterator	last = end();
+		while (k > it->first && it != last)
+			++it;
+		return it;
+		//return iterator(&(tmp->value), tmp); //default quasiend
 	}
 	const_iterator lower_bound (const key_type& k) const;
 
