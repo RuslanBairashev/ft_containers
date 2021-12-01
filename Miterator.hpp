@@ -109,7 +109,7 @@ public:
 	bool		operator== (const Miterator& it) const { return m_ptr == it.m_ptr; };
 	bool		operator!= (const Miterator& it) const { return m_ptr != it.m_ptr; };
 	reference	operator*() { return *m_ptr; }
-	pointer		operator->() { return m_ptr; }
+	pointer		operator->() const { return m_ptr; }
 	Miterator&	operator++()
 	{
 		if (this->currnode_ptr != this->currnode_ptr->pbegin)

@@ -349,7 +349,7 @@ public:
 	pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;
 	pair<iterator,iterator>				equal_range (const key_type& k)
 	{
-		if (find() == end())
+		if (find(k) == end())
 			return (ft::make_pair(upper_bound(k), upper_bound(k)));
 		return (ft::make_pair(lower_bound(k), upper_bound(k)));
 	}
