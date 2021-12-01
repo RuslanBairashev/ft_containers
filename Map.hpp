@@ -113,8 +113,8 @@ public:
 
 	tree_type*					tree_;
 	std::allocator<tree_type>	myAlloc_;
-	// private:
-	// 	key_compare				comp_;
+	private:
+		key_compare				comp_;
 
 public:
 	//constructor: empty (1/3) //ok
@@ -152,11 +152,13 @@ public:
 	{
 		if (this == &rhs)
 			return *this;
-		clear();
-		map<Key, T> tmp(rhs);
-		iterator	first = tmp.begin();
-		iterator	last = tmp.end();
-		insert(first, last);
+		this->tree_ = rhs.tree_;
+		// clear();
+		// //map<Key, T> tmp(rhs);
+		// const_iterator	first = rhs.begin();
+		// const_iterator	last = rhs.end();
+		// for( ; first != last ; ++first)
+		// 	tree_->insert(*first, key_compare());
 		return *this;
 	} 
 
@@ -264,7 +266,8 @@ public:
 	//erase (1/3)	
 	void erase (iterator position)
 	{
-		erase(position.m_ptr->first);
+		const key_type	k = position.m_ptr->first; 
+		erase(k);
 	}
 	//erase (2/3)	
 	size_type erase (const key_type& k)
@@ -327,7 +330,7 @@ public:
 			return iterator(&(tmp->value), tmp); // if found k
 		iterator	it = begin();
 		iterator	last = end();
-		while (k > it->first && it != last) // comp?
+		while (comp_(it->first, k) && it != last) // comp? (k > it->first && it != last)
 			++it;
 		return it;
 	}

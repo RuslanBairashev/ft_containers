@@ -112,6 +112,120 @@ public:
 	pointer		operator->() const { return m_ptr; }
 	Miterator&	operator++()
 	{
+		if (this->currnode_ptr != this->currnode_ptr->pend)
+		{
+			if (this->m_ptr->first == find_root(THIS)->value.first)
+			{
+				if (THIS->pright == NULL)
+				{
+					this->currnode_ptr->pend->parent = THIS;
+					THIS = QUASIEND;
+				}
+				else
+				{
+					THIS = THIS->pright;
+					while (THIS->pleft != NULL)
+						THIS = THIS->pleft;
+				}
+			}
+			else
+			{
+				if (THIS->pright == NULL) // pright == NULL
+				{
+					//while (this->m_ptr->first > this->currnode_ptr->parent->value.first)
+					while (THIS == PARENT->pright)
+					{
+						THIS = PARENT;
+						if (THIS == find_root(THIS))
+							break ;
+					}
+					if (THIS != find_root(THIS)) //if after iteration not in root
+						THIS = PARENT;
+					else	// if after iteration in root, go to end
+					{
+						this->currnode_ptr->pend->parent = THIS;
+						THIS = QUASIEND;
+					}
+				}
+				else //pright IS NOT NULL 
+				{
+					THIS = THIS->pright;
+					while (THIS->pleft != NULL)
+						THIS = THIS->pleft;
+				}
+			}
+			m_ptr = &(currnode_ptr->value);
+		}
+		return *this;
+	}
+	Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }
+
+	Miterator&	operator--()
+	{
+		if (this->currnode_ptr != this->currnode_ptr->pbegin)
+		{
+			if (this->currnode_ptr == this->currnode_ptr->pend)
+			{
+				if (this->currnode_ptr->pbegin != NULL)
+				{
+					THIS = find_root(THIS); //find_root(THIS) - TIMEOUT
+					while (THIS->pright != NULL)
+						THIS = THIS->pright;
+				}
+				else
+				{
+					THIS = QUASIBEGIN;
+				}
+			}
+			else if (this->m_ptr->first == find_root(THIS)->value.first)
+			{
+				if (THIS->pleft == NULL)
+				{
+					THIS = QUASIBEGIN;
+				}
+				else
+				{
+					THIS = THIS->pleft;
+					while (THIS->pright != NULL)
+						THIS = THIS->pright;
+				}
+			}
+			else
+			{
+				if (THIS->pleft == NULL) // pleft == NULL
+				{
+					while (this->m_ptr->first < this->currnode_ptr->parent->value.first)
+					{
+						THIS = PARENT;
+						if (THIS == find_root(THIS))
+							break ;
+					}
+					if (THIS != find_root(THIS))
+						THIS = PARENT;
+					else
+						THIS = QUASIBEGIN;
+				}
+				else //pleft IS NOT NULL 
+				{
+					THIS = THIS->pleft;
+					while (THIS->pright != NULL)
+						THIS = THIS->pright;
+				}
+			}
+			m_ptr = &(currnode_ptr->value);
+		}
+		return *this;
+	}
+	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }
+};
+
+}
+#endif
+
+/*
+
+	Miterator&	operator++()
+	{
 		if (this->currnode_ptr != this->currnode_ptr->pbegin)
 		{
 			if (this->m_ptr->first == find_root(THIS)->value.first)
@@ -216,11 +330,8 @@ public:
 		return *this;
 	}
 	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }
-};
 
-}
-#endif
-
+*/
 	// Miterator&	operator++()
 	// {
 	// 	if (this->m_ptr->first == ROOT->value.first)

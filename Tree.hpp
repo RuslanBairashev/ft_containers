@@ -256,11 +256,7 @@ public:
 	{
 		if (!p)
 			return 0;
-		if (k < p->value.first)
-			p->pleft = remove(p->pleft, k);
-		else if (k > p->value.first)
-			p->pright = remove(p->pright, k);
-		else
+		if (k == p->value.first)
 		{
 			Node<const Key, T>*	tmp_parent = p->parent;
 			Node<const Key, T>*	tmp_left = p->pleft;
@@ -285,6 +281,10 @@ public:
 			// 	tmp_right->parent = min;
 			p = balance(min);
 		}
+		else if (comp_(k, p->value.first)) // (k < p->value.first)
+			p->pleft = remove(p->pleft, k);
+		else  //(k > p->value.first)
+			p->pright = remove(p->pright, k);
 		return balance (p);
 	}
 	int			remove(Key k)
