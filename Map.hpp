@@ -24,8 +24,8 @@ bool	operator==(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, C
 {
 	if (lhs.size() != rhs.size())
 		return false;
-	typename ft::map<Key, T, Compare, Allocator>::iterator lit = lhs.begin();
-	typename ft::map<Key, T, Compare, Allocator>::iterator rit = rhs.begin();
+	typename ft::map<Key, T, Compare, Allocator>::const_iterator lit = lhs.begin();
+	typename ft::map<Key, T, Compare, Allocator>::const_iterator rit = rhs.begin();
 	for (size_t i = 0; i < lhs.size(); ++i, ++lit, ++rit)
 	{
 		if (*(lit) != *(rit))
@@ -39,11 +39,11 @@ bool	operator!=(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, C
 {
 	return !(lhs == rhs);
 }
-/*
-template < class T, class Allocator >
-bool	operator<(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
+
+template < class Key, class T, class Compare, class Allocator >
+bool	operator<(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
 {
-	typedef typename vector<int, std::allocator<T> >::iterator iterator;
+	typedef typename ft::map<Key, T, Compare, Allocator>::const_iterator iterator;
 	iterator first1 = lhs.begin();
 	iterator last1 = lhs.end();
 	iterator first2 = rhs.begin();
@@ -57,23 +57,23 @@ bool	operator<(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
 	return (first2!=last2);
 }
 
-template < class T, class Allocator >
-bool	operator>=(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
+template < class Key, class T, class Compare, class Allocator >
+bool	operator>=(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
 {
 	return !(lhs < rhs);
 }
 
-template < class T, class Allocator >
-bool	operator>(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
+template < class Key, class T, class Compare, class Allocator >
+bool	operator>(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
 {
 	return (rhs < lhs);
 }
 
-template < class T, class Allocator >
-bool	operator<=(vector<T, Allocator> & lhs, vector<T, Allocator> & rhs)
+template < class Key, class T, class Compare, class Allocator >
+bool	operator<=(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, Compare, Allocator> & rhs)
 {
 	return !(rhs < lhs);
-} */
+}
 
 /*************************************************************************/
 //**	CLASS DECLARATION START											**/
@@ -358,18 +358,10 @@ public:
 	/*************************************************************************/
 	allocator_type get_allocator() const
 	{
-		allocator_type	tmp;
+		allocator_type	tmp = allocator_type();
 		return tmp;
 	}
 
-	//Non-member function overloads
-	/*************************************************************************/
-	friend	bool	operator== <> (const map & lhs, const map & rhs);
-	friend	bool	operator!= <> (const map & lhs, const map & rhs);
-	// friend	bool	operator< <> (map & lhs, map & rhs);
-	// friend	bool	operator> <> (map & lhs, map & rhs);
-	// friend	bool	operator>= <> (map & lhs, map & rhs);
-	// friend	bool	operator<= <> (map & lhs, map & rhs);
 	//Non-member function overloads
 	/*************************************************************************/
 	/* template < class Tx, class Allocatorx >
