@@ -240,13 +240,15 @@ int	main()
 	// 	}
 	}
 	{
-		// ft::map<int, int> mp;
-		// std::vector<int> v;
-		// for (int i = 0, j = 0; i < 500000; ++i, ++j)
-		// 	mp.insert(ft::make_pair(i, j));
-
-		// mp.erase(mp.begin(), --mp.end());
-		// v.push_back(mp.begin()->first);
+		ft::map<int, int> mp;
+		for (int i = 0, j = 0; i < 500000; ++i, ++j)
+			mp.insert(ft::make_pair(i, j));
+		// ft::map<int,int>::iterator	first = mp.begin();
+		// ft::map<int,int>::iterator	last = mp.end();
+		//for (int ii = 0; ii < 19; ++ii) --last;
+		mp.erase(mp.begin(), --mp.end());
+		std::cout << "begin= " << mp.begin()->first << std::endl;
+		std::cout << "size: " << mp.size() << std::endl;
 	}
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
@@ -355,29 +357,29 @@ int	main()
 		// for (; itg2 != mpg2.end(); ++itg2)
 		// 	std::cout << itg2->first << std::endl;
 
-		ft::map<int, int, std::greater<int> > mp1;
-		{
-			mp1.insert(ft::make_pair(16, 3));
-			mp1.insert(ft::make_pair(8, 3));
-			mp1.insert(ft::make_pair(23, 3));
-			mp1.insert(ft::make_pair(7, 3));
-			mp1.insert(ft::make_pair(19, 3));
-			mp1.insert(ft::make_pair(29, 3));
-			mp1.insert(ft::make_pair(41, 3));
-			mp1.insert(ft::make_pair(4, 3));
-			mp1.insert(ft::make_pair(11, 3));
-		}
-		std::vector<int> v;
-    	v.push_back(mp1.begin()->first);
-		mp1.erase(41);
-		v.push_back(mp1.begin()->first);
-		mp1.erase(29);
-		v.push_back(mp1.begin()->first);
-		 {
-        std::cout << std::endl << "size: " << v.size() << std::endl;
-         for (unsigned i = 0; i < v.size(); ++i)
-            std::cout << v[i] << std::endl;
-  		  }
+		// ft::map<int, int, std::greater<int> > mp1;
+		// {
+		// 	mp1.insert(ft::make_pair(16, 3));
+		// 	mp1.insert(ft::make_pair(8, 3));
+		// 	mp1.insert(ft::make_pair(23, 3));
+		// 	mp1.insert(ft::make_pair(7, 3));
+		// 	mp1.insert(ft::make_pair(19, 3));
+		// 	mp1.insert(ft::make_pair(29, 3));
+		// 	mp1.insert(ft::make_pair(41, 3));
+		// 	mp1.insert(ft::make_pair(4, 3));
+		// 	mp1.insert(ft::make_pair(11, 3));
+		// }
+		// std::vector<int> v;
+    	// v.push_back(mp1.begin()->first);
+		// mp1.erase(41);
+		// v.push_back(mp1.begin()->first);
+		// mp1.erase(29);
+		// v.push_back(mp1.begin()->first);
+		//  {
+        // std::cout << std::endl << "size: " << v.size() << std::endl;
+        //  for (unsigned i = 0; i < v.size(); ++i)
+        //     std::cout << v[i] << std::endl;
+  		//   }
 	}
 
 	std::cout << "/* ********************* std::map tests *********************** */" << std::endl;

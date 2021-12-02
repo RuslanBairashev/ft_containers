@@ -177,7 +177,14 @@ public:
 	}
 	iterator	end()
 	{
-		node_type*	tmp = tree_->quasiEnd_;
+		node_type*	tmp;
+		tmp = tree_->quasiEnd_;
+		if (tree_->size_ > 0)
+		{
+			tree_->quasiEnd_->parent = tree_->root_;
+			while (tree_->quasiEnd_->parent->pright != NULL)
+				tree_->quasiEnd_->parent = tree_->quasiEnd_->parent->pright;
+		}
 		return iterator(&(tmp->value), tmp);
 	}
 	const_iterator	begin() const

@@ -94,8 +94,11 @@ public:
 	{
 		// if (size_ == 0)
 		// 	return NULL;
-		while (p->parent)
-			p = p->parent;
+		if (p)
+		{
+			while (p->parent) //sega usually
+				p = p->parent;
+		}
 		return p;
 	}
 	reference	operator=(const Miterator & rhs)
@@ -168,6 +171,7 @@ public:
 			{
 				if (this->currnode_ptr->pbegin != NULL)
 				{
+					//find max key
 					THIS = find_root(THIS); //find_root(THIS) - TIMEOUT
 					while (THIS->pright != NULL)
 						THIS = THIS->pright;
