@@ -82,12 +82,13 @@ public:
 	}
 	~Tree()
 	{
-		// nodeAlloc_.destroy(root_); //sega
-		// nodeAlloc_.deallocate(root_, 1);
-		// nodeAlloc_.destroy(quasiBegin_);
-		// nodeAlloc_.deallocate(quasiBegin_, 1);
-		// nodeAlloc_.destroy(quasiEnd_);
-		// nodeAlloc_.deallocate(quasiEnd_, 1);
+		clear(root_);
+		nodeAlloc_.destroy(quasiBegin_);
+		nodeAlloc_.deallocate(quasiBegin_, 1);
+		nodeAlloc_.destroy(quasiEnd_);
+		nodeAlloc_.deallocate(quasiEnd_, 1);
+		nodeAlloc_.destroy(root_);
+		nodeAlloc_.deallocate(root_, 1);
 	}
 	Node<const Key, T>*			find_root(Node<const Key, T> *p)
 	{
@@ -369,6 +370,7 @@ public:
 			nodeAlloc_.destroy(p);
 			nodeAlloc_.deallocate(p, 1);
 		}
+		size_ = 0;
 	}
 	// 	void			clear()
 	// {

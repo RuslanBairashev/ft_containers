@@ -250,7 +250,7 @@ public:
 		if (find(val.first) != end())
 			return (ft::make_pair(find(val.first), false));
 		tree_->insert(val, key_compare());
-		return (ft::make_pair(&(tree_->root_->value), true));
+		return (ft::make_pair(find(val.first), true));
 	}
 
 	//insert(with hint) (2/3)	
@@ -259,7 +259,7 @@ public:
 		if (find(val.first) != end())
 			return find(val.first);
 		tree_->insert(val, key_compare());
-		position = &(tree_->root_->value);
+		position = find(val.first);
 		return position;
 	}
 	//insert(range) (3/3)	
@@ -273,8 +273,13 @@ public:
 	//erase (1/3)	
 	void erase (iterator position)
 	{
-		const key_type	k = position.m_ptr->first; 
-		erase(k);
+		const key_type	k = position.m_ptr->first;
+		//const key_type tmp = k;
+		//erase(k);
+		
+		
+		tree_->root_ = tree_->remove(tree_->root_, k);
+		position = lower_bound(k);
 	}
 	//erase (2/3)	
 	size_type erase (const key_type& k)

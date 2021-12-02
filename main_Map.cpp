@@ -95,6 +95,19 @@ void	show_tree(ft::map<int, int> & mymap)
 // 	std::cout << ". Height is: " << static_cast<unsigned>(mymap.tree_->root_->height) << std::endl;
 // }
 
+void fillMap(ft::map<int,int> &mp)
+		 {
+			mp.insert(ft::make_pair(16, 3));
+			mp.insert(ft::make_pair(8, 3));
+			mp.insert(ft::make_pair(23, 3));
+			mp.insert(ft::make_pair(7, 3));
+			mp.insert(ft::make_pair(19, 3));
+			mp.insert(ft::make_pair(29, 3));
+			mp.insert(ft::make_pair(41, 3));
+			mp.insert(ft::make_pair(4, 3));
+			mp.insert(ft::make_pair(11, 3));
+		}
+
 int	main()
 {
 	// ft::pair<int, std::string> pair1(2, "Notebook");
@@ -150,43 +163,102 @@ int	main()
 	std::cout << "/* ********************* insert() *********************** */" << std::endl;
 	std::cout << "/* ********************* iterator *********************** */" << std::endl;
 	{
-		// // ft::map<int, int> mp;
+		// ft::map<int, int> mp;
 		// std::vector<int> v;
-		// // std::cout << mp.size() << '\n';
-
-		// ft::map<int, int> mp0;
-		// mp0.insert(ft::make_pair<int, int>(3,3));
-		// //ft::map<int, int>::iterator ii = mp0.insert(ft::make_pair(3, 3)).first; //sega
-		// ft::map<int, int>::iterator ii = mp0.begin();
-		// ii++;
-		// --ii;
-		// //v.push_back((--ii)->first);
+		// ft::map<int, int> mpp;
+    	// fillMap(mpp);
+    	// for (ft::map<int, int>::iterator it = mpp.begin(); it != mpp.end(); it++) { v.push_back(it->first); }
+    	// for (ft::map<int, int>::iterator it = --mpp.end(); it != mpp.begin(); it--) { v.push_back(it->first); }
+    	// ft::map<int, int> mp0;
+    	// ft::map<int, int>::iterator ii = mp0.insert(ft::make_pair(3, 3)).first;
+    	// ii++;
+    	// v.push_back((--ii)->first);//sega
+    	// for (int i = 0, j = 10; i < 5; ++i, ++j)
+    	//     mp.insert(ft::make_pair(i, j));
+    	// ft::map<int, int>::iterator it = mp.begin();
+    	// ft::map<int, int>::iterator it2 = mp.end();
+    	// v.push_back(it->first);
+    	// it++;
+    	// it++;
+    	// it++;
+    	// it++;
+    	// v.push_back(it->first);
+    	// it++;
+    	// it--;
+    	// v.push_back(it->first);
+    	// it2--;
+    	// v.push_back(it2->first);
+    	// v.push_back(it2 == it);
+    	// v.push_back((--it2)->first);
+    	// v.push_back((it2--)->first);
+    	// v.push_back((it2++)->first);
+    	// v.push_back((++it2)->first);
+		//while (1);
 	}
 	std::cout << "/* ********************* iterator *********************** */" << std::endl;
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 
 	{
-	// ft::map<int, int> mp;
+		std::map<int, int> mp;
+		for (int i = 0; i < 10 ; ++i)
+    		mp.insert(std::make_pair(i, i));
+		std::map<int, int>::iterator it = mp.begin();
+		++it;
+		++it;
+		mp.erase(it);
+		std::map<int, int>::iterator print = mp.begin();
+		std::cout << std::endl << "size: " << mp.size() << std::endl;
+        for (; print != mp.end(); ++print)
+        	std::cout << print->first << std::endl;
+
+		++it;
+		mp.erase(it);
+		print = mp.begin();
+		std::cout << std::endl << "size: " << mp.size() << std::endl;
+        for (; print != mp.end(); ++print)
+        	std::cout << print->first << std::endl;
+
+		ft::map<int, int> mp2;
+		for (int i = 0; i < 10 ; ++i)
+    		mp2.insert(ft::make_pair(i, i));
+		ft::map<int, int>::iterator it2 = mp2.begin();
+		++it2;
+		++it2;
+		mp2.erase(it2);
+		ft::map<int, int>::iterator print3 = mp2.begin();
+		std::cout << std::endl << "size: " << mp2.size() << std::endl;
+        for (; print3 != mp2.end(); ++print3)
+        	std::cout << print3->first << std::endl;
+
+		++it2;
+		mp2.erase(it2);
+		print3 = mp2.begin();
+		std::cout << std::endl << "size: " << mp2.size() << std::endl;
+        for (; print3 != mp2.end(); ++print3)
+        	std::cout << print3->first << std::endl;
+		
+
+	// // ft::map<int, int> mp;
     // std::vector<int> v;
-    // for (int i = 0, j = 0; i < 300000 ; ++i, ++j)
-    //     mp.insert(ft::make_pair(i, j));
-    // ft::map<int, int>::iterator it = mp.begin();
-    // v.push_back(it->first);
-    // mp.erase(it);
-    // v.push_back(mp.size());
-    // it = mp.begin();
-    // mp.erase(++it);
-    // v.push_back(mp.size());
-    // it = mp.begin();
-    // v.push_back(it->first);
-    // ft::map<int, int>::iterator it4 = mp.begin();
-    // for (; it4 != mp.end(); it4 = mp.begin())
-    //     mp.erase(it4);
-    // v.push_back(mp.size());
+    // // for (int i = 0, j = 0; i < 300000 ; ++i, ++j)
+    // //     mp.insert(ft::make_pair(i, j));
+    // // ft::map<int, int>::iterator it = mp.begin();
+    // // v.push_back(it->first);
+    // // mp.erase(it);
+    // // v.push_back(mp.size());
+    // // it = mp.begin();
+    // // mp.erase(++it);
+    // // v.push_back(mp.size());
+    // // it = mp.begin();
+    // // v.push_back(it->first);
+    // // ft::map<int, int>::iterator it4 = mp.begin();
+    // // for (; it4 != mp.end(); it4 = mp.begin())
+    // //     mp.erase(it4);
+    // // v.push_back(mp.size());
     // ft::map<int, int> mp2;
     // for (int i = 0, j = 0; i < 10 ; ++i, ++j)
     //     mp2.insert(ft::make_pair(i, j));
-	//show_tree(mp2);
+	// show_tree(mp2);
     // ft::map<int, int>::iterator ittest = mp2.begin();
 	// std::cout << "ITTEST POINTS TO: " << ittest->first << std::endl;
     // for (int i = 0; i < 2; ++i) ittest++;
@@ -199,13 +271,14 @@ int	main()
     // ft::map<int, int>::iterator it3 = mp2.begin();
     // for (; it3 != mp2.end(); ++it3) {
     //     v.push_back(it3->first);
-    //     v.push_back(it3->second);
+    //     // v.push_back(it3->second);
     // }
     //     {
     //     std::cout << std::endl << "size: " << v.size() << std::endl;
     //      for (unsigned i = 0; i < v.size(); ++i)
     //         std::cout << v[i] << std::endl;
     // }
+	// while(1);
 	}
 	{
 	// 	ft::map<int, int> mp;
@@ -240,15 +313,15 @@ int	main()
 	// 	}
 	}
 	{
-		ft::map<int, int> mp;
-		for (int i = 0, j = 0; i < 500000; ++i, ++j)
-			mp.insert(ft::make_pair(i, j));
-		// ft::map<int,int>::iterator	first = mp.begin();
-		// ft::map<int,int>::iterator	last = mp.end();
-		//for (int ii = 0; ii < 19; ++ii) --last;
-		mp.erase(mp.begin(), --mp.end());
-		std::cout << "begin= " << mp.begin()->first << std::endl;
-		std::cout << "size: " << mp.size() << std::endl;
+		// ft::map<int, int> mp;
+		// for (int i = 0, j = 0; i < 500000; ++i, ++j)
+		// 	mp.insert(ft::make_pair(i, j));
+		// // ft::map<int,int>::iterator	first = mp.begin();
+		// // ft::map<int,int>::iterator	last = mp.end();
+		// //for (int ii = 0; ii < 19; ++ii) --last;
+		// mp.erase(mp.begin(), --mp.end());
+		// std::cout << "begin= " << mp.begin()->first << std::endl;
+		// std::cout << "size: " << mp.size() << std::endl;
 	}
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
