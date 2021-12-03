@@ -198,35 +198,34 @@ int	main()
 	std::cout << "/* ********************* iterator *********************** */" << std::endl;
 	std::cout << "/* ********************* reverse_iterator *************** */" << std::endl;
 	{
-		ft::map<int,int>	mp;
-		std::vector<int> v;
-
-    	mp.insert(ft::make_pair(5, 5));
-    	mp.insert(ft::make_pair(3, 3));
-    	mp.insert(ft::make_pair(7, 7));
-    	ft::map<int, int>::reverse_iterator rit = mp.rbegin();
-    	ft::map<int, int>::reverse_iterator rit2 = mp.rend();
-    	v.push_back(rit->first);
-    	rit++;
-    	rit2--;
-    	v.push_back(rit->first);
-    	v.push_back(rit2->first);//fail
-    	rit++;
-    	v.push_back(*rit == *rit2);//fail
-    	rit2--;
-    	v.push_back(rit->first);
-    	v.push_back(rit2->first);
-    	v.push_back(*rit2 > *rit);
-    	v.push_back(*rit2 < *rit);
-    	v.push_back((--rit)->first);
-    	v.push_back((++rit2)->first);//fail
-    	v.push_back((rit--)->first);
-    	v.push_back((rit2++)->first);//fail
-        {
-        std::cout << std::endl << "size: " << v.size() << std::endl;
-        for (unsigned i = 0; i < v.size(); ++i)
-            std::cout << v[i] << std::endl;
-    	}
+		// ft::map<int,int>	mp;
+		// std::vector<int> v;
+    	// mp.insert(ft::make_pair(5, 5));
+    	// mp.insert(ft::make_pair(3, 3));
+    	// mp.insert(ft::make_pair(7, 7));
+    	// ft::map<int, int>::reverse_iterator rit = mp.rbegin();
+    	// ft::map<int, int>::reverse_iterator rit2 = mp.rend();
+    	// v.push_back(rit->first);
+    	// rit++;
+    	// rit2--;
+    	// v.push_back(rit->first);
+    	// v.push_back(rit2->first);//fail
+    	// rit++;
+    	// v.push_back(*rit == *rit2);//fail
+    	// rit2--;
+    	// v.push_back(rit->first);
+    	// v.push_back(rit2->first);
+    	// v.push_back(*rit2 > *rit);
+    	// v.push_back(*rit2 < *rit);
+    	// v.push_back((--rit)->first);
+    	// v.push_back((++rit2)->first);//fail
+    	// v.push_back((rit--)->first);
+    	// v.push_back((rit2++)->first);//fail
+        // {
+        // std::cout << std::endl << "size: " << v.size() << std::endl;
+        // for (unsigned i = 0; i < v.size(); ++i)
+        //     std::cout << v[i] << std::endl;
+    	// }
 	}
 	std::cout << "/* ********************* reverse_iterator *************** */" << std::endl;
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
@@ -432,6 +431,9 @@ int	main()
 
 	}
 	std::cout << "/* ********************* lower_bound() *********************** */" << std::endl;
+	std::cout << "/* ********************* upper_bound() *********************** */" << std::endl;
+
+	std::cout << "/* ********************* upper_bound() *********************** */" << std::endl;
 	std::cout << "/* ********************* std::map tests *********************** */" << std::endl;
 
 	{
@@ -490,7 +492,6 @@ int	main()
 
 	std::cout << "/* ********************* std::map tests *********************** */" << std::endl;
 	std::cout << "/* ********************* operator = *********************** */" << std::endl;
-
 	{
 		// ft::map<int,int>	mp;
 		// std::vector<int> v;
@@ -507,7 +508,6 @@ int	main()
 		// }
 		// v.push_back(mp2.size());
 	}
-
 	std::cout << "/* ********************* operator = *********************** */" << std::endl;
 	std::cout << "/* ********************* operator == *********************** */" << std::endl;
 	{

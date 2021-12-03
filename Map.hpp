@@ -399,7 +399,7 @@ public:
 			return iterator(&(tmp->parent->value), tmp); // if found k
 		iterator	it = begin();
 		iterator	last = end();
-		while (k > it->first && it != last)
+		while (comp_(it->first, k) && it != last)
 			++it;
 		return it;
 	}
