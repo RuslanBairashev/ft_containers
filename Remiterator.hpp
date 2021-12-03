@@ -1,5 +1,5 @@
-#ifndef Miterator_HPP
-#define Miterator_HPP
+#ifndef Remiterator_HPP
+#define Remiterator_HPP
 
 #include <iostream>
 #include <iterator>
@@ -16,7 +16,7 @@
 namespace ft
 {
 template< class Iter >
-struct Miterator_traits
+struct Remiterator_traits
 {
 	typedef typename	Iter::value_type		value_type;
 	typedef typename	Iter::difference_type	difference_type;
@@ -25,7 +25,7 @@ struct Miterator_traits
 	typedef typename	Iter::iterator_category	iterator_category;
 };
 template< typename T >
-struct Miterator_traits<T*>
+struct Remiterator_traits<T*>
 {
 	typedef	std::bidirectional_iterator_tag	iterator_category;
 	typedef T								value_type;
@@ -34,7 +34,7 @@ struct Miterator_traits<T*>
 	typedef T&								reference;
 };
 template< typename T >
-struct Miterator_traits<const T*>
+struct Remiterator_traits<const T*>
 {
 	typedef	std::bidirectional_iterator_tag	iterator_category;
 	typedef T								value_type;
@@ -43,39 +43,39 @@ struct Miterator_traits<const T*>
 	typedef const T&						reference;
 };
 
-template <class T, class Category = std::bidirectional_iterator_tag,
-class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-class iterator: public std::bidirectional_iterator_tag
-{
-public:
-	typedef T			value_type;
-	typedef Category	iterator_category;
-	typedef Distance	difference_type;
-	typedef Pointer		pointer;
-	typedef Reference	reference;
-};
+// template <class T, class Category = std::bidirectional_iterator_tag,
+// class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
+// class riterator: public std::bidirectional_iterator_tag
+// {
+// public:
+// 	typedef T			value_type;
+// 	typedef Category	iterator_category;
+// 	typedef Distance	difference_type;
+// 	typedef Pointer		pointer;
+// 	typedef Reference	reference;
+// };
 
 template <class T, class ptrNode>
-class Miterator : public iterator<T>
+class Remiterator : public ft::iterator<T>
 {
 public:
-	typedef typename Miterator_traits<T>::value_type		value_type;
-	typedef typename Miterator_traits<T>::iterator_category	iterator_category;
-	typedef typename Miterator_traits<T>::difference_type	difference_type;
-	typedef typename Miterator_traits<T>::pointer			pointer;
-	typedef typename Miterator_traits<T>::reference			reference;
+	typedef typename Remiterator_traits<T>::value_type		value_type;
+	typedef typename Remiterator_traits<T>::iterator_category	iterator_category;
+	typedef typename Remiterator_traits<T>::difference_type	difference_type;
+	typedef typename Remiterator_traits<T>::pointer			pointer;
+	typedef typename Remiterator_traits<T>::reference			reference;
 
 	pointer m_ptr; //pointer to pair
 	ptrNode	currnode_ptr;
 
-	Miterator() : m_ptr(NULL), currnode_ptr(NULL) {}
-	Miterator(pointer ptr) : m_ptr(ptr) {}
-	Miterator(pointer ptr, ptrNode node)
+	Remiterator() : m_ptr(NULL), currnode_ptr(NULL) {}
+	Remiterator(pointer ptr) : m_ptr(ptr) {}
+	Remiterator(pointer ptr, ptrNode node)
 		: m_ptr(ptr), currnode_ptr(node) {}
 	template <class Constornot, class cNode>
-	Miterator(const Miterator<Constornot, cNode> & it)
+	Remiterator(const Remiterator<Constornot, cNode> & it)
 	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr) {}
-	~Miterator() {}
+	~Remiterator() {}
 
 	ptrNode			find_root(ptrNode p)
 	{
@@ -88,18 +88,18 @@ public:
 		}
 		return p;
 	}
-	reference	operator=(const Miterator & rhs)
+	reference	operator=(const Remiterator & rhs)
 	{
 		m_ptr = rhs.m_ptr;
 		currnode_ptr = rhs.currnode_ptr;
 		return *m_ptr;
 	}
 
-	bool		operator== (const Miterator& it) const { return m_ptr == it.m_ptr; };
-	bool		operator!= (const Miterator& it) const { return m_ptr != it.m_ptr; };
+	bool		operator== (const Remiterator& it) const { return m_ptr == it.m_ptr; };
+	bool		operator!= (const Remiterator& it) const { return m_ptr != it.m_ptr; };
 	reference	operator*() { return *m_ptr; }
 	pointer		operator->() const { return m_ptr; }
-	Miterator&	operator++()
+	Remiterator&	operator--()
 	{
 		if (this->currnode_ptr != this->currnode_ptr->pend)
 		{
@@ -147,9 +147,9 @@ public:
 		}
 		return *this;
 	}
-	Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }
+	Remiterator	operator--(int) { Remiterator tmp = *this; --(*this); return tmp; }
 
-	Miterator&	operator--()
+	Remiterator&	operator++()
 	{
 		if (this->currnode_ptr != this->currnode_ptr->pbegin)
 		{
@@ -206,7 +206,7 @@ public:
 		}
 		return *this;
 	}
-	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }
+	Remiterator	operator++(int) { Remiterator tmp = *this; ++(*this); return tmp; }
 };
 
 }

@@ -10,7 +10,7 @@
 #include <cmath>
 #include <utility>
 #include "Miterator.hpp"
-#include "Reviterator.hpp"
+#include "Remiterator.hpp"
 #include "Utility.hpp"
 #include "Tree.hpp"
 
@@ -98,8 +98,8 @@ public:
 	typedef typename	allocator_type::const_pointer	const_pointer;
 	typedef typename	ft::Miterator<pointer, node_type*>			iterator;
 	typedef typename	ft::Miterator<const_pointer, node_type*>	const_iterator;
-	typedef typename	ft::Reviterator<pointer>		reverse_iterator;
-	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
+	typedef typename	ft::Remiterator<pointer, node_type*>		reverse_iterator;
+	typedef typename	ft::Remiterator<const_pointer, node_type*>	const_reverse_iterator;
 	typedef	size_t										size_type;
 	typedef	ptrdiff_t									difference_type;
 
@@ -165,6 +165,11 @@ public:
 		return *this;
 	} 
 
+	/*************************************************************************/
+	//			MEMBER FUNCTIONS										      /
+	/*************************************************************************/
+
+	//iterators
 	iterator	begin()
 	{
 		node_type*	tmp;
@@ -205,32 +210,68 @@ public:
 	}
 	const_iterator	end() const
 	{
-		node_type*	tmp = tree_->quasiEnd_;
+		node_type*	tmp;
+		tmp = tree_->quasiEnd_;
+		if (tree_->size_ > 0)
+		{
+			tree_->quasiEnd_->parent = tree_->root_;
+			while (tree_->quasiEnd_->parent->pright != NULL)
+				tree_->quasiEnd_->parent = tree_->quasiEnd_->parent->pright;
+		}
 		return const_iterator(&(tmp->value), tmp);
 	}
 
-
-	/*************************************************************************/
-	//			MEMBER FUNCTIONS										      /
-	/*************************************************************************/
-
-	//iterators
+	reverse_iterator	rbegin()
+	{
+		node_type*	tmp;
+		if (tree_->size_ == 0)
+			tmp = tree_->quasiBegin_;
+		else
+		{
+			tmp = tree_->root_;
+			while (tmp->pright != NULL)
+				tmp = tmp->pright;
+		}
+		return reverse_iterator(&(tmp->value), tmp); //pointer,Node*
+	}
+	reverse_iterator	rend()
+	{
+		node_type*	tmp;
+		tmp = tree_->quasiBegin_;
+		if (tree_->size_ > 0)
+		{
+			tree_->quasiBegin_->parent = tree_->root_;
+			while (tree_->quasiBegin_->parent->pleft != NULL)
+				tree_->quasiBegin_->parent = tree_->quasiBegin_->parent->pleft;
+		}
+		return reverse_iterator(&(tmp->value), tmp);
+	}
+	const_reverse_iterator	rbegin() const
+	{
+		node_type*	tmp;
+		if (tree_->size_ == 0)
+			tmp = tree_->quasiBegin_;
+		else
+		{
+			tmp = tree_->root_;
+			while (tmp->pright != NULL)
+				tmp = tmp->pright;
+		}
+		return const_reverse_iterator(&(tmp->value), tmp); //pointer,Node*
+	}
+	const_reverse_iterator	rend() const
+	{
+		node_type*	tmp;
+		tmp = tree_->quasiBegin_;
+		if (tree_->size_ > 0)
+		{
+			tree_->quasiBegin_->parent = tree_->root_;
+			while (tree_->quasiBegin_->parent->pleft != NULL)
+				tree_->quasiBegin_->parent = tree_->quasiBegin_->parent->pleft;
+		}
+		return const_reverse_iterator(&(tmp->value), tmp);
+	}
 	
-	// const_iterator	begin() const { ; }
-	// const_iterator	end() const { ;}
-	// reverse_iterator	rbegin() { ; }
-	// reverse_iterator	rend() {  ;}
-	// const_reverse_iterator	rbegin() const { ; }
-	// const_reverse_iterator	rend() const { ;}
-/* 	iterator	begin() { return iterator(array_); }
-	iterator	end() { return iterator(array_ + size_); }
-	const_iterator	begin() const { return const_iterator(array_); }
-	const_iterator	end() const { return const_iterator(array_ + size_); }
-	reverse_iterator	rbegin() { return reverse_iterator(array_ + size_); }
-	reverse_iterator	rend() { return reverse_iterator(array_); }
-	const_reverse_iterator	rbegin() const { return const_reverse_iterator(array_); }
-	const_reverse_iterator	rend() const { return const_reverse_iterator(array_ + size_); }
- */
 	//Capacity
 	/*************************************************************************/
 	size_type	size() const { return tree_->size_ ; }
