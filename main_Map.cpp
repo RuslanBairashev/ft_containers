@@ -199,43 +199,43 @@ int	main()
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 
 	{
-		std::map<int, int> mp;
-		for (int i = 0; i < 10 ; ++i)
-    		mp.insert(std::make_pair(i, i));
-		std::map<int, int>::iterator it = mp.begin();
-		++it;
-		++it;
-		mp.erase(it);
-		std::map<int, int>::iterator print = mp.begin();
-		std::cout << std::endl << "size: " << mp.size() << std::endl;
-        for (; print != mp.end(); ++print)
-        	std::cout << print->first << std::endl;
+		// std::map<int, int> mp;
+		// for (int i = 0; i < 10 ; ++i)
+    	// 	mp.insert(std::make_pair(i, i));
+		// std::map<int, int>::iterator it = mp.begin();
+		// ++it;
+		// ++it;
+		// mp.erase(it);
+		// std::map<int, int>::iterator print = mp.begin();
+		// std::cout << std::endl << "size: " << mp.size() << std::endl;
+        // for (; print != mp.end(); ++print)
+        // 	std::cout << print->first << std::endl;
 
-		++it;
-		mp.erase(it);
-		print = mp.begin();
-		std::cout << std::endl << "size: " << mp.size() << std::endl;
-        for (; print != mp.end(); ++print)
-        	std::cout << print->first << std::endl;
+		// ++it;
+		// mp.erase(it);
+		// print = mp.begin();
+		// std::cout << std::endl << "size: " << mp.size() << std::endl;
+        // for (; print != mp.end(); ++print)
+        // 	std::cout << print->first << std::endl;
 
-		ft::map<int, int> mp2;
-		for (int i = 0; i < 10 ; ++i)
-    		mp2.insert(ft::make_pair(i, i));
-		ft::map<int, int>::iterator it2 = mp2.begin();
-		++it2;
-		++it2;
-		mp2.erase(it2);
-		ft::map<int, int>::iterator print3 = mp2.begin();
-		std::cout << std::endl << "size: " << mp2.size() << std::endl;
-        for (; print3 != mp2.end(); ++print3)
-        	std::cout << print3->first << std::endl;
+		// ft::map<int, int> mp2;
+		// for (int i = 0; i < 10 ; ++i)
+    	// 	mp2.insert(ft::make_pair(i, i));
+		// ft::map<int, int>::iterator it2 = mp2.begin();
+		// ++it2;
+		// ++it2;
+		// mp2.erase(it2);
+		// ft::map<int, int>::iterator print3 = mp2.begin();
+		// std::cout << std::endl << "size: " << mp2.size() << std::endl;
+        // for (; print3 != mp2.end(); ++print3)
+        // 	std::cout << print3->first << std::endl;
 
-		++it2;
-		mp2.erase(it2);
-		print3 = mp2.begin();
-		std::cout << std::endl << "size: " << mp2.size() << std::endl;
-        for (; print3 != mp2.end(); ++print3)
-        	std::cout << print3->first << std::endl;
+		// ++it2;
+		// mp2.erase(it2);
+		// print3 = mp2.begin();
+		// std::cout << std::endl << "size: " << mp2.size() << std::endl;
+        // for (; print3 != mp2.end(); ++print3)
+        // 	std::cout << print3->first << std::endl;
 		
 
 	// // ft::map<int, int> mp;
@@ -476,6 +476,23 @@ int	main()
 	}
 
 	std::cout << "/* ********************* operator = *********************** */" << std::endl;
+	std::cout << "/* ********************* operator == *********************** */" << std::endl;
+	{
+		ft::map<int,int>	mp;
+		mp.insert(ft::make_pair(1,1));
+		mp.insert(ft::make_pair(2,2));
+
+		ft::map<int,int>	mp2;
+		mp2.insert(ft::make_pair(1,1));
+		mp2.insert(ft::make_pair(2,2));
+		if (mp == mp2)
+			std::cout << "same";
+		else 
+			std::cout << "different";
+		std::cout << std::endl;
+	}
+	std::cout << "/* ********************* operator == *********************** */" << std::endl;
+
 	// map_info<int, std::string>(mymap);
 	// show_tree(mymap);
 
