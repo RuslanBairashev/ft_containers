@@ -521,7 +521,7 @@ public:
 	/*************************************************************************/
 	friend	bool	operator== <> (const vector & lhs, const vector & rhs);
 	friend	bool	operator!= <> (const vector & lhs, const vector & rhs);
-	friend	bool	operator< <> (vector & lhs, vector & rhs);
+	friend	bool	operator< <> (vector & lhs, vector & rhs); //must be const
 	friend	bool	operator> <> (vector & lhs, vector & rhs);
 	friend	bool	operator>= <> (vector & lhs, vector & rhs);
 	friend	bool	operator<= <> (vector & lhs, vector & rhs);
