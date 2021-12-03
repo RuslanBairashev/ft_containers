@@ -4,18 +4,14 @@
 #include <iostream>
 #include <iterator>
 #include <cstddef>
-#include "Tree.hpp" //error if include
+#include "Tree.hpp"
 #include "Utility.hpp"
 
-//#define	ROOT		tree_ptr->root_
-//#define	ROOT		find_root(THIS)
 #define	GRANDP		this->currnode_ptr->parent->parent
 #define	PARENT		this->currnode_ptr->parent
 #define	THIS		this->currnode_ptr
 #define	QUASIBEGIN	this->currnode_ptr->pbegin;
 #define	QUASIEND	this->currnode_ptr->pend;
-// #define	QUASIBEGIN	tree_ptr->quasiBegin_;
-// #define	QUASIEND	tree_ptr->quasiEnd_;
 
 namespace ft
 {
@@ -28,7 +24,7 @@ struct Miterator_traits
 	typedef typename	Iter::reference			reference;	
 	typedef typename	Iter::iterator_category	iterator_category;
 };
-template< typename T > //like in library (almost)
+template< typename T >
 struct Miterator_traits<T*>
 {
 	typedef	std::bidirectional_iterator_tag	iterator_category;
@@ -37,7 +33,7 @@ struct Miterator_traits<T*>
 	typedef T*								pointer;
 	typedef T&								reference;
 };
-template< typename T > //like in library (almost)
+template< typename T >
 struct Miterator_traits<const T*>
 {
 	typedef	std::bidirectional_iterator_tag	iterator_category;
@@ -68,26 +64,17 @@ public:
 	typedef typename Miterator_traits<T>::difference_type	difference_type;
 	typedef typename Miterator_traits<T>::pointer			pointer;
 	typedef typename Miterator_traits<T>::reference			reference;
-	//typedef typename	Tree<Key, T, Compare>::Node		node_type;
 
 	pointer m_ptr; //pointer to pair
 	ptrNode	currnode_ptr;
-	//ptrTree	tree_ptr;
 
-	Miterator() : m_ptr(NULL), currnode_ptr(NULL)/* , tree_ptr(NULL) */ {}
+	Miterator() : m_ptr(NULL), currnode_ptr(NULL) {}
 	Miterator(pointer ptr) : m_ptr(ptr) {}
-	Miterator(pointer ptr, ptrNode node/* , ptrTree tree */)
-		: m_ptr(ptr), currnode_ptr(node)/* , tree_ptr(tree)*/
-		 { 
-			// std::cout << "currnode_ptr address= " << currnode_ptr << std::endl;
-			// std::cout << "        node address= " << node << std::endl;
-			// std::cout << "    tree_ptr address= " << tree_ptr << std::endl;
-			// std::cout << "        tree address= " << tree << std::endl;
-			// std::cout << "constr\n";
-			}
-	template <class Constornot, class cNode/* , class cTree */>
-	Miterator(const Miterator<Constornot, cNode/* , cTree */> & it)
-	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr)/* , tree_ptr(it.tree_ptr) */ {}
+	Miterator(pointer ptr, ptrNode node)
+		: m_ptr(ptr), currnode_ptr(node) {}
+	template <class Constornot, class cNode>
+	Miterator(const Miterator<Constornot, cNode> & it)
+	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr) {}
 	~Miterator() {}
 
 	ptrNode			find_root(ptrNode p)
@@ -105,7 +92,6 @@ public:
 	{
 		m_ptr = rhs.m_ptr;
 		currnode_ptr = rhs.currnode_ptr;
-		/* tree_ptr = rhs.tree_ptr; */
 		return *m_ptr;
 	}
 
@@ -225,163 +211,3 @@ public:
 
 }
 #endif
-
-/*
-
-	Miterator&	operator++()
-	{
-		if (this->currnode_ptr != this->currnode_ptr->pbegin)
-		{
-			if (this->m_ptr->first == find_root(THIS)->value.first)
-			{
-				if (THIS->pright == NULL)
-				{
-					this->currnode_ptr->pend->parent = THIS;
-					THIS = QUASIEND;
-				}
-				else
-				{
-					THIS = THIS->pright;
-					while (THIS->pleft != NULL)
-						THIS = THIS->pleft;
-				}
-			}
-			else
-			{
-				if (THIS->pright == NULL) // pright == NULL
-				{
-					while (this->m_ptr->first > this->currnode_ptr->parent->value.first)
-					{
-						THIS = PARENT;
-						if (THIS == find_root(THIS))
-							break ;
-					}
-					if (THIS != find_root(THIS))
-						THIS = PARENT;
-					else
-					{
-						this->currnode_ptr->pend->parent = THIS;
-						THIS = QUASIEND;
-					}
-				}
-				else //pright IS NOT NULL 
-				{
-					THIS = THIS->pright;
-					while (THIS->pleft != NULL)
-						THIS = THIS->pleft;
-				}
-			}
-			m_ptr = &(currnode_ptr->value);
-		}
-		return *this;
-	}
-	Miterator	operator++(int) { Miterator tmp = *this; ++(*this); return tmp; }
-
-	Miterator&	operator--()
-	{
-		if (this->currnode_ptr != this->currnode_ptr->pbegin)
-		{
-			if (this->currnode_ptr == this->currnode_ptr->pend)
-			{
-				if (this->currnode_ptr->pbegin != NULL)
-				{
-					THIS = find_root(THIS); //find_root(THIS) - TIMEOUT
-					while (THIS->pright != NULL)
-						THIS = THIS->pright;
-				}
-				else
-				{
-					THIS = QUASIBEGIN;
-				}
-			}
-			else if (this->m_ptr->first == find_root(THIS)->value.first)
-			{
-				if (THIS->pleft == NULL)
-				{
-					THIS = QUASIBEGIN;
-				}
-				else
-				{
-					THIS = THIS->pleft;
-					while (THIS->pright != NULL)
-						THIS = THIS->pright;
-				}
-			}
-			else
-			{
-				if (THIS->pleft == NULL) // pleft == NULL
-				{
-					while (this->m_ptr->first < this->currnode_ptr->parent->value.first)
-					{
-						THIS = PARENT;
-						if (THIS == find_root(THIS))
-							break ;
-					}
-					if (THIS != find_root(THIS))
-						THIS = PARENT;
-					else
-						THIS = QUASIBEGIN;
-				}
-				else //pleft IS NOT NULL 
-				{
-					THIS = THIS->pleft;
-					while (THIS->pright != NULL)
-						THIS = THIS->pright;
-				}
-			}
-			m_ptr = &(currnode_ptr->value);
-		}
-		return *this;
-	}
-	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }
-
-*/
-	// Miterator&	operator++()
-	// {
-	// 	if (this->m_ptr->first == ROOT->value.first)
-	// 	{
-	// 		if (THIS->pright == NULL)
-	// 		{
-	// 			THIS = QUASIEND;
-	// 		}
-	// 		else
-	// 		{
-	// 			THIS = THIS->pright;
-	// 			while (THIS->pleft != NULL)
-	// 				THIS = THIS->pleft;
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		if (THIS->pright == NULL) // pright == NULL
-	// 		{
-	// 			if (PARENT == GRANDP->pleft) //parent is left branch
-	// 			{
-	// 				if (THIS == PARENT->pleft)
-	// 					THIS = PARENT;
-	// 				else
-	// 					THIS = GRANDP;
-	// 			}
-	// 			else // parent if right branch
-	// 			{
-	// 				if (THIS == PARENT->pleft)
-	// 					THIS = PARENT;
-	// 				else
-	// 				{
-	// 					if (this->m_ptr->first < ROOT->value.first)
-	// 						THIS = GRANDP->parent; // ROOT
-	// 					else
-	// 						THIS = QUASIEND;
-	// 				}
-	// 			}
-	// 		}
-	// 		else //pright IS NOT NULL 
-	// 		{
-	// 			THIS = THIS->pright;
-	// 			while (THIS->pleft != NULL)
-	// 				THIS = THIS->pleft;
-	// 		}
-	// 	}
-	// 	m_ptr = &(currnode_ptr->value);
-	// 	return *this;
-	// }

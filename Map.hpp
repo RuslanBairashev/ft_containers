@@ -75,6 +75,9 @@ bool	operator<=(const map<Key, T, Compare, Allocator> & lhs, const map<Key, T, C
 	return !(rhs < lhs);
 }
 
+template < class Key, class T, class Compare, class Allocator >
+void swap (map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& y);
+
 /*************************************************************************/
 //**	CLASS DECLARATION START											**/
 /*************************************************************************/
@@ -135,14 +138,14 @@ public:
 			tree_->insert(*first, comp);
 	}
 	//constructor: copy(3/3)
-	// map (const map& x)
-	// {
-	// 	tree_ = myAlloc_.allocate(1);
-	// 	myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
-	// 	iterator	first = x.begin();
-	// 	iterator	last = x.end();
-	// 	insert(first, last);
-	// }
+	map (const map& x)
+	{
+		tree_ = myAlloc_.allocate(1);
+		myAlloc_.construct(tree_,Tree<Key, T, Compare>(x.comp_, x.myAlloc_));
+		const_iterator	first = x.begin();
+		const_iterator	last = x.end();
+		insert(first, last);
+	}
 	~map()
 	{
 		// myAlloc_.destroy(tree_);
@@ -297,18 +300,18 @@ public:
 			erase(first.m_ptr->first);
 	}
 
-	// void swap (map& x);
-	// {
-	// 	pointer		tmp = this->array_;
-	// 	this->array_ = x.array_;
-	// 	x.array_ = tmp;
-	// 	size_type	tmp_s = this->size_;
-	// 	this->size_ = x.size_;
-	// 	x.size_ = tmp_s;
-	// 	size_type	tmp_c = this->capacity_;
-	// 	this->capacity_ = x.capacity_;
-	// 	x.capacity_ = tmp_c;
-	// }
+	void swap (map& x)
+	{
+		tree_type*	tmp = this->tree_;
+		this->tree_ = x.tree_;
+		x.tree_ = tmp;
+		std::allocator<tree_type>	tmp_s = this->myAlloc_;
+		this->myAlloc_ = x.myAlloc_;
+		x.myAlloc_ = tmp_s;
+		key_compare	tmp_c = this->comp_;
+		this->comp_ = x.comp_;
+		x.comp_ = tmp_c;
+	}
 
 	void clear() { tree_->clear(tree_->root_); tree_->size_ = 0; }
 
@@ -386,20 +389,12 @@ public:
 /***************************************************************************/
 //			END OF CLASS													/
 /***************************************************************************/
-
-/* template < class T, class Allocator >
-std::ostream& operator<<(std::ostream & os, const vector<T, Allocator> & rhs)
+} //end of namespace ft
+namespace std{
+template < class Key, class T, class Compare, class Allocator >
+void swap (ft::map<Key, T, Compare, Allocator>& x, ft::map<Key, T, Compare, Allocator>& y)
 {
-	for (size_t i = 0; i < rhs.size(); ++i)
-		os << rhs.array_[i] << " ";
-	os << "//";
-	for (size_t i = rhs.size_; i < rhs.capacity_; ++i)
-		os << rhs.array_[i] << " ";
-	os << std::endl;
-
-	return os;
+	x.swap(y);
 }
-template < class T, class Allocator >
-void swap (vector<T, Allocator> & x) { x.swap(x); } */
 }
 #endif
