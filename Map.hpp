@@ -169,7 +169,8 @@ public:
 	//			MEMBER FUNCTIONS										      /
 	/*************************************************************************/
 
-	//iterators
+	//iterators leaks
+	/*************************************************************************/
 	iterator	begin()
 	{
 		node_type*	tmp;
@@ -272,13 +273,13 @@ public:
 		return const_reverse_iterator(&(tmp->value), tmp);
 	}
 	
-	//Capacity
+	//Capacity OK
 	/*************************************************************************/
 	size_type	size() const { return tree_->size_ ; }
 	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
 	bool		empty() const { return tree_->size_ == 0; }
 
-	//Element access
+	//Element access OK
 	/*************************************************************************/
 	mapped_type& operator[] (const key_type& k)
 	{
@@ -288,7 +289,7 @@ public:
 
 	//Modifiers
 	/*************************************************************************/
-	//insert: single element (1/3)	
+	//insert: single element (1/3) OK
 	pair<iterator,bool> insert (const value_type& val)
 	{
 		if (find(val.first) != end())
@@ -297,7 +298,7 @@ public:
 		return (ft::make_pair(find(val.first), true));
 	}
 
-	//insert(with hint) (2/3)	
+	//insert(with hint) (2/3) OK
 	iterator insert (iterator position, const value_type& val)
 	{
 		if (find(val.first) != end())
@@ -306,7 +307,7 @@ public:
 		position = find(val.first);
 		return position;
 	}
-	//insert(range) (3/3)	
+	//insert(range) (3/3) leaks
 	template <class InputIterator>
 	void insert (InputIterator first, InputIterator last)
 	{
@@ -314,18 +315,14 @@ public:
 			insert(*first);
 	}
 
-	//erase (1/3)	
+	//erase (1/3) leaks
 	void erase (iterator position)
 	{
 		const key_type	k = position.m_ptr->first;
-		//const key_type tmp = k;
-		//erase(k);
-		
-		
 		tree_->root_ = tree_->remove(tree_->root_, k);
 		position = lower_bound(k);
 	}
-	//erase (2/3)	
+	//erase (2/3) leaks
 	size_type erase (const key_type& k)
 	{
 		unsigned len = size();
@@ -334,14 +331,14 @@ public:
 			return 0;
 		return 1;
 	}
-	//erase (3/3)	
+	//erase (3/3) sega on big amount
 	void erase (iterator first, iterator last)
 	{
 		for ( ; first != last; ++first)
 			erase(first.m_ptr->first);
 	}
 
-	void swap (map& x)
+	void swap (map& x) //leaks
 	{
 		tree_type*	tmp = this->tree_;
 		this->tree_ = x.tree_;
@@ -354,66 +351,94 @@ public:
 		x.comp_ = tmp_c;
 	}
 
-	void clear() { tree_->clear(tree_->root_); tree_->size_ = 0; }
+	void clear() { tree_->clear(tree_->root_); tree_->size_ = 0; } //OK
 
-	//Observers:
+	//Observers: OK, no test for value_compare
 	/*************************************************************************/
-	//key_compare key_comp() const { return comp_; }
 	key_compare key_comp() const { return key_compare(); }
 
 	value_compare value_comp() const { return value_compare(key_compare()); }
 
 	//Operations:
 	/*************************************************************************/
-	iterator find (const key_type& k)
+	iterator find (const key_type& k) //OK
 	{
 		node_type*	tmp = tree_->find(tree_->root_, k);
 		return iterator(&(tmp->value), tmp);
 	}
-	const_iterator find (const key_type& k) const;
+	const_iterator find (const key_type& k) const
+	{
+		node_type*	tmp = tree_->find(tree_->root_, k);
+		return const_iterator(&(tmp->value), tmp);
+	}
 
-	size_type count (const key_type& k) const
+	size_type count (const key_type& k) const //OK
 	{
 		if (tree_->find(tree_->root_, k) == tree_->quasiEnd_)
 			return 0;
 		return 1;
 	}
 
-	iterator lower_bound (const key_type& k)
+	iterator lower_bound (const key_type& k) //OK
 	{
 		node_type*	tmp = tree_->find(tree_->root_, k);
 		if (tmp != tree_->quasiEnd_)
-			return iterator(&(tmp->value), tmp); // if found k
-		iterator	it = begin();
-		iterator	last = end();
-		while (comp_(it->first, k) && it != last) // comp? (k > it->first && it != last)
-			++it;
-		return it;
-	}
-	const_iterator lower_bound (const key_type& k) const;
-
-	iterator upper_bound (const key_type& k)
-	{
-		node_type*	tmp = tree_->find(tree_->root_, k);
-		if (tmp != tree_->quasiEnd_)
-			return iterator(&(tmp->parent->value), tmp); // if found k
+			return iterator(&(tmp->value), tmp);
 		iterator	it = begin();
 		iterator	last = end();
 		while (comp_(it->first, k) && it != last)
 			++it;
 		return it;
 	}
-	const_iterator upper_bound (const key_type& k) const;
+	const_iterator lower_bound (const key_type& k) const
+	{
+		node_type*	tmp = tree_->find(tree_->root_, k);
+		if (tmp != tree_->quasiEnd_)
+			return const_iterator(&(tmp->value), tmp);
+		const_iterator	it = begin();
+		const_iterator	last = end();
+		while (comp_(it->first, k) && it != last)
+			++it;
+		return it;
+	}
 
-	pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;
-	pair<iterator,iterator>				equal_range (const key_type& k)
+	iterator upper_bound (const key_type& k) //leaks
+	{
+		node_type*	tmp = tree_->find(tree_->root_, k);
+		if (tmp != tree_->quasiEnd_)
+			return iterator(&(tmp->parent->value), tmp);
+		iterator	it = begin();
+		iterator	last = end();
+		while (comp_(it->first, k) && it != last)
+			++it;
+		return it;
+	}
+	const_iterator upper_bound (const key_type& k) const
+	{
+		node_type*	tmp = tree_->find(tree_->root_, k);
+		if (tmp != tree_->quasiEnd_)
+			return const_iterator(&(tmp->parent->value), tmp);
+		const_iterator	it = begin();
+		const_iterator	last = end();
+		while (comp_(it->first, k) && it != last)
+			++it;
+		return it;
+	}
+
+	pair<iterator,iterator>				equal_range (const key_type& k) //OK
+	{
+		if (find(k) == end())
+			return (ft::make_pair(upper_bound(k), upper_bound(k)));
+		return (ft::make_pair(lower_bound(k), upper_bound(k)));
+	}
+	pair<const_iterator,const_iterator>	equal_range (const key_type& k) const
 	{
 		if (find(k) == end())
 			return (ft::make_pair(upper_bound(k), upper_bound(k)));
 		return (ft::make_pair(lower_bound(k), upper_bound(k)));
 	}
 
-	//Allocator:
+	//Allocator: //TODO in school
 	/*************************************************************************/
 	allocator_type get_allocator() const
 	{
