@@ -83,12 +83,12 @@ public:
 	~Tree()
 	{
 		clear(root_);
-		nodeAlloc_.destroy(quasiBegin_);
-		nodeAlloc_.deallocate(quasiBegin_, 1);
-		nodeAlloc_.destroy(quasiEnd_);
-		nodeAlloc_.deallocate(quasiEnd_, 1);
-		nodeAlloc_.destroy(root_);
-		nodeAlloc_.deallocate(root_, 1);
+		// nodeAlloc_.destroy(quasiBegin_); //if this on, sega on relation operators
+		// nodeAlloc_.deallocate(quasiBegin_, 1);
+		// nodeAlloc_.destroy(quasiEnd_);
+		// nodeAlloc_.deallocate(quasiEnd_, 1);
+		// nodeAlloc_.destroy(root_);
+		// nodeAlloc_.deallocate(root_, 1);
 	}
 	Node<const Key, T>*			find_root(Node<const Key, T> *p)
 	{
