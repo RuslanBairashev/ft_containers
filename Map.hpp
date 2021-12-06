@@ -114,34 +114,35 @@ public:
 			{return comp(x.first, y.first);}
 	};
 
-	tree_type*					tree_;
-	std::allocator<tree_type>	myAlloc_;
-	private:
-		key_compare				comp_;
+	tree_type			tree_;
+	allocator_type		myAlloc_;
+	key_compare			comp_;
 
 public:
 	//constructor: empty (1/3) //ok
 	explicit map (const key_compare& comp = key_compare(),
-					const allocator_type& alloc = allocator_type())
+					const allocator_type& alloc = allocator_type()): tree_(comp, alloc)
 	{
-		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
-		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc)); //констракт вызывает конструктор
+		// tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
+		// myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc)); //констракт вызывает конструктор
 	}
 	//constructor: range(2/3) //ok
 	template <class InputIterator>
 	map (InputIterator first, InputIterator last,
 			const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type())
+			: tree_(comp, alloc)
 	{
-		tree_ = myAlloc_.allocate(1);
-		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
+		// tree_ = myAlloc_.allocate(1);
+		// myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
 		for( ; first != last ; ++first)
-			tree_->insert(*first, comp);
+			tree_.insert(*first, comp);
 	}
 	//constructor: copy(3/3)
-	map (const map& x)
+	map (const map& x): tree_(x.comp_, x.myAlloc_)
 	{
-		tree_ = myAlloc_.allocate(1);
-		myAlloc_.construct(tree_,Tree<Key, T, Compare>(x.comp_, x.myAlloc_));
+		//map()
+		// tree_ = myAlloc_.allocate(1);
+		// myAlloc_.construct(tree_,Tree<Key, T, Compare>(x.comp_, x.myAlloc_));
 		const_iterator	first = x.begin();
 		const_iterator	last = x.end();
 		insert(first, last);
@@ -161,7 +162,7 @@ public:
 		// const_iterator	first = rhs.begin();
 		// const_iterator	last = rhs.end();
 		// for( ; first != last ; ++first)
-		// 	tree_->insert(*first, key_compare());
+		// 	tree_.insert(*first, key_compare());
 		return *this;
 	} 
 
@@ -174,11 +175,11 @@ public:
 	iterator	begin()
 	{
 		node_type*	tmp;
-		if (tree_->size_ == 0)
-			tmp = tree_->quasiEnd_;
+		if (tree_.size_ == 0)
+			tmp = tree_.quasiEnd_;
 		else
 		{
-			tmp = tree_->root_;
+			tmp = tree_.root_;
 			while (tmp->pleft != NULL)
 				tmp = tmp->pleft;
 		}
@@ -187,23 +188,23 @@ public:
 	iterator	end()
 	{
 		node_type*	tmp;
-		tmp = tree_->quasiEnd_;
-		if (tree_->size_ > 0)
+		tmp = tree_.quasiEnd_;
+		if (tree_.size_ > 0)
 		{
-			tree_->quasiEnd_->parent = tree_->root_;
-			while (tree_->quasiEnd_->parent->pright != NULL)
-				tree_->quasiEnd_->parent = tree_->quasiEnd_->parent->pright;
+			tree_.quasiEnd_->parent = tree_.root_;
+			while (tree_.quasiEnd_->parent->pright != NULL)
+				tree_.quasiEnd_->parent = tree_.quasiEnd_->parent->pright;
 		}
 		return iterator(&(tmp->value), tmp);
 	}
 	const_iterator	begin() const
 	{
 		node_type*	tmp;
-		if (tree_->size_ == 0)
-			tmp = tree_->quasiEnd_;
+		if (tree_.size_ == 0)
+			tmp = tree_.quasiEnd_;
 		else
 		{
-			tmp = tree_->root_;
+			tmp = tree_.root_;
 			while (tmp->pleft != NULL)
 				tmp = tmp->pleft;
 		}
@@ -212,12 +213,12 @@ public:
 	const_iterator	end() const
 	{
 		node_type*	tmp;
-		tmp = tree_->quasiEnd_;
-		if (tree_->size_ > 0)
+		tmp = tree_.quasiEnd_;
+		if (tree_.size_ > 0)
 		{
-			tree_->quasiEnd_->parent = tree_->root_;
-			while (tree_->quasiEnd_->parent->pright != NULL)
-				tree_->quasiEnd_->parent = tree_->quasiEnd_->parent->pright;
+			tree_.quasiEnd_->parent = tree_.root_;
+			while (tree_.quasiEnd_->parent->pright != NULL)
+				tree_.quasiEnd_->parent = tree_.quasiEnd_->parent->pright;
 		}
 		return const_iterator(&(tmp->value), tmp);
 	}
@@ -225,11 +226,11 @@ public:
 	reverse_iterator	rbegin()
 	{
 		node_type*	tmp;
-		if (tree_->size_ == 0)
-			tmp = tree_->quasiBegin_;
+		if (tree_.size_ == 0)
+			tmp = tree_.quasiBegin_;
 		else
 		{
-			tmp = tree_->root_;
+			tmp = tree_.root_;
 			while (tmp->pright != NULL)
 				tmp = tmp->pright;
 		}
@@ -238,23 +239,23 @@ public:
 	reverse_iterator	rend()
 	{
 		node_type*	tmp;
-		tmp = tree_->quasiBegin_;
-		if (tree_->size_ > 0)
+		tmp = tree_.quasiBegin_;
+		if (tree_.size_ > 0)
 		{
-			tree_->quasiBegin_->parent = tree_->root_;
-			while (tree_->quasiBegin_->parent->pleft != NULL)
-				tree_->quasiBegin_->parent = tree_->quasiBegin_->parent->pleft;
+			tree_.quasiBegin_->parent = tree_.root_;
+			while (tree_.quasiBegin_->parent->pleft != NULL)
+				tree_.quasiBegin_->parent = tree_.quasiBegin_->parent->pleft;
 		}
 		return reverse_iterator(&(tmp->value), tmp);
 	}
 	const_reverse_iterator	rbegin() const
 	{
 		node_type*	tmp;
-		if (tree_->size_ == 0)
-			tmp = tree_->quasiBegin_;
+		if (tree_.size_ == 0)
+			tmp = tree_.quasiBegin_;
 		else
 		{
-			tmp = tree_->root_;
+			tmp = tree_.root_;
 			while (tmp->pright != NULL)
 				tmp = tmp->pright;
 		}
@@ -263,21 +264,21 @@ public:
 	const_reverse_iterator	rend() const
 	{
 		node_type*	tmp;
-		tmp = tree_->quasiBegin_;
-		if (tree_->size_ > 0)
+		tmp = tree_.quasiBegin_;
+		if (tree_.size_ > 0)
 		{
-			tree_->quasiBegin_->parent = tree_->root_;
-			while (tree_->quasiBegin_->parent->pleft != NULL)
-				tree_->quasiBegin_->parent = tree_->quasiBegin_->parent->pleft;
+			tree_.quasiBegin_->parent = tree_.root_;
+			while (tree_.quasiBegin_->parent->pleft != NULL)
+				tree_.quasiBegin_->parent = tree_.quasiBegin_->parent->pleft;
 		}
 		return const_reverse_iterator(&(tmp->value), tmp);
 	}
 	
 	//Capacity OK
 	/*************************************************************************/
-	size_type	size() const { return tree_->size_ ; }
+	size_type	size() const { return tree_.size_ ; }
 	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
-	bool		empty() const { return tree_->size_ == 0; }
+	bool		empty() const { return tree_.size_ == 0; }
 
 	//Element access OK
 	/*************************************************************************/
@@ -294,7 +295,7 @@ public:
 	{
 		if (find(val.first) != end())
 			return (ft::make_pair(find(val.first), false));
-		tree_->insert(val, key_compare());
+		tree_.insert(val, key_compare());
 		return (ft::make_pair(find(val.first), true));
 	}
 
@@ -303,7 +304,7 @@ public:
 	{
 		if (find(val.first) != end())
 			return find(val.first);
-		tree_->insert(val, key_compare());
+		tree_.insert(val, key_compare());
 		position = find(val.first);
 		return position;
 	}
@@ -319,14 +320,14 @@ public:
 	void erase (iterator position)
 	{
 		const key_type	k = position.m_ptr->first;
-		tree_->root_ = tree_->remove(tree_->root_, k);
+		tree_.root_ = tree_.remove(tree_.root_, k);
 		position = lower_bound(k);
 	}
 	//erase (2/3) leaks
 	size_type erase (const key_type& k)
 	{
 		unsigned len = size();
-		tree_->root_ = tree_->remove(tree_->root_, k);
+		tree_.root_ = tree_.remove(tree_.root_, k);
 		if (size() == len)
 			return 0;
 		return 1;
@@ -351,7 +352,7 @@ public:
 		x.comp_ = tmp_c;
 	}
 
-	void clear() { tree_->clear(tree_->root_); tree_->size_ = 0; } //OK
+	void clear() { tree_.clear(tree_.root_); tree_.size_ = 0; } //OK
 
 	//Observers: OK, no test for value_compare
 	/*************************************************************************/
@@ -363,26 +364,26 @@ public:
 	/*************************************************************************/
 	iterator find (const key_type& k) //OK
 	{
-		node_type*	tmp = tree_->find(tree_->root_, k);
+		node_type*	tmp = tree_.find(tree_.root_, k);
 		return iterator(&(tmp->value), tmp);
 	}
 	const_iterator find (const key_type& k) const
 	{
-		node_type*	tmp = tree_->find(tree_->root_, k);
+		node_type*	tmp = tree_.find(tree_.root_, k);
 		return const_iterator(&(tmp->value), tmp);
 	}
 
 	size_type count (const key_type& k) const //OK
 	{
-		if (tree_->find(tree_->root_, k) == tree_->quasiEnd_)
+		if (tree_.find(tree_.root_, k) == tree_.quasiEnd_)
 			return 0;
 		return 1;
 	}
 
 	iterator lower_bound (const key_type& k) //OK
 	{
-		node_type*	tmp = tree_->find(tree_->root_, k);
-		if (tmp != tree_->quasiEnd_)
+		node_type*	tmp = tree_.find(tree_.root_, k);
+		if (tmp != tree_.quasiEnd_)
 			return iterator(&(tmp->value), tmp);
 		iterator	it = begin();
 		iterator	last = end();
@@ -392,8 +393,8 @@ public:
 	}
 	const_iterator lower_bound (const key_type& k) const
 	{
-		node_type*	tmp = tree_->find(tree_->root_, k);
-		if (tmp != tree_->quasiEnd_)
+		node_type*	tmp = tree_.find(tree_.root_, k);
+		if (tmp != tree_.quasiEnd_)
 			return const_iterator(&(tmp->value), tmp);
 		const_iterator	it = begin();
 		const_iterator	last = end();
@@ -404,8 +405,8 @@ public:
 
 	iterator upper_bound (const key_type& k) //leaks
 	{
-		node_type*	tmp = tree_->find(tree_->root_, k);
-		if (tmp != tree_->quasiEnd_)
+		node_type*	tmp = tree_.find(tree_.root_, k);
+		if (tmp != tree_.quasiEnd_)
 			return iterator(&(tmp->parent->value), tmp);
 		iterator	it = begin();
 		iterator	last = end();
@@ -415,8 +416,8 @@ public:
 	}
 	const_iterator upper_bound (const key_type& k) const
 	{
-		node_type*	tmp = tree_->find(tree_->root_, k);
-		if (tmp != tree_->quasiEnd_)
+		node_type*	tmp = tree_.find(tree_.root_, k);
+		if (tmp != tree_.quasiEnd_)
 			return const_iterator(&(tmp->parent->value), tmp);
 		const_iterator	it = begin();
 		const_iterator	last = end();

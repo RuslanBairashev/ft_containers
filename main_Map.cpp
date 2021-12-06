@@ -69,10 +69,10 @@ void	show_node(ft::Node<const int, int> * node, unsigned level)
 void	show_tree(ft::map<int, int> & mymap)
 {
 	int	level = 0;
-	int height = static_cast<int>(mymap.tree_->root_->height);
+	int height = static_cast<int>(mymap.tree_.root_->height);
 	ft::Node<const int, int> * tmp;
 	std::cout << "___START SHOW TREE___" << std::endl;
-	tmp = mymap.tree_->root_;
+	tmp = mymap.tree_.root_;
 	show_node(tmp, level);
 
 	for (; level < height; ++level)
@@ -122,12 +122,12 @@ int	main()
 	std::cout << "/* ********************* key_redefinition *********************** */" << std::endl;
 	std::cout << "/* ********************* insert() *********************** */" << std::endl;
 	{
-		// ft::map<int, std::string> mymap;
-		// mymap.insert(ft::make_pair<int, std::string>(1, "1.3"));
-		// mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
-		// for(int i = 0; i < 10; i++)
-		// 	mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
-		// std::cout << ". Size is: " << mymap.tree_->size_ << std::endl;
+		ft::map<int, std::string> mymap;
+		mymap.insert(ft::make_pair<int, std::string>(1, "1.3"));
+		mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
+		for(int i = 0; i < 10; i++)
+			mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
+		std::cout << ". Size is: " << mymap.tree_.size_ << std::endl;
 	}
 	{
 		// ft::map<int, int> mp;
