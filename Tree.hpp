@@ -177,10 +177,16 @@ public:
 			nodeAlloc_.construct(root_, Node<const Key, T>(val)); //констракт вызывает конструктор
 			// root_->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
 			// pairAlloc_.construct(val); //констракт вызывает конструктор
-			quasiBegin_ = nodeAlloc_.allocate(1);
-			nodeAlloc_.construct(quasiBegin_, Node<const Key, T>(val));
-			quasiEnd_ = nodeAlloc_.allocate(1);
-			nodeAlloc_.construct(quasiEnd_, Node<const Key, T>(val));
+			if (quasiBegin_ == NULL)
+			{
+				quasiBegin_ = nodeAlloc_.allocate(1);
+				nodeAlloc_.construct(quasiBegin_, Node<const Key, T>(val));
+			}
+			if (quasiEnd_ == NULL)
+			{
+				quasiEnd_ = nodeAlloc_.allocate(1);
+				nodeAlloc_.construct(quasiEnd_, Node<const Key, T>(val));
+			}
 			root_->pbegin = quasiBegin_;
 			root_->pend = quasiEnd_;
 			quasiBegin_->pbegin = quasiBegin_;
@@ -260,13 +266,13 @@ public:
 			return 0;
 		if (k == p->value.first)
 		{
-			Node<const Key, T>*	tmp = p;
+			// Node<const Key, T>*	tmp = p;
 			Node<const Key, T>*	tmp_parent = p->parent;
 			Node<const Key, T>*	tmp_left = p->pleft;
 			Node<const Key, T>*	tmp_right = p->pright;
 
-			// nodeAlloc_.destroy(p);
-			// nodeAlloc_.deallocate(p, 1);
+			nodeAlloc_.destroy(p);
+			nodeAlloc_.deallocate(p, 1);
 			//p = NULL;
 			--size_;
 			if (!tmp_right)
@@ -284,9 +290,9 @@ public:
 			// if (min->pright->parent != min)
 			// 	tmp_right->parent = min;
 			p = balance(min);
-			nodeAlloc_.destroy(tmp);
-			nodeAlloc_.deallocate(tmp, 1);
-			tmp = NULL;
+			// nodeAlloc_.destroy(tmp);
+			// nodeAlloc_.deallocate(tmp, 1);
+			// tmp = NULL;
 		}
 		else if (comp_(k, p->value.first)) // (k < p->value.first)
 			p->pleft = remove(p->pleft, k);
@@ -386,6 +392,17 @@ public:
 			size_ = 0;
 			//std::cout << "azaza\n" << std::endl;
 		}
+	}
+	void			clear_quasi()
+	{
+		nodeAlloc_.destroy(quasiBegin_);
+		nodeAlloc_.deallocate(quasiBegin_, 1);
+		nodeAlloc_.destroy(quasiEnd_);
+		nodeAlloc_.deallocate(quasiEnd_, 1);
+		nodeAlloc_.destroy(root_);
+		nodeAlloc_.deallocate(root_, 1);
+		
+		root_ = quasiBegin_ = quasiEnd_ = NULL;
 	}
 	// 	voi			clear()
 	// {
