@@ -3,6 +3,7 @@
 #include <map>
 #include <iterator>
 #include <vector>
+#include <typeinfo>
 #include "Map.hpp"
 #include "Utility.hpp"
 #include "Miterator.hpp"
@@ -526,6 +527,16 @@ int	main()
 	}
 	std::cout << "/* ********************* operator == *********************** */" << std::endl;
 
+	std::cout << "/* ********************* iterator_traits ********************* */" << std::endl;
+
+	typedef std::iterator_traits<int*> traits;
+  	if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
+    std::cout << "int* is a random-access iterator\n";
+	typedef ft::Miterator_traits<int*> ft_traits;
+  	if (typeid(ft_traits::iterator_category)==typeid(std::bidirectional_iterator_tag))
+    std::cout << "Yes, int* is a random-access iterator\n";
+
+	std::cout << "/* ********************* iterator_traits ********************* */" << std::endl;
 	// map_info<int, std::string>(mymap);
 	// show_tree(mymap);
 
