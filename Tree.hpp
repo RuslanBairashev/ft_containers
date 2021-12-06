@@ -361,16 +361,28 @@ public:
 	}
 	void			clear(Node<const Key, T> *p)
 	{
-		if (p)
+		if (size_ > 0)
 		{
-			if (p->pleft)
-				clear(p->pleft);
-			if (p->pright)
-				clear(p->pright);
-			nodeAlloc_.destroy(p);
-			nodeAlloc_.deallocate(p, 1);
+			if (size_ != 0 && p)
+			{
+				if (p->pleft)
+					clear(p->pleft);
+				if (p->pright)
+					clear(p->pright);
+				nodeAlloc_.destroy(p);
+				nodeAlloc_.deallocate(p, 1);
+			}
+			if ( p == root_)
+			{
+				// nodeAlloc_.destroy(quasiBegin_); //if this on, sega on relation operators
+				// nodeAlloc_.deallocate(quasiBegin_, 1);
+				// nodeAlloc_.destroy(quasiEnd_);
+				// nodeAlloc_.deallocate(quasiEnd_, 1);
+				// nodeAlloc_.destroy(root_);
+				// nodeAlloc_.deallocate(root_, 1);
+				size_ = 0;
+			}
 		}
-		size_ = 0;
 	}
 	// 	void			clear()
 	// {
