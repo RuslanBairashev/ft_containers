@@ -122,12 +122,12 @@ int	main()
 	std::cout << "/* ********************* key_redefinition *********************** */" << std::endl;
 	std::cout << "/* ********************* insert() *********************** */" << std::endl;
 	{
-		ft::map<int, std::string> mymap;
-		mymap.insert(ft::make_pair<int, std::string>(1, "1.3"));
-		mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
-		for(int i = 0; i < 10; i++)
-			mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
-		std::cout << ". Size is: " << mymap.tree_.size_ << std::endl;
+		// ft::map<int, std::string> mymap;
+		// mymap.insert(ft::make_pair<int, std::string>(1, "1.3"));
+		// mymap.insert(ft::make_pair<int, std::string>(2, "2.3"));
+		// for(int i = 0; i < 10; i++)
+		// 	mymap.insert(ft::make_pair<int, std::string>(i, "aaa"));
+		// std::cout << ". Size is: " << mymap.tree_.size_ << std::endl;
 	}
 	{
 		// ft::map<int, int> mp;
@@ -359,18 +359,18 @@ int	main()
 	std::cout << "/* ********************* erase() *********************** */" << std::endl;
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
 	{
-		// ft::map<int, int> mp;
-		// std::vector<int> v;
-		// mp.clear();
-		// for (int i = 0, j = 0; i < 250000; ++i, ++j)
-		// 	mp.insert(ft::make_pair(i, j));
-		// v.push_back(mp.size());
-		// mp.clear();
-		// v.push_back(mp.size());
-		// std::cout << "size =" << mp.size() << '\n';
-		// ft::map<int, int>::iterator it = mp.begin();
-		// if (it == mp.end())
-		// 	v.push_back(1);
+		ft::map<int, int> mp;
+		std::vector<int> v;
+		mp.clear();
+		for (int i = 0, j = 0; i < 250000; ++i, ++j)
+			mp.insert(ft::make_pair(i, j));
+		v.push_back(mp.size());
+		mp.clear();
+		v.push_back(mp.size());
+		std::cout << "size =" << mp.size() << '\n';
+		ft::map<int, int>::iterator it = mp.begin();
+		if (it == mp.end())
+			v.push_back(1);
 	}
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
 	std::cout << "/* ********************* size() *********************** */" << std::endl;

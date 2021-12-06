@@ -370,7 +370,10 @@ public:
 			nodeAlloc_.destroy(p);
 			nodeAlloc_.deallocate(p, 1);
 		}
-		size_ = 0;
+		if (p == root_)
+		{
+			size_ = 0;
+		}
 	}
 	// 	void			clear()
 	// {
