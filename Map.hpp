@@ -148,20 +148,20 @@ public:
 	}
 	~map()
 	{
-		// myAlloc_.destroy(tree_);
-		// myAlloc_.deallocate(tree_, 1);
+		myAlloc_.destroy(tree_);
+		myAlloc_.deallocate(tree_, 1);
 	}
 	map& operator= (const map& rhs)
 	{
 		if (this == &rhs)
 			return *this;
-		this->tree_ = rhs.tree_;
-		// clear();
+		//this->tree_ = rhs.tree_;
+		clear();
 		// //map<Key, T> tmp(rhs);
-		// const_iterator	first = rhs.begin();
-		// const_iterator	last = rhs.end();
-		// for( ; first != last ; ++first)
-		// 	tree_->insert(*first, key_compare());
+		const_iterator	first = rhs.begin();
+		const_iterator	last = rhs.end();
+		for( ; first != last ; ++first)
+		 	tree_->insert(*first, key_compare());
 		return *this;
 	} 
 
