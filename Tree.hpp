@@ -22,6 +22,7 @@ struct Node
 	unsigned char	height;
 	Node(value_type val)
 	 : value(val), parent(NULL), pleft(NULL), pright(NULL), pbegin(NULL), pend(NULL), height(1) {}
+	~Node() {}
 	Node&	operator=(const Node& rhs)
 	{
 		if (this == &rhs)
@@ -259,12 +260,14 @@ public:
 			return 0;
 		if (k == p->value.first)
 		{
+			Node<const Key, T>*	tmp = p;
 			Node<const Key, T>*	tmp_parent = p->parent;
 			Node<const Key, T>*	tmp_left = p->pleft;
 			Node<const Key, T>*	tmp_right = p->pright;
-			//delete p;
-			nodeAlloc_.destroy(p);
-			nodeAlloc_.deallocate(p, 1);
+
+			// nodeAlloc_.destroy(p);
+			// nodeAlloc_.deallocate(p, 1);
+			//p = NULL;
 			--size_;
 			if (!tmp_right)
 			{
@@ -281,6 +284,9 @@ public:
 			// if (min->pright->parent != min)
 			// 	tmp_right->parent = min;
 			p = balance(min);
+			nodeAlloc_.destroy(tmp);
+			nodeAlloc_.deallocate(tmp, 1);
+			tmp = NULL;
 		}
 		else if (comp_(k, p->value.first)) // (k < p->value.first)
 			p->pleft = remove(p->pleft, k);
@@ -288,53 +294,53 @@ public:
 			p->pright = remove(p->pright, k);
 		return balance (p);
 	}
-	int			remove(Key k)
-	{
-		Node<const Key, T>*	tmp;
-		if (!root_)
-			return 0;
-		tmp = find(root_, k);
-		if (tmp  == quasiEnd_)
-			return 0;
-		remove(tmp);
-		size_--;
-		return 1;
-	}
-	void			remove(Node<const Key, T>* p)
-	{
-		Node<const Key, T>*	tmp_parent = p->parent;
-		Node<const Key, T>*	tmp_left = p->pleft;
-		Node<const Key, T>*	tmp_right = p->pright;
+	// int			remove(Key k)
+	// {
+	// 	Node<const Key, T>*	tmp;
+	// 	if (!root_)
+	// 		return 0;
+	// 	tmp = find(root_, k);
+	// 	if (tmp  == quasiEnd_)
+	// 		return 0;
+	// 	remove(tmp);
+	// 	size_--;
+	// 	return 1;
+	// }
+	// void			remove(Node<const Key, T>* p)
+	// {
+	// 	Node<const Key, T>*	tmp_parent = p->parent;
+	// 	Node<const Key, T>*	tmp_left = p->pleft;
+	// 	Node<const Key, T>*	tmp_right = p->pright;
 
-		if (!tmp_right)
-		{
-			if (tmp_parent->pleft == p) //left branch
-				tmp_parent->pleft = tmp_left;
-			else
-				tmp_parent->pright = tmp_left;
-			if (tmp_left)
-				tmp_left->parent = tmp_parent;
-		}
-		else
-		{
-			Node<const Key, T>*	min = findmin(tmp_right);
-			min->pright = removemin(tmp_right);
-			min->pleft = tmp_left;
-			min->parent = tmp_parent;
-			tmp_left->parent = min;
-			if (tmp_parent)
-			{
-				if (tmp_parent->pleft == p) //left branch
-					tmp_parent->pleft = min;
-				else
-					tmp_parent->pright = min;
-			}
-			balance(min);
-		}
-		nodeAlloc_.destroy(p);
-		nodeAlloc_.deallocate(p, 1);
-		balance(root_);
-	}
+		// if (!tmp_right)
+		// {
+		// 	if (tmp_parent->pleft == p) //left branch
+		// 		tmp_parent->pleft = tmp_left;
+		// 	else
+		// 		tmp_parent->pright = tmp_left;
+		// 	if (tmp_left)
+		// 		tmp_left->parent = tmp_parent;
+		// }
+		// else
+		// {
+		// 	Node<const Key, T>*	min = findmin(tmp_right);
+		// 	min->pright = removemin(tmp_right);
+		// 	min->pleft = tmp_left;
+	// 		min->parent = tmp_parent;
+	// 		tmp_left->parent = min;
+	// 		if (tmp_parent)
+	// 		{
+	// 			if (tmp_parent->pleft == p) //left branch
+	// 				tmp_parent->pleft = min;
+	// 			else
+	// 				tmp_parent->pright = min;
+	// 		}
+	// 		balance(min);
+	// 	}
+	// 	nodeAlloc_.destroy(p);
+	// 	nodeAlloc_.deallocate(p, 1);
+	// 	balance(root_);
+	// }
 	void			print_tree()
 	{
 		if (root_ && size_ < 10000)

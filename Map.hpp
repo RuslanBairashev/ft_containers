@@ -320,7 +320,7 @@ public:
 	{
 		const key_type	k = position.m_ptr->first;
 		tree_->root_ = tree_->remove(tree_->root_, k);
-		position = lower_bound(k);
+		//position = lower_bound(k);
 	}
 	//erase (2/3) leaks
 	size_type erase (const key_type& k)
