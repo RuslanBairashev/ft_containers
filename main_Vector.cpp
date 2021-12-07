@@ -306,6 +306,53 @@ int	main_Vector()
 		std::cout << "FAILED" << std::endl;
 }
 	std::cout << "/* ********************* front()/back() *********************** */" << std::endl;
+	std::cout << "/* ********************* assign(range) *********************** */" << std::endl;
+{
+	std::vector<int>	pre_std_mp(21, 42);
+	ft::vector<int>		pre_ft_mp(21, 42);
+
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	std_mp.assign(pre_std_mp.begin(), --(pre_std_mp.end()));
+	ft_mp.assign(pre_ft_mp.begin(), --(pre_ft_mp.end()));
+	if (std_mp[0] == ft_mp[0])
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* assign(range) *********************** */" << std::endl;
+	std::cout << "/* ********************* assign(fill) *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	std_mp.assign(21, 42);
+	ft_mp.assign(21, 42);
+	if (std_mp[0] == ft_mp[0])
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* assign(fill) *********************** */" << std::endl;
+	std::cout << "/* ********************* push_back()/pop_back() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	std_mp.pop_back();
+	ft_mp.pop_back();
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* push_back()/pop_back() *********************** */" << std::endl;
 	std::cout << "/* ********************* insert(value) *********************** */" << std::endl;
 {
 	// ft::vector<int> vector;
@@ -332,224 +379,67 @@ int	main_Vector()
     // }
 }
 	std::cout << "/* ********************* insert(value) *********************** */" << std::endl;
+	std::cout << "/* ********************* insert(element) *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
 
-	// ft::vector<int> vector;
-    // std::vector<int> v;
-    // vector.assign(26000000, 1);
-    // g_start2 = timer();
-    // v.push_back(*(vector.insert(vector.end() - 8000000, 44)));
-    // g_end2 = timer();
-    // v.push_back(vector.size());
-    // v.push_back(vector.capacity());
-    // std::unique_ptr<B> k2(new B(3));
-    // std::unique_ptr<B> k3(new B(4));
-    // std::unique_ptr<B> k4(new B(-1));
-    // ft::vector<A> vv;
-    // ft::vector<B*> v1;
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	std::vector<int>::iterator	it = std_mp.begin();
+	ft::vector<int>::iterator	it2 = ft_mp.begin();
+	std_mp.insert(it, 42);
+	ft_mp.insert(it2, 42);
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* insert(element) *********************** */" << std::endl;
+	std::cout << "/* ********************* insert(fill) *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
 
-    // v1.push_back(&(*k2));
-    // v1.push_back(&(*k3));
-    // v1.push_back(&(*k4));
-    // try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
-    // catch (...) {
-    // 	v.push_back(vv.size());
-    // 	v.push_back(vv.capacity());
-    // }
-	// std::cout << "v1 size: " << v1.size() << std::endl;
-	// for(size_t i1 = 0; i1 < v1.size(); ++i1)
-	// 	std::cout << v1[i1] << std::endl;
-	// std::cout << "size: " << v.size() << std::endl;
-	// for(size_t i = 0; i < v.size(); ++i)
-	// 	std::cout << v[i] << std::endl;
-    //return v;
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	std::vector<int>::iterator	it = std_mp.begin();
+	ft::vector<int>::iterator	it2 = ft_mp.begin();
+	std_mp.insert(it, 10, 42);
+	ft_mp.insert(it2, 10, 42);
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* insert(fill) *********************** */" << std::endl;
+	std::cout << "/* ********************* insert(range) *********************** */" << std::endl;
+{
+	std::vector<int>	pre_std_mp(21, 42);
+	ft::vector<int>		pre_ft_mp(21, 42);
+
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	std_mp.insert(std_mp.begin(), pre_std_mp.begin(), pre_std_mp.end());
+	ft_mp.insert(ft_mp.begin(), pre_ft_mp.begin(), pre_ft_mp.end());
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* insert(range) *********************** */" << std::endl;
+
 	return 0;
 }
-	/* std::cout << "vector with ints:" << std::endl;
-	ft::vector<int>	v;
-	for (int i = 1; i < 10; ++i)
-		v.push_back(i); */
-	//vector<int> v2 (4,100);
-	// std::cout << "v contains: " << v ;
-	// std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
-/* 	vector<int> v3 (v2.begin(),v2.end() - 1);
-	std::cout << "v3 contains: " << v3 ;
-	std::cout << ". size_ = " << v3.size() << ". capacity_ = " << v3.capacity() << std::endl;
-	std::cout << "v contains: " << v ;
-	std::cout << ". size_ = " << v.size() << ". capacity_ = " << v.capacity() << std::endl;
-
-	std::cout << std::endl << "Viterators_tests_________" << std::endl; */
-	/*************************************************************************/
-	// std::cout << "begin check: " << *(v.begin()) << std::endl;
-	// std::cout << "end check: " << *(v.end() - 1) << std::endl;
-	// std::cout << std::endl << "Viterator_class_tests_________" << std::endl;
-	// ft::vector<int>::iterator it = v.begin();
-	// std::cout << "*a check: " << *it << std::endl;
-	// *it = 42;
-	// std::cout << "*a= check: " << *it << std::endl;
-	// std::cout << "++a check: " << *(it++) << std::endl;
-	// std::cout << "a++ check: " << *(++it) << std::endl;
-	// std::cout << "a+ check: " << *(it + 2) << std::endl;
-	// std::cout << "a- check: " << *(it - 1) << std::endl;
-	// std::cout << "a+= check: " << *(it+=2) << std::endl;
-	// std::cout << "a-= check: " << *(it-=1) << std::endl;
-	// std::cout << "--a check: " << *(it--) << std::endl;
-	// std::cout << "a-- check: " << *(--it) << std::endl;
-	// ft::vector<int>::iterator it2 = it + 3;
-	// std::cout << "Current positions: " << "*it= " << *it << " *it2= " << *it2 << std::endl;
-	// std::cout << "a<b check: " << (*it < *it2) << std::endl;
-	// std::cout << "a>b check: " << (*it > *it2) << std::endl;
-	// std::cout << "a<=b check: " << (*it <= *it2) << std::endl;
-	// std::cout << "a>=b check: " << (*it >= *it2) << std::endl;
-	// std::cout << "a[0] check: " << it[0] << ". a[5] check: " << it[5] << std::endl;
-
-/* 	std::vector<int> std_v;
-	for (int i = 11; i < 20; ++i)
-		std_v.push_back(i);
-	std::vector<int>::iterator it10 = std_v.begin();
-	std::cout << "*std_v check: " << *it10 << std::endl;
-	std::cout << "max_size check: " << std_v.max_size() << std::endl;
-
-	std::cout << std::endl << "Capacity_tests__________" << std::endl; */
-	/*************************************************************************/
-/* 	std::cout << "size check: " << v.size() << std::endl;
-	std::cout << "max_size check: " << v.max_size() << std::endl;
-	v.resize(12);
-	std::cout << "resize check: "  << v.size() << ' ' << v.capacity() << std::endl;
-	std::cout << "capacity check: " << v.capacity() << std::endl;
-	std::cout << "empty check: " << v.empty() << std::endl;
-	v.reserve(15);
-	std::cout << "reserve check: " << v.capacity() << std::endl;
-
-	std::cout << std::endl << "v contains: " << v << std::endl;
-	std::cout << "Element_access_tests____" << std::endl; */
-	/*************************************************************************/
-/* 	std::cout << "operator[] check: " << v[2] << std::endl;
-	std::cout << "at check: " << v.at(3) << std::endl;
-	std::cout << "front check: " << v.front() << std::endl;
-	std::cout << "back check: " << v.back() << std::endl; */
-
-	/* ft::vector<int>::iterator it3 = v.begin();
-	std::cout << "Modifiers_tests____" << std::endl; */
-	/*************************************************************************/
-/* 	std::cout << "assign check: " << std::endl;
-	vector<int> first;
-	vector<int> second;
-	first.assign (7,100);             // 7 ints with a value of 100
-	std::cout << std::endl << "first contains: " << first << std::endl; */
-
-	// vector<int>::iterator its = first.begin()+1;
-	// second.assign (its,first.end()-1); // the 5 central values of first
-	// std::cout << std::endl << "second contains: " << second << std::endl;
-
-	// int myints[] = {1776,7,4};
-	// vector<int> third;
-	// third.assign (myints,myints+3);   // assigning from array.
-	// std::cout << std::endl << "third contains: " << third << std::endl;
-
-	// std::cout << "push_back check: " << std::endl;
-	// first.push_back(50);
-	// std::cout << std::endl << "first contains: " << first << std::endl;
-	// std::cout << "pop_back check: " << std::endl;
-	// first.pop_back();
-	// std::cout << std::endl << "first contains: " << first << std::endl;
-/* 	std::cout << "insert check: " << std::endl;
-	std::cout << std::endl << "1.v contains: " << v << std::endl;
-	v.insert(it3, 1);
-	std::cout << std::endl << "2.v contains: " << v << std::endl;
-	v.insert(it3, 5, 300);
-	std::cout << std::endl << "3.v contains: " << v << std::endl;
-	ft::vector<int>	plus;
-	for (int i = 0; i < 25; ++i)
-		plus.push_back(i + 101);
-	it3 = v.begin();
-	v.insert(it3 + 3, plus.begin(), plus.end());
-	std::cout << std::endl << "4.v contains: " << v << std::endl;
-	int myarray [] = { 501,502,503 };
-	v.insert (v.begin(), myarray, myarray+3);
-	std::cout << std::endl << "5.v contains: " << v << std::endl; */
-	// std::cout << "erase check: " << std::endl;
-	// it3 = v.begin();
-	// v.erase(it3 + 5);
-	// std::cout << std::endl << "v contains: " << v << std::endl;
-	// v.erase(it3, it3 + 3);
-	// std::cout << std::endl << "v contains: " << v << std::endl;
-	// std::cout << "swap check: " << std::endl;
-	// vector<int> foo (3,100);   // three ints with a value of 100
-	// vector<int> bar (5,200);   // five ints with a value of 200
-	// foo.swap(bar);
-	// std::cout << "foo contains: " << foo;
-	// std::cout << "bar contains: " << bar << std::endl;
-
-/* 	std::cout << "get_allocator check: " << std::endl;
-	vector<int> myvector;
-	int * p;
-	unsigned int i;
-	// allocate an array with space for 5 elements using vector's allocator:
-	p = myvector.get_allocator().allocate(5);
-	// construct values in-place on the array:
-	for (i=0; i<5; i++) myvector.get_allocator().construct(&p[i],i);
-	std::cout << "The allocated array contains:";
-	for (i=0; i<5; i++) std::cout << ' ' << p[i];
-	std::cout << '\n';
-	// destroy and deallocate:
-	for (i=0; i<5; i++) myvector.get_allocator().destroy(&p[i]);
-	myvector.get_allocator().deallocate(p,5);
-
-	std::cout << "Relational_operators_tests____" << std::endl; */
-	/*************************************************************************/
-/* 	second = first;
-	std::cout << "== operation test(1 = true / 0 = false) :" << (first == second) << std::endl;
-	std::cout << "!= operation test(1 = true / 0 = false) :" << (first != second) << std::endl;
-	first.pop_back();
-	std::cout << "< operation test(1 = true / 0 = false) :" << (first < second) << std::endl;
-	std::cout << "> operation test(1 = true / 0 = false) :" << (first > second) << std::endl;
-	std::cout << ">= operation test(1 = true / 0 = false) :" << (first >= second) << std::endl;
-	std::cout << "<= operation test(1 = true / 0 = false) :" << (first <= second) << std::endl;
-
-	it3 = it2; */
-	// vector<int>	c_v;
-	// vector<int>	cr_v;
-	/* for (int i = 1; i < 10; ++i)
-		c_v.push_back(i); */
-	// uncomment this to check const_iterator
-	// vector<int>::const_iterator c_it = c_v.begin();
-	// vector<int>::const_reverse_iterator cr_it = cr_v.rbegin();
-	//*c_it = 55;
-
-	// std::cout << std::endl << "REV*****REV*****REV*****REV*****REV*****REV*****REV" << std::endl;
-	// std::cout << "Reverse vector with ints:" << std::endl;
-	// vector<int>	r;
-	// for (int i = 1; i < 10; ++i)
-	// 	r.push_back(i);
-	//vector<int> r2 (4,100);
-	// std::cout << "r contains: " << r ;
-	// std::cout << ". size_ = " << r.size() << ". capacity_ = " << r.capacity() << std::endl;
-	// std::cout << "begin check: " << *(r.rbegin()) << std::endl;
-	// std::cout << "end check: " << *(r.rend() + 1) << std::endl;
-	/*************************************************************************/
-	// std::cout << std::endl << "Reviterator_class_tests_________" << std::endl;
-	// vector<int>::reverse_iterator rit = r.rbegin();
-	// std::cout << "*a check: " << *rit << std::endl;
-	// *rit = 42;
-	// std::cout << "*a= check: " << *rit << std::endl;
-	// std::cout << "++a check: " << *(rit++) << std::endl;
-	// std::cout << "a++ check: " << *(++rit) << std::endl;
-	// std::cout << "a+ check: " << *(rit + 2) << std::endl;
-	// std::cout << "a- check: " << *(rit - 1) << std::endl;
-	// std::cout << "a+= check: " << *(rit+=2) << std::endl;
-	// std::cout << "a-= check: " << *(rit-=1) << std::endl;
-	// std::cout << "--a check: " << *(rit--) << std::endl;
-	// std::cout << "a-- check: " << *(--rit) << std::endl;
-	// vector<int>::reverse_iterator rit2 = rit + 3;
-	// std::cout << "Current positions: " << "*rit= " << *rit << " *rit2= " << *rit2 << std::endl;
-	// std::cout << "a<b check: " << (*rit < *rit2) << std::endl;
-	// std::cout << "a>b check: " << (*rit > *rit2) << std::endl;
-	// std::cout << "a<=b check: " << (*rit <= *rit2) << std::endl;
-	// std::cout << "a>=b check: " << (*rit >= *rit2) << std::endl;
-	// std::cout << "a[0] check: " << rit[0] << ". a[5] check: " << rit[5] << std::endl;
-
-
-	//std::vector<int>::iterator it1000;
-	//Vpair<vector<int>,vector<int> > my_pair(foo, bar);
-// 	return 0;
-// }
