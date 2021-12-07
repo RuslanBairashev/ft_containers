@@ -347,7 +347,7 @@ int	main()
 	}
 	{
 		// ft::map<int, int> mp;
-		// for (int i = 0, j = 0; i < 500000; ++i, ++j)
+		// for (int i = 0, j = 0; i < 500; ++i, ++j)
 		// 	mp.insert(ft::make_pair(i, j));
 		// // ft::map<int,int>::iterator	first = mp.begin();
 		// // ft::map<int,int>::iterator	last = mp.end();
@@ -436,7 +436,17 @@ int	main()
 
 	std::cout << "/* ********************* upper_bound() *********************** */" << std::endl;
 	std::cout << "/* ********************* std::map tests *********************** */" << std::endl;
-
+	{
+		std::map<int,int>	mp;
+		mp.insert(std::make_pair(3,3));
+		mp.insert(std::make_pair(5,5));
+		mp.erase(3);
+		std::map<int,int>::iterator	begin = mp.begin();
+		mp.erase(begin);
+		std::map<int,int>::iterator	end = mp.end();
+		// ++begin;
+		end--;
+	}
 	{
 		// std::map<int, int>	mp;
 		// for (int i = 1; i < 10; ++i)
@@ -494,20 +504,20 @@ int	main()
 	std::cout << "/* ********************* std::map tests *********************** */" << std::endl;
 	std::cout << "/* ********************* operator = *********************** */" << std::endl;
 	{
-		ft::map<int,int>	mp;
-		std::vector<int> v;
-		for (int i = 33, j = 10; i < 200000; ++i, ++j)
-			mp.insert(ft::make_pair(i, j));
-		ft::map<int,int> mp2;
-		for (int i = 200000, j = 200010; i < 400000; ++i, ++j)
-			mp2.insert(ft::make_pair(i, j));
-		mp2 = mp;
-		ft::map<int, int>::iterator it = mp2.begin();
-		for (; it != mp2.end(); it++) {
-			v.push_back(it->first);
-			v.push_back(it->second);
-		}
-		v.push_back(mp2.size());
+		// ft::map<int,int>	mp;
+		// std::vector<int> v;
+		// for (int i = 33, j = 10; i < 200000; ++i, ++j)
+		// 	mp.insert(ft::make_pair(i, j));
+		// ft::map<int,int> mp2;
+		// for (int i = 200000, j = 200010; i < 400000; ++i, ++j)
+		// 	mp2.insert(ft::make_pair(i, j));
+		// mp2 = mp;
+		// ft::map<int, int>::iterator it = mp2.begin();
+		// for (; it != mp2.end(); it++) {
+		// 	v.push_back(it->first);
+		// 	v.push_back(it->second);
+		// }
+		// v.push_back(mp2.size());
 	}
 	std::cout << "/* ********************* operator = *********************** */" << std::endl;
 	std::cout << "/* ********************* operator == *********************** */" << std::endl;
@@ -529,12 +539,12 @@ int	main()
 
 	std::cout << "/* ********************* iterator_traits ********************* */" << std::endl;
 	{
-	typedef std::iterator_traits<int*> traits;
-  	if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
-    std::cout << "int* is a random-access iterator\n";
-	typedef ft::Miterator_traits<int*> ft_traits;
-  	if (typeid(ft_traits::iterator_category)==typeid(std::bidirectional_iterator_tag))
-    std::cout << "Yes, int* is a random-access iterator\n";
+	// typedef std::iterator_traits<int*> traits;
+  	// if (typeid(traits::iterator_category)==typeid(std::random_access_iterator_tag))
+    // std::cout << "int* is a random-access iterator\n";
+	// typedef ft::Miterator_traits<int*> ft_traits;
+  	// if (typeid(ft_traits::iterator_category)==typeid(std::bidirectional_iterator_tag))
+    // std::cout << "Yes, int* is a random-access iterator\n";
 	}
 	std::cout << "/* ********************* iterator_traits ********************* */" << std::endl;
 	// map_info<int, std::string>(mymap);

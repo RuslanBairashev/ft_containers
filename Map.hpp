@@ -320,6 +320,8 @@ public:
 	{
 		const key_type	k = position.m_ptr->first;
 		tree_->root_ = tree_->remove(tree_->root_, k);
+		if (size() == 0)
+			tree_->clear_quasi();
 		//position = lower_bound(k);
 	}
 	//erase (2/3) leaks
@@ -327,8 +329,8 @@ public:
 	{
 		unsigned len = size();
 		tree_->root_ = tree_->remove(tree_->root_, k);
-		// if (size() == 0)
-		// 	tree_->clear_quasi();
+		if (size() == 0)
+			tree_->clear_quasi();
 		if (size() == len)
 			return 0;
 		return 1;

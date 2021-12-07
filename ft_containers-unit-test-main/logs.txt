@@ -1,0 +1,7 @@
+../vector_tests/data().cpp:22:22: error: no member named 'data' in 'ft::vector<int, std::__1::allocator<int> >'
+    oss << &*(vector.data());
+              ~~~~~~ ^
+../vector_tests/data().cpp:32:57: note: in instantiation of function template specialization 'data_test<int>' requested here
+    exit(run_vector_unit_test<int>("data()", data_test, data_test));
+                                                        ^
+1 error generated.
