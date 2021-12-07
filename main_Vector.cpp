@@ -440,6 +440,91 @@ int	main_Vector()
 		std::cout << "FAILED" << std::endl;
 }
 	std::cout << "/* ********************* insert(range) *********************** */" << std::endl;
+	std::cout << "/* ********************* erase(element) *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	std::vector<int>::iterator	it = std_mp.begin();
+	ft::vector<int>::iterator	it2 = ft_mp.begin();
+	std_mp.erase(it);
+	ft_mp.erase(it2);
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* erase(element) *********************** */" << std::endl;
+	std::cout << "/* ********************* erase(range) *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	std::vector<int>::iterator	it = std_mp.begin();
+	ft::vector<int>::iterator	it2 = ft_mp.begin();
+	std_mp.erase(it, --(std_mp.end()));
+	ft_mp.erase(it2, --(ft_mp.end()));
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* erase(range) *********************** */" << std::endl;
+	std::cout << "/* ********************* swap() *********************** */" << std::endl;
+{
+	std::vector<int>	pre_std_mp(21, 42);
+	ft::vector<int>		pre_ft_mp(21, 42);
+
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	// std::vector<int>	std_mp2(pre_std_mp);
+	// ft::vector<int>		ft_mp2(pre_ft_mp);
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	std_mp.swap(pre_std_mp);
+	ft_mp.swap(pre_ft_mp);
+	// std::swap(std_mp, std_mp2);
+	// ft::swap(ft_mp, ft_mp2);
+	
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* swap() *********************** */" << std::endl;
+	std::cout << "/* ********************* clear() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	std_mp.clear();
+	ft_mp.clear();
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* clear() *********************** */" << std::endl;
 
 	return 0;
 }

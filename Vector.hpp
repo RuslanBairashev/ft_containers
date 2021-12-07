@@ -439,44 +439,6 @@ public:
 		size_ -= range;
 		return tmp;
 	}
-	// void swap (vector & x)
-	// {
-	// 	/* vector<value_type> 	tmp;
-	// 	vector<value_type> &ref = tmp;
-	// 	vector<value_type> &refthis = *this;
-	// 	refthis = x;
-	// 	x = ref; */
-	// 	//size_type	tmp_size = this->size_;
-	// 	size_type	tmp_capacity = this->capacity_;
-	// 	iterator	tmp_first = this->begin();
-	// 	iterator	tmp_last = this->end();
-	// 	iterator	x_first = x.begin();
-	// 	iterator	x_last = x.end();
-	// 	this->assign(x_first, x_last);
-	// 	this->capacity_ = x.capacity_;
-	// 	x.assign(tmp_first, tmp_last);
-	// 	x.capacity_ = tmp_capacity;
-	// }
-/*   	void swap (vector & x)
-	{
-		vector<value_type>	tmp = *this;
-		// copy x to this
-		//if (this->capacity_ < x.size_)
-			this->reserve(x.size_);
-		int i = 0;
-		for (iterator it = x.begin(); it != x.end(); ++it, ++i)
-			(*this)[i] = *it;
-		this->size_ = x.size_;
-		this->capacity_ = this->size_;
-		// copy tmp to x
-		//if (x.capacity_ < tmp.size_)
-			x.reserve(tmp.size_);
-		i = 0;
-		for (iterator itx = tmp.begin(); itx != tmp.end(); ++itx, ++i)
-			x[i] = *itx;
-		x.size_ = tmp.size_;
-		x.capacity_ = x.size_;
-	}  */
 	void swap (vector & x)
 	{
 		pointer		tmp = this->array_;
@@ -505,8 +467,6 @@ public:
 	friend	bool	operator> <> (vector & lhs, vector & rhs);
 	friend	bool	operator>= <> (vector & lhs, vector & rhs);
 	friend	bool	operator<= <> (vector & lhs, vector & rhs);
-	// template < class Tx, class Allocatorx >
-	// friend	void	swap (vector & x);
 
 	template < class Tx, class Allocatorx >
 	friend	std::ostream& operator<<(std::ostream &, const vector<Tx, Allocatorx> &);
@@ -530,19 +490,6 @@ std::ostream& operator<<(std::ostream & os, const vector<T, Allocator> & rhs)
 	return os;
 }
 
-//template <class T, class Alloc>
-// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
-// {
-// 	vector<T,Alloc>	tmp;
-// 	tmp = x;
-// 	x = y;
-// 	y = tmp;
-// }
-// template < class T, class Alloc >
-// void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
-// {
-// 	x.swap(y);
-// }
 }
 namespace std{
 template < class T, class Alloc >
