@@ -9,6 +9,12 @@ std::vector<int> reserve_test(std::vector<T> vector) {
     g_end1 = timer();
     v.push_back(vector.size());
     v.push_back(vector.capacity());
+	// 	{
+	// 	std::cout << "size: " << v.size() << std::endl;
+	// 	for (unsigned i = 0; i < v.size(); ++i)
+	// 		std::cout << v[i] << ' ';
+	// 	std::cout << std::endl;
+	// }
     return v;
 }
 
@@ -20,6 +26,12 @@ std::vector<int> reserve_test(_vector<T> vector) {
     g_end2 = timer();
     v.push_back(vector.size());
     v.push_back(vector.capacity());
+	// 	{
+	// 	std::cout << "size: " << v.size() << std::endl;
+	// 	for (unsigned i = 0; i < v.size(); ++i)
+	// 		std::cout << v[i] << ' ';
+	// 	std::cout << std::endl;
+	// }
     return v;
 }
 

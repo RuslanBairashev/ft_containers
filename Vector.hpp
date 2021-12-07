@@ -87,8 +87,8 @@ public:
 	typedef typename	allocator_type::const_reference	const_reference;
 	typedef typename	allocator_type::pointer			pointer;
 	typedef typename	allocator_type::const_pointer	const_pointer;
-	typedef typename	ft::Viterator<pointer>			iterator; //here was the problem with
-	typedef typename	ft::Viterator<const_pointer>	const_iterator; //iterator and const_iterator
+	typedef typename	ft::Viterator<pointer>			iterator;
+	typedef typename	ft::Viterator<const_pointer>	const_iterator;
 	typedef typename	ft::Reviterator<pointer>		reverse_iterator;
 	typedef typename	ft::Reviterator<const_pointer>	const_reverse_iterator;
 	typedef	size_t										size_type;
@@ -100,21 +100,6 @@ private:
 	size_type		capacity_;
 
 public:
-	//constructor: default(1/4) OK
-	// explicit vector(const allocator_type& alloc = allocator_type()): size_(0), capacity_(1)
-	// {
-	// 	myAlloc_ = alloc;
-	// 	array_ = myAlloc_.allocate(capacity_);
-	// }
-	//constructor: fill(2/4) OK
-	// explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-	// : size_(n), capacity_(n + 3)
-	// {
-	// 	myAlloc_ = alloc;
-	// 	array_ = myAlloc_.allocate(capacity_);
-	// 	for (size_type i = 0; i < size_; ++i)
-	// 		array_[i] = val;
-	// }
 	//constructor: default(1/4) OK
 	explicit vector(const allocator_type& alloc = allocator_type()): myAlloc_(alloc), size_(0), capacity_(0)
 	{
@@ -134,7 +119,6 @@ public:
 		}
 		else
 			array_ = myAlloc_.allocate(capacity_);
-		
 	}
 	//constructor: range(3/4) OK
 	template <class InputIterator>
@@ -154,8 +138,6 @@ public:
 		array_ = myAlloc_.allocate(capacity_);
 		for (size_type i = 0; i < size_; ++i)
 				myAlloc_.construct(array_ + i, rhs[i]);
-		/* for (size_type i = 0; i < rhs.size(); ++i)
-			array_[i] = rhs.array_[i]; */
 	}
 	~vector()
 	{
@@ -189,8 +171,6 @@ public:
 	reverse_iterator	rend() { return reverse_iterator(array_); }
 	const_reverse_iterator	rbegin() const { return const_reverse_iterator(array_); }
 	const_reverse_iterator	rend() const { return const_reverse_iterator(array_ + size_); }
-	//TODO rbegin
-	//TODO rend
 
 	//Capacity all done
 	/*************************************************************************/

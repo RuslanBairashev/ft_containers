@@ -2,8 +2,10 @@
 #include "Vector.hpp"
 #include "Utility.hpp"
 #include <vector>
+#include "mains.hpp"
 
 int	main()
 {
-    return 0;
+	main_Vector();
+	return 0;
 }

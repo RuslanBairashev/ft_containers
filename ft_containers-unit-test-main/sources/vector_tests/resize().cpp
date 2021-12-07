@@ -18,6 +18,12 @@ std::vector<int> resize_test(std::vector<T> vector) {
     v.push_back(vector.capacity());
     v.push_back(vector[65]);
     g_end1 = timer();
+	// {
+	// 	std::cout << "size: " << v.size() << std::endl;
+	// 	for (unsigned i = 0; i < v.size(); ++i)
+	// 		std::cout << v[i] << ' ';
+	// 	std::cout << std::endl;
+	// }
     return v;
 }
 
@@ -38,6 +44,12 @@ std::vector<int> resize_test(_vector<T> vector) {
     v.push_back(vector.capacity());
     v.push_back(vector[65]);
     g_end2 = timer();
+	// {
+	// 	std::cout << "size: " << v.size() << std::endl;
+	// 	for (unsigned i = 0; i < v.size(); ++i)
+	// 		std::cout << v[i] << ' ';
+	// 	std::cout << std::endl;
+	// }
     return v;
 }
 

@@ -49,37 +49,318 @@ time_t g_end1;
 time_t g_start2;
 time_t g_end2;
 
-int	main()
+int	main_Vector()
 {
+	std::cout << "/* ********************* constructor(default) *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>	ft_mp;
 
-	ft::vector<int> vector;
-    std::vector<int> v;
-    vector.assign(26000000, 1);
-    g_start2 = timer();
-    v.push_back(*(vector.insert(vector.end() - 8000000, 44)));
-    g_end2 = timer();
-    v.push_back(vector.size());
-    v.push_back(vector.capacity());
-    std::unique_ptr<B> k2(new B(3));
-    std::unique_ptr<B> k3(new B(4));
-    std::unique_ptr<B> k4(new B(-1));
-    ft::vector<A> vv;
-    ft::vector<B*> v1;
+	std_mp.push_back(5);
+	ft_mp.push_back(5);
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* constructor(default) *********************** */" << std::endl;
+	std::cout << "/* ********************* constructor(fill) *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp(21, 42);
+	ft::vector<int>	ft_mp(21, 42);
 
-    v1.push_back(&(*k2));
-    v1.push_back(&(*k3));
-    v1.push_back(&(*k4));
-    try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
-    catch (...) {
-    	v.push_back(vv.size());
-    	v.push_back(vv.capacity());
-    }
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* constructor(fill) *********************** */" << std::endl;
+	std::cout << "/* ********************* constructor(range) *********************** */" << std::endl;
+{
+	std::vector<int>	pre_std_mp(21, 42);
+	ft::vector<int>		pre_ft_mp(21, 42);
+
+	std::vector<int>	std_mp(pre_std_mp.begin(), --(pre_std_mp.end()));
+	ft::vector<int>		ft_mp(pre_ft_mp.begin(), --(pre_ft_mp.end()));
+
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* constructor(range) *********************** */" << std::endl;
+	std::cout << "/* ********************* constructor(copy) *********************** */" << std::endl;
+{
+	std::vector<int>	pre_std_mp(21, 42);
+	ft::vector<int>		pre_ft_mp(21, 42);
+
+	std::vector<int>	std_mp(pre_std_mp);
+	ft::vector<int>		ft_mp(pre_ft_mp);
+
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* constructor(copy) *********************** */" << std::endl;
+	std::cout << "/* ********************* operator(=) *********************** */" << std::endl;
+{
+	std::vector<int>	pre_std_mp(21, 42);
+	ft::vector<int>		pre_ft_mp(21, 42);
+
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	std_mp = pre_std_mp;
+	ft_mp = pre_ft_mp;
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* operator(=) *********************** */" << std::endl;
+	std::cout << "/* ********************* begin()/end() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	if ((*(std_mp.begin()) == 0 && *(ft_mp.begin()) == 0) && (*(--std_mp.end()) == 9 && *(--ft_mp.end()) == 9))
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* begin()/end() *********************** */" << std::endl;
+	std::cout << "/* ********************* rbegin()/rend() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	if ((*(std_mp.rbegin()) == 9 && *(ft_mp.rbegin()) == 9) && (*(--std_mp.rend()) == 0 && *(--ft_mp.rend()) == 0))
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* rbegin()/rend() *********************** */" << std::endl;
+	std::cout << "/* ********************* size() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* size() *********************** */" << std::endl;
+	std::cout << "/* ********************* max_size() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	if (std_mp.max_size() == ft_mp.max_size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* max_size() *********************** */" << std::endl;
+	std::cout << "/* ********************* resize() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	// std::cout << "cap= " << std_mp.capacity() << std::endl;
+	// std::cout << "cap= " << ft_mp.capacity() << std::endl;
+	// std::cout << "size= " << std_mp.size() << std::endl;
+	// std::cout << "size= " << ft_mp.size() << std::endl;
+	std_mp.resize(100);
+	ft_mp.resize(100);
+	// std::cout << "cap= " << std_mp.capacity() << std::endl;
+	// std::cout << "cap= " << ft_mp.capacity() << std::endl;
+	// std::cout << "size= " << std_mp.size() << std::endl;
+	// std::cout << "size= " << ft_mp.size() << std::endl;
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* resize() *********************** */" << std::endl;
+	std::cout << "/* ********************* capacity() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	if (std_mp.capacity() == ft_mp.capacity())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* capacity() *********************** */" << std::endl;
+	std::cout << "/* ********************* empty() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	if (std_mp.empty() == ft_mp.empty())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* empty() *********************** */" << std::endl;
+	std::cout << "/* ********************* reserve() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	// std::cout << "cap= " << std_mp.capacity() << std::endl;
+	// std::cout << "cap= " << ft_mp.capacity() << std::endl;
+	std_mp.reserve(64);
+	ft_mp.reserve(64);
+	// std::cout << "cap= " << std_mp.capacity() << std::endl;
+	// std::cout << "cap= " << ft_mp.capacity() << std::endl;
+	if (std_mp.capacity() == ft_mp.capacity())
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* reserve() *********************** */" << std::endl;
+	std::cout << "/* ********************* operator[] *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	if (std_mp[10] == ft_mp[10])
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* operator[] *********************** */" << std::endl;
+	std::cout << "/* ********************* at() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	if (std_mp.at(10) == ft_mp.at(10))
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* at() *********************** */" << std::endl;
+	std::cout << "/* ********************* front()/back() *********************** */" << std::endl;
+{
+	std::vector<int>	std_mp;
+	ft::vector<int>		ft_mp;
+
+	for (int i = 0; i < 21; ++i)
+	{
+		std_mp.push_back(i);
+		ft_mp.push_back(i);
+	}
+	if ((std_mp.front() == ft_mp.front()) && (std_mp.back() == ft_mp.back()))
+		std::cout << "OK" << std::endl;
+	else
+		std::cout << "FAILED" << std::endl;
+}
+	std::cout << "/* ********************* front()/back() *********************** */" << std::endl;
+	std::cout << "/* ********************* insert(value) *********************** */" << std::endl;
+{
+	// ft::vector<int> vector;
+    // std::vector<int> v;
+    // vector.assign(26000000, 1);
+
+    // v.push_back(*(vector.insert(vector.end() - 8000000, 44)));
+
+    // v.push_back(vector.size());
+    // v.push_back(vector.capacity());
+    // std::unique_ptr<B> k2(new B(3));
+    // std::unique_ptr<B> k3(new B(4));
+    // std::unique_ptr<B> k4(new B(-1));
+    // ft::vector<A> vv;
+    // ft::vector<B*> v1;
+
+    // v1.push_back(&(*k2));
+    // v1.push_back(&(*k3));
+    // v1.push_back(&(*k4));
+    // try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
+    // catch (...) {
+    // 	v.push_back(vv.size());
+    // 	v.push_back(vv.capacity());
+    // }
+}
+	std::cout << "/* ********************* insert(value) *********************** */" << std::endl;
+
+	// ft::vector<int> vector;
+    // std::vector<int> v;
+    // vector.assign(26000000, 1);
+    // g_start2 = timer();
+    // v.push_back(*(vector.insert(vector.end() - 8000000, 44)));
+    // g_end2 = timer();
+    // v.push_back(vector.size());
+    // v.push_back(vector.capacity());
+    // std::unique_ptr<B> k2(new B(3));
+    // std::unique_ptr<B> k3(new B(4));
+    // std::unique_ptr<B> k4(new B(-1));
+    // ft::vector<A> vv;
+    // ft::vector<B*> v1;
+
+    // v1.push_back(&(*k2));
+    // v1.push_back(&(*k3));
+    // v1.push_back(&(*k4));
+    // try { vv.insert(vv.begin(), v1.begin(), v1.end()); }
+    // catch (...) {
+    // 	v.push_back(vv.size());
+    // 	v.push_back(vv.capacity());
+    // }
 	// std::cout << "v1 size: " << v1.size() << std::endl;
 	// for(size_t i1 = 0; i1 < v1.size(); ++i1)
 	// 	std::cout << v1[i1] << std::endl;
-	std::cout << "size: " << v.size() << std::endl;
-	for(size_t i = 0; i < v.size(); ++i)
-		std::cout << v[i] << std::endl;
+	// std::cout << "size: " << v.size() << std::endl;
+	// for(size_t i = 0; i < v.size(); ++i)
+	// 	std::cout << v[i] << std::endl;
     //return v;
 	return 0;
 }
