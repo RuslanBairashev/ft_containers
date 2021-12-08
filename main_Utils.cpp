@@ -40,9 +40,9 @@ std::cout << "	 #######     ##    #### ########  ######  " << std::endl;
 	(ft::is_integral<long long>() == std::is_integral<long long>()) ? 0 : ++error_count;
 	(ft::is_integral<unsigned long long>() == std::is_integral<unsigned long long>()) ? 0 : ++error_count;
 	if (error_count == 0)
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* is_integral *********************** */" << std::endl;
 	std::cout << "/* ********************* enable_if *********************** */" << std::endl;
@@ -50,9 +50,9 @@ std::cout << "	 #######     ##    #### ########  ######  " << std::endl;
 	int i = 5;
 
 	if (is_odd(i) == 1)
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* enable_if *********************** */" << std::endl;
 	std::cout << "/* ********************* equal *********************** */" << std::endl;
@@ -66,9 +66,9 @@ std::cout << "	 #######     ##    #### ########  ######  " << std::endl;
 		ft_mp.push_back(i);
 	}
 	if (ft::equal(std_mp.begin(), std_mp.end(), ft_mp.begin() ))
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* equal *********************** */" << std::endl;
 	std::cout << "/* ********************* lexicographical **************** */" << std::endl;
@@ -83,9 +83,10 @@ std::cout << "	 #######     ##    #### ########  ######  " << std::endl;
 		ft_mp.push_back(i);
 	}
 	if (ft::lexicographical_compare(std_mp.begin(), std_mp.end(), ft_mp.begin(), ft_mp.end() ))
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
+	
 }
 	std::cout << "/* ********************* lexicographical **************** */" << std::endl;
 	return 0;

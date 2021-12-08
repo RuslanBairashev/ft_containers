@@ -39,9 +39,9 @@ int	main_Map()
 	std_mp.insert(std::make_pair(5,5));
 	ft_mp.insert(ft::make_pair(5,5));
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* constructor(empty) *********************** */" << std::endl;
 	std::cout << "/* ********************* constructor(range) *********************** */" << std::endl;
@@ -55,9 +55,9 @@ int	main_Map()
 	ft::map<int, int>		ft_mp(pre_ft_mp.begin(), --(pre_ft_mp.end()));
 
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* constructor(range) *********************** */" << std::endl;
 	std::cout << "/* ********************* constructor(copy) *********************** */" << std::endl;
@@ -71,9 +71,9 @@ int	main_Map()
 	ft::map<int, int>		ft_mp(pre_ft_mp);
 
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* constructor(copy) *********************** */" << std::endl;
 	std::cout << "/* ********************* operator(=) *********************** */" << std::endl;
@@ -89,9 +89,9 @@ int	main_Map()
 	std_mp = pre_std_mp;
 	ft_mp = pre_ft_mp;
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* operator(=) *********************** */" << std::endl;
 	std::cout << "/* ********************* begin()/end() *********************** */" << std::endl;
@@ -110,9 +110,9 @@ int	main_Map()
 	ft::map<int, int>::iterator		endit2 = ft_mp.end();
 	if ((beginit->first == 0 && beginit2->first == 0) &&
 	 ((--endit)->first == 9 && (--endit2)->first == 9))
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* begin()/end() *********************** */" << std::endl;
 	std::cout << "/* ********************* rbegin()/rend() *********************** */" << std::endl;
@@ -131,9 +131,9 @@ int	main_Map()
 	ft::map<int, int>::reverse_iterator		endit2 = ft_mp.rend();
 	if ((beginit->first == 9 && beginit2->first == 9) &&
 	 ((--endit)->first == 0 && (--endit2)->first == 0))
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* rbegin()/rend() *********************** */" << std::endl;
 	std::cout << "/* ********************* size() *********************** */" << std::endl;
@@ -144,9 +144,9 @@ int	main_Map()
 	std_fill_map(std_mp);
 	ft_fill_map(ft_mp);
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* size() *********************** */" << std::endl;
 	std::cout << "/* ********************* max_size() *********************** */" << std::endl;
@@ -166,9 +166,9 @@ int	main_Map()
 	std_fill_map(std_mp);
 	ft_fill_map(ft_mp);
 	if (std_mp.empty() == ft_mp.empty())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* empty() *********************** */" << std::endl;
 	std::cout << "/* ********************* operator[] *********************** */" << std::endl;
@@ -179,9 +179,9 @@ int	main_Map()
 	std_fill_map(std_mp);
 	ft_fill_map(ft_mp);
 	if (std_mp[1] == ft_mp[1])
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* operator[] *********************** */" << std::endl;
 	std::cout << "/* ********************* insert(element) *********************** */" << std::endl;
@@ -198,9 +198,9 @@ int	main_Map()
 	std_mp.insert(it, std::make_pair(42,42));
 	ft_mp.insert(it2, ft::make_pair(42,42));
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* insert(element) *********************** */" << std::endl;
 	std::cout << "/* ********************* insert(range) *********************** */" << std::endl;
@@ -221,9 +221,9 @@ int	main_Map()
 	std_mp.insert(pre_std_mp.begin(), pre_std_mp.end());
 	ft_mp.insert(pre_ft_mp.begin(), pre_ft_mp.end());
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* insert(range) *********************** */" << std::endl;
 	std::cout << "/* ********************* erase(position) *********************** */" << std::endl;
@@ -238,9 +238,9 @@ int	main_Map()
 	std_mp.erase(it);
 	ft_mp.erase(it2);
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* erase(position) *********************** */" << std::endl;
 	std::cout << "/* ********************* erase(element) *********************** */" << std::endl;
@@ -253,9 +253,9 @@ int	main_Map()
 	std_mp.erase(21);
 	ft_mp.erase(21);
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* erase(element) *********************** */" << std::endl;
 	std::cout << "/* ********************* erase(range) *********************** */" << std::endl;
@@ -272,9 +272,9 @@ int	main_Map()
 	std_mp.erase(beginit, --endit);
 	ft_mp.erase(beginit2, --endit2);
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* erase(range) *********************** */" << std::endl;
 	std::cout << "/* ********************* swap() *********************** */" << std::endl;
@@ -294,9 +294,9 @@ int	main_Map()
 	std_mp.swap(pre_std_mp);
 	ft_mp.swap(pre_ft_mp);
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* swap() *********************** */" << std::endl;
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
@@ -312,9 +312,9 @@ int	main_Map()
 	std_mp.clear();
 	ft_mp.clear();
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
 	std::cout << "/* ********************* find() *********************** */" << std::endl;
@@ -327,9 +327,9 @@ int	main_Map()
 	std_mp.erase(std_mp.find(21));
 	ft_mp.erase(ft_mp.find(21));
 	if (std_mp[1] == ft_mp[1])
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* find() *********************** */" << std::endl;
 	std::cout << "/* ********************* count() *********************** */" << std::endl;
@@ -340,32 +340,28 @@ int	main_Map()
 	std_fill_map(std_mp);
 	ft_fill_map(ft_mp);
 	if (std_mp.count(21) == ft_mp.count(21))
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* count() *********************** */" << std::endl;
 	std::cout << "/* ********************* lower_bound()/upper_bound() **** */" << std::endl;
 {
-	// std::map<int, int>	std_mp;
-	// ft::map<int, int>	ft_mp;
+	std::map<int, int>	std_mp;
+	ft::map<int, int>	ft_mp;
 
-	// std_fill_map(std_mp);
-	// ft_fill_map(ft_mp);
-	// //std::map<int, int>::iterator	beginit = std_mp.lower_bound(3);
-	// //std::map<int, int>::iterator	endit = std_mp.upper_bound(21);
-	// ft::map<int, int>::iterator		beginit2 = ft_mp.lower_bound(3);
-	// ft::map<int, int>::iterator		endit2 = ft_mp.upper_bound(21);
-	// std::cout << "lower=" << beginit2->first << std::endl;
-	// std::cout << "upper=" << endit2->first << std::endl;
-	// //std_mp.erase(beginit, endit);
-	// ft_mp.erase(beginit2, endit2);
-	// std::cout << "size=" << std_mp.size() << std::endl;
-	// std::cout << "size=" << ft_mp.size() << std::endl;
-	// if (std_mp.size() == ft_mp.size())
-	// 	std::cout << "OK" << std::endl;
-	// else
-	// 	std::cout << "FAILED" << std::endl;
+	std_fill_map(std_mp);
+	ft_fill_map(ft_mp);
+	std::map<int, int>::iterator	beginit = std_mp.lower_bound(3);
+	std::map<int, int>::iterator	endit = std_mp.upper_bound(21);
+	ft::map<int, int>::iterator		beginit2 = ft_mp.lower_bound(3);
+	ft::map<int, int>::iterator		endit2 = ft_mp.upper_bound(21);
+	std_mp.erase(beginit, endit);
+	ft_mp.erase(beginit2, endit2);
+	if (std_mp.size() == ft_mp.size())
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
+	else
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* lower_bound(/upper_bound() **** */" << std::endl;
 	std::cout << "/* ********************* equal_range() ***************** */" << std::endl;
@@ -378,9 +374,9 @@ int	main_Map()
 	std::map<int, int>::iterator	beginit = (std_mp.equal_range(3)).first;
 	ft::map<int, int>::iterator		beginit2 = (ft_mp.equal_range(3)).first;
 	if (beginit->first == beginit2->first)
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* equal_range() ***************** */" << std::endl;
 	std::cout << "/* ********************* erase(it) from tester*********** */" << std::endl;

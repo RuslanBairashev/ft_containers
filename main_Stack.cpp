@@ -22,9 +22,9 @@ int	main_Stack()
 	std_mp.push(5);
 	ft_mp.push(5);
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* constructor(default) *********************** */" << std::endl;
 	std::cout << "/* ********************* size() *********************** */" << std::endl;
@@ -38,9 +38,9 @@ int	main_Stack()
 		ft_mp.push(i);
 	}
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* size() *********************** */" << std::endl;
 	std::cout << "/* ********************* empty() *********************** */" << std::endl;
@@ -54,9 +54,9 @@ int	main_Stack()
 		ft_mp.push(i);
 	}
 	if (std_mp.empty() == ft_mp.empty())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* empty() *********************** */" << std::endl;
 	std::cout << "/* ********************* top() *********************** */" << std::endl;
@@ -70,9 +70,9 @@ int	main_Stack()
 		ft_mp.push(i);
 	}
 	if (std_mp.top() == ft_mp.top())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* top() *********************** */" << std::endl;
 	std::cout << "/* ********************* push()/pop() *********************** */" << std::endl;
@@ -88,9 +88,9 @@ int	main_Stack()
 	std_mp.pop();
 	ft_mp.pop();
 	if (std_mp.size() == ft_mp.size())
-		std::cout << "OK" << std::endl;
+		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else
-		std::cout << "FAILED" << std::endl;
+		std::cout << "\033[1;31mFAILED\033[0m" << std::endl;
 }
 	std::cout << "/* ********************* push()/pop() *********************** */" << std::endl;
 	
