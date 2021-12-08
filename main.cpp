@@ -7,5 +7,6 @@
 int	main()
 {
 	main_Vector();
+	main_Map();
 	return 0;
 }

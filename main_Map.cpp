@@ -109,7 +109,7 @@ void fillMap(ft::map<int,int> &mp)
 			mp.insert(ft::make_pair(11, 3));
 		}
 
-int	main()
+int	main_Map()
 {
 	// ft::pair<int, std::string> pair1(2, "Notebook");
 	// std::cout << pair1.first << ' ' << pair1.second << std::endl;
