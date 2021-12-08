@@ -339,7 +339,7 @@ public:
 	void erase (iterator first, iterator last)
 	{
 		for ( ; first != last; ++first)
-			erase(first.m_ptr->first);
+			erase(first->first);
 	}
 
 	void swap (map& x) //leaks
@@ -406,16 +406,19 @@ public:
 		return it;
 	}
 
-	iterator upper_bound (const key_type& k) //leaks
+	iterator upper_bound (const key_type& k)
 	{
-		node_type*	tmp = tree_->find(tree_->root_, k);
-		if (tmp != tree_->quasiEnd_)
-			return iterator(&(tmp->parent->value), tmp);
-		iterator	it = begin();
+		iterator	first = begin();
 		iterator	last = end();
-		while (comp_(it->first, k) && it != last)
-			++it;
-		return it;
+		iterator	it = find(k);
+		//node_type*	tmp = tree_->find(tree_->root_, k);
+		if (it != last)
+			return ++it;
+		while (comp_(first->first, k) && first != last)
+			++first;
+		// if (tmp != tree_->quasiEnd_)
+		// 	++it;
+		return first;
 	}
 	const_iterator upper_bound (const key_type& k) const
 	{

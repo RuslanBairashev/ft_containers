@@ -1,58 +1,14 @@
 #include <iostream>
-#include "Vector.hpp"
+#include "Stack.hpp"
 #include "Utility.hpp"
-#include <vector>
-#include <sys/time.h>
+#include <stack>
 
-class B {
-public:
-	char *l;
-	int i;
-	B():l(nullptr), i(1) {};
-	B(const int &ex) {
-		this->i = ex;
-		this->l = new char('a');
-	};
-	virtual ~B() {
-		delete this->l;
-		this->l = nullptr;
-	};
-};
-
-class A : public B {
-public:
-	A():B(){};
-	A(const B* ex){
-		this->l = new char(*(ex->l));
-		this->i = ex->i;
-		if (ex->i == -1) throw "n";
-	}
-	~A() {
-		delete this->l;
-		this->l = nullptr;
-	};
-};
-
-
-
-time_t timer() {
-   struct timeval start = {};
-   gettimeofday(&start, nullptr);
-   time_t msecs_time = (start.tv_sec * 1000) + (start.tv_usec / 1000);
-   return msecs_time;
-}
-
-time_t g_start1;
-time_t g_end1;
-time_t g_start2;
-time_t g_end2;
-
-int	main_Vector()
+int	main_Stack()
 {
 	std::cout << "/* ********************* constructor(default) *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>	ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>	ft_mp;
 
 	std_mp.push_back(5);
 	ft_mp.push_back(5);
@@ -64,8 +20,8 @@ int	main_Vector()
 	std::cout << "/* ********************* constructor(default) *********************** */" << std::endl;
 	std::cout << "/* ********************* constructor(fill) *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp(21, 42);
-	ft::vector<int>	ft_mp(21, 42);
+	std::stack<int>	std_mp(21, 42);
+	ft::stack<int>	ft_mp(21, 42);
 
 	if (std_mp.size() == ft_mp.size())
 		std::cout << "OK" << std::endl;
@@ -75,11 +31,11 @@ int	main_Vector()
 	std::cout << "/* ********************* constructor(fill) *********************** */" << std::endl;
 	std::cout << "/* ********************* constructor(range) *********************** */" << std::endl;
 {
-	std::vector<int>	pre_std_mp(21, 42);
-	ft::vector<int>		pre_ft_mp(21, 42);
+	std::stack<int>	pre_std_mp(21, 42);
+	ft::stack<int>		pre_ft_mp(21, 42);
 
-	std::vector<int>	std_mp(pre_std_mp.begin(), --(pre_std_mp.end()));
-	ft::vector<int>		ft_mp(pre_ft_mp.begin(), --(pre_ft_mp.end()));
+	std::stack<int>	std_mp(pre_std_mp.begin(), --(pre_std_mp.end()));
+	ft::stack<int>		ft_mp(pre_ft_mp.begin(), --(pre_ft_mp.end()));
 
 	if (std_mp.size() == ft_mp.size())
 		std::cout << "OK" << std::endl;
@@ -89,11 +45,11 @@ int	main_Vector()
 	std::cout << "/* ********************* constructor(range) *********************** */" << std::endl;
 	std::cout << "/* ********************* constructor(copy) *********************** */" << std::endl;
 {
-	std::vector<int>	pre_std_mp(21, 42);
-	ft::vector<int>		pre_ft_mp(21, 42);
+	std::stack<int>	pre_std_mp(21, 42);
+	ft::stack<int>		pre_ft_mp(21, 42);
 
-	std::vector<int>	std_mp(pre_std_mp);
-	ft::vector<int>		ft_mp(pre_ft_mp);
+	std::stack<int>	std_mp(pre_std_mp);
+	ft::stack<int>		ft_mp(pre_ft_mp);
 
 	if (std_mp.size() == ft_mp.size())
 		std::cout << "OK" << std::endl;
@@ -103,11 +59,11 @@ int	main_Vector()
 	std::cout << "/* ********************* constructor(copy) *********************** */" << std::endl;
 	std::cout << "/* ********************* operator(=) *********************** */" << std::endl;
 {
-	std::vector<int>	pre_std_mp(21, 42);
-	ft::vector<int>		pre_ft_mp(21, 42);
+	std::stack<int>	pre_std_mp(21, 42);
+	ft::stack<int>		pre_ft_mp(21, 42);
 
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	std_mp = pre_std_mp;
 	ft_mp = pre_ft_mp;
@@ -119,8 +75,8 @@ int	main_Vector()
 	std::cout << "/* ********************* operator(=) *********************** */" << std::endl;
 	std::cout << "/* ********************* begin()/end() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -135,8 +91,8 @@ int	main_Vector()
 	std::cout << "/* ********************* begin()/end() *********************** */" << std::endl;
 	std::cout << "/* ********************* rbegin()/rend() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 10; ++i)
 	{
@@ -151,8 +107,8 @@ int	main_Vector()
 	std::cout << "/* ********************* rbegin()/rend() *********************** */" << std::endl;
 	std::cout << "/* ********************* size() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -167,8 +123,8 @@ int	main_Vector()
 	std::cout << "/* ********************* size() *********************** */" << std::endl;
 	std::cout << "/* ********************* max_size() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	if (std_mp.max_size() == ft_mp.max_size())
 		std::cout << "OK" << std::endl;
@@ -178,8 +134,8 @@ int	main_Vector()
 	std::cout << "/* ********************* max_size() *********************** */" << std::endl;
 	std::cout << "/* ********************* resize() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -204,8 +160,8 @@ int	main_Vector()
 	std::cout << "/* ********************* resize() *********************** */" << std::endl;
 	std::cout << "/* ********************* capacity() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -220,8 +176,8 @@ int	main_Vector()
 	std::cout << "/* ********************* capacity() *********************** */" << std::endl;
 	std::cout << "/* ********************* empty() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -236,8 +192,8 @@ int	main_Vector()
 	std::cout << "/* ********************* empty() *********************** */" << std::endl;
 	std::cout << "/* ********************* reserve() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -258,8 +214,8 @@ int	main_Vector()
 	std::cout << "/* ********************* reserve() *********************** */" << std::endl;
 	std::cout << "/* ********************* operator[] *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -274,8 +230,8 @@ int	main_Vector()
 	std::cout << "/* ********************* operator[] *********************** */" << std::endl;
 	std::cout << "/* ********************* at() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -290,8 +246,8 @@ int	main_Vector()
 	std::cout << "/* ********************* at() *********************** */" << std::endl;
 	std::cout << "/* ********************* front()/back() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -306,11 +262,11 @@ int	main_Vector()
 	std::cout << "/* ********************* front()/back() *********************** */" << std::endl;
 	std::cout << "/* ********************* assign(range) *********************** */" << std::endl;
 {
-	std::vector<int>	pre_std_mp(21, 42);
-	ft::vector<int>		pre_ft_mp(21, 42);
+	std::stack<int>	pre_std_mp(21, 42);
+	ft::stack<int>		pre_ft_mp(21, 42);
 
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	std_mp.assign(pre_std_mp.begin(), --(pre_std_mp.end()));
 	ft_mp.assign(pre_ft_mp.begin(), --(pre_ft_mp.end()));
@@ -322,8 +278,8 @@ int	main_Vector()
 	std::cout << "/* ********************* assign(range) *********************** */" << std::endl;
 	std::cout << "/* ********************* assign(fill) *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	std_mp.assign(21, 42);
 	ft_mp.assign(21, 42);
@@ -335,8 +291,8 @@ int	main_Vector()
 	std::cout << "/* ********************* assign(fill) *********************** */" << std::endl;
 	std::cout << "/* ********************* push_back()/pop_back() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -353,8 +309,8 @@ int	main_Vector()
 	std::cout << "/* ********************* push_back()/pop_back() *********************** */" << std::endl;
 	std::cout << "/* ********************* insert(value) *********************** */" << std::endl;
 {
-	// ft::vector<int> vector;
-    // std::vector<int> v;
+	// ft::stack<int> vector;
+    // std::stack<int> v;
     // vector.assign(26000000, 1);
 
     // v.push_back(*(vector.insert(vector.end() - 8000000, 44)));
@@ -379,16 +335,16 @@ int	main_Vector()
 	std::cout << "/* ********************* insert(value) *********************** */" << std::endl;
 	std::cout << "/* ********************* insert(element) *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
 		std_mp.push_back(i);
 		ft_mp.push_back(i);
 	}
-	std::vector<int>::iterator	it = std_mp.begin();
-	ft::vector<int>::iterator	it2 = ft_mp.begin();
+	std::stack<int>::iterator	it = std_mp.begin();
+	ft::stack<int>::iterator	it2 = ft_mp.begin();
 	std_mp.insert(it, 42);
 	ft_mp.insert(it2, 42);
 	if (std_mp.size() == ft_mp.size())
@@ -399,16 +355,16 @@ int	main_Vector()
 	std::cout << "/* ********************* insert(element) *********************** */" << std::endl;
 	std::cout << "/* ********************* insert(fill) *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
 		std_mp.push_back(i);
 		ft_mp.push_back(i);
 	}
-	std::vector<int>::iterator	it = std_mp.begin();
-	ft::vector<int>::iterator	it2 = ft_mp.begin();
+	std::stack<int>::iterator	it = std_mp.begin();
+	ft::stack<int>::iterator	it2 = ft_mp.begin();
 	std_mp.insert(it, 10, 42);
 	ft_mp.insert(it2, 10, 42);
 	if (std_mp.size() == ft_mp.size())
@@ -419,11 +375,11 @@ int	main_Vector()
 	std::cout << "/* ********************* insert(fill) *********************** */" << std::endl;
 	std::cout << "/* ********************* insert(range) *********************** */" << std::endl;
 {
-	std::vector<int>	pre_std_mp(21, 42);
-	ft::vector<int>		pre_ft_mp(21, 42);
+	std::stack<int>	pre_std_mp(21, 42);
+	ft::stack<int>		pre_ft_mp(21, 42);
 
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -440,16 +396,16 @@ int	main_Vector()
 	std::cout << "/* ********************* insert(range) *********************** */" << std::endl;
 	std::cout << "/* ********************* erase(element) *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
 		std_mp.push_back(i);
 		ft_mp.push_back(i);
 	}
-	std::vector<int>::iterator	it = std_mp.begin();
-	ft::vector<int>::iterator	it2 = ft_mp.begin();
+	std::stack<int>::iterator	it = std_mp.begin();
+	ft::stack<int>::iterator	it2 = ft_mp.begin();
 	std_mp.erase(it);
 	ft_mp.erase(it2);
 	if (std_mp.size() == ft_mp.size())
@@ -460,16 +416,16 @@ int	main_Vector()
 	std::cout << "/* ********************* erase(element) *********************** */" << std::endl;
 	std::cout << "/* ********************* erase(range) *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
 		std_mp.push_back(i);
 		ft_mp.push_back(i);
 	}
-	std::vector<int>::iterator	it = std_mp.begin();
-	ft::vector<int>::iterator	it2 = ft_mp.begin();
+	std::stack<int>::iterator	it = std_mp.begin();
+	ft::stack<int>::iterator	it2 = ft_mp.begin();
 	std_mp.erase(it, --(std_mp.end()));
 	ft_mp.erase(it2, --(ft_mp.end()));
 	if (std_mp.size() == ft_mp.size())
@@ -480,14 +436,14 @@ int	main_Vector()
 	std::cout << "/* ********************* erase(range) *********************** */" << std::endl;
 	std::cout << "/* ********************* swap() *********************** */" << std::endl;
 {
-	std::vector<int>	pre_std_mp(21, 42);
-	ft::vector<int>		pre_ft_mp(21, 42);
+	std::stack<int>	pre_std_mp(21, 42);
+	ft::stack<int>		pre_ft_mp(21, 42);
 
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
-	// std::vector<int>	std_mp2(pre_std_mp);
-	// ft::vector<int>		ft_mp2(pre_ft_mp);
+	// std::stack<int>	std_mp2(pre_std_mp);
+	// ft::stack<int>		ft_mp2(pre_ft_mp);
 
 	for (int i = 0; i < 21; ++i)
 	{
@@ -507,8 +463,8 @@ int	main_Vector()
 	std::cout << "/* ********************* swap() *********************** */" << std::endl;
 	std::cout << "/* ********************* clear() *********************** */" << std::endl;
 {
-	std::vector<int>	std_mp;
-	ft::vector<int>		ft_mp;
+	std::stack<int>	std_mp;
+	ft::stack<int>		ft_mp;
 
 	for (int i = 0; i < 21; ++i)
 	{
