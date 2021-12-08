@@ -22,6 +22,15 @@ void	ft_fill_map(ft::map<int, int> & mp)
 
 int	main_Map()
 {
+
+	std::cout << "	##     ##    ###    ########  " << std::endl;
+	std::cout << "	###   ###   ## ##   ##     ## " << std::endl;
+	std::cout << "	#### ####  ##   ##  ##     ## " << std::endl;
+	std::cout << "	## ### ## ##     ## ########  " << std::endl;
+	std::cout << "	##     ## ######### ##        " << std::endl;
+	std::cout << "	##     ## ##     ## ##        " << std::endl;
+	std::cout << "	##     ## ##     ## ##        " << std::endl;
+
 	std::cout << "/* ********************* constructor(empty) *********************** */" << std::endl;
 {
 	std::map<int, int>	std_mp;

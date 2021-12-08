@@ -49,6 +49,15 @@ time_t g_end2;
 
 int	main_Vector()
 {
+
+	std::cout << "	##     ## ########  ######  ########  #######  ########  " << std::endl;
+	std::cout << "	##     ## ##       ##    ##    ##    ##     ## ##     ## " << std::endl;
+	std::cout << "	##     ## ##       ##          ##    ##     ## ##     ## " << std::endl;
+	std::cout << "	##     ## ######   ##          ##    ##     ## ########  " << std::endl;
+	std::cout << "	 ##   ##  ##       ##          ##    ##     ## ##   ##   " << std::endl;
+	std::cout << "	  ## ##   ##       ##    ##    ##    ##     ## ##    ##  " << std::endl;
+	std::cout << "	   ###    ########  ######     ##     #######  ##     ## " << std::endl;
+
 	std::cout << "/* ********************* constructor(default) *********************** */" << std::endl;
 {
 	std::vector<int>	std_mp;

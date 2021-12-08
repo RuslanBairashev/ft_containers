@@ -2,6 +2,7 @@
 #define MAINS_HPP
 
 int	main_Vector();
+int	main_Stack();
 int	main_Map();
 
 #endif

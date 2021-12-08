@@ -7,6 +7,7 @@
 int	main()
 {
 	main_Vector();
+	main_Stack();
 	main_Map();
 	return 0;
 }
