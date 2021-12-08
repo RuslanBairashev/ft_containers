@@ -319,13 +319,9 @@ int	main_Vector()
 	std::cout << "/* ********************* insert(value) *********************** */" << std::endl;
 {
 	ft::vector<int> vector;
-    //std::vector<int> v;
+    std::vector<int> v;
     vector.assign(26000000, 1);
-	//ft::vector<int>::iterator	it = vector.end() - 8000000;
-	ft::vector<int>::iterator	it = vector.begin();
-    //v.push_back(*(vector.insert(it, 44)));
-	vector.insert(it, 44);
-
+	v.push_back(*(vector.insert(vector.end() - 8000000, 44)));
     
 }
 	std::cout << "/* ********************* insert(value) *********************** */" << std::endl;

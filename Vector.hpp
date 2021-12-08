@@ -348,7 +348,8 @@ public:
 				myAlloc_.deallocate(array_, 0);
 			array_ = newarray;
 		}
-		iterator tmp = position;
+		iterator	tmp = position;
+		unsigned	index = position - this->begin();
 		if (size_ < capacity_)
 		{
 			iterator it = (*this).end();
@@ -360,9 +361,9 @@ public:
 		else
 		{
 			reserve(capacity_ * 2);
-			insert(position, val);
+			insert(this->begin() + index, val);
 		}
-		return tmp;
+		return (this->begin() + index);
 	}
 	//fill(2/3) OK
 	void insert (iterator position, size_type n, const value_type& val)
