@@ -74,13 +74,8 @@ public:
 	typedef typename Viterator_traits<T>::difference_type	difference_type;
 	typedef typename Viterator_traits<T>::pointer			pointer;
 	typedef typename Viterator_traits<T>::reference			reference;
-	/* typedef T			value_type;
-	typedef Category	iterator_category;
-	typedef Distance	difference_type;
-	typedef typename choose<std::is_const<T>::value, const T &, T &>::type reference;
-	typedef typename choose<std::is_const<T>::value, const T *, T *>::type pointer; */
-	//typedef Pointer		pointer;
-	//typedef Reference	reference;
+	typedef T												iterator_type;
+
 	pointer m_ptr;
 
 	Viterator() : m_ptr(NULL) {}

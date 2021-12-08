@@ -2,13 +2,13 @@
 #define MAP_HPP
 
 #include <iostream>
-#include <list>
-#include <exception>
 #include <memory>
-#include <iterator>
-#include <cstddef>
 #include <cmath>
-#include <utility>
+//#include <list>
+//#include <exception>
+//#include <iterator>
+// #include <cstddef>
+// #include <utility>
 #include "Miterator.hpp"
 #include "Remiterator.hpp"
 #include "Utility.hpp"
@@ -155,9 +155,7 @@ public:
 	{
 		if (this == &rhs)
 			return *this;
-		//this->tree_ = rhs.tree_;
 		clear();
-		// //map<Key, T> tmp(rhs);
 		const_iterator	first = rhs.begin();
 		const_iterator	last = rhs.end();
 		for( ; first != last ; ++first)
@@ -169,7 +167,7 @@ public:
 	//			MEMBER FUNCTIONS										      /
 	/*************************************************************************/
 
-	//iterators leaks
+	//iterators
 	/*************************************************************************/
 	iterator	begin()
 	{
@@ -182,7 +180,7 @@ public:
 			while (tmp->pleft != NULL)
 				tmp = tmp->pleft;
 		}
-		return iterator(&(tmp->value), tmp); //pointer,Node*
+		return iterator(&(tmp->value), tmp);
 	}
 	iterator	end()
 	{
@@ -207,7 +205,7 @@ public:
 			while (tmp->pleft != NULL)
 				tmp = tmp->pleft;
 		}
-		return const_iterator(&(tmp->value), tmp); //pointer,Node*
+		return const_iterator(&(tmp->value), tmp);
 	}
 	const_iterator	end() const
 	{
@@ -233,7 +231,7 @@ public:
 			while (tmp->pright != NULL)
 				tmp = tmp->pright;
 		}
-		return reverse_iterator(&(tmp->value), tmp); //pointer,Node*
+		return reverse_iterator(&(tmp->value), tmp);
 	}
 	reverse_iterator	rend()
 	{
@@ -258,7 +256,7 @@ public:
 			while (tmp->pright != NULL)
 				tmp = tmp->pright;
 		}
-		return const_reverse_iterator(&(tmp->value), tmp); //pointer,Node*
+		return const_reverse_iterator(&(tmp->value), tmp);
 	}
 	const_reverse_iterator	rend() const
 	{
@@ -307,15 +305,14 @@ public:
 		position = find(val.first);
 		return position;
 	}
-	//insert(range) (3/3) leaks
+	//insert(range) (3/3) 
 	template <class InputIterator>
 	void insert (InputIterator first, InputIterator last)
 	{
 		for( ; first != last; ++first)
 			insert(*first);
 	}
-
-	//erase (1/3) leaks
+	//erase (1/3) 
 	void erase (iterator position)
 	{
 		const key_type	k = position.m_ptr->first;
@@ -324,7 +321,7 @@ public:
 			tree_->clear_quasi();
 		//position = lower_bound(k);
 	}
-	//erase (2/3) leaks
+	//erase (2/3)
 	size_type erase (const key_type& k)
 	{
 		unsigned len = size();
@@ -335,14 +332,14 @@ public:
 			return 0;
 		return 1;
 	}
-	//erase (3/3) sega on big amount
+	//erase (3/3)
 	void erase (iterator first, iterator last)
 	{
-		for ( ; first != last; ++first)
-			erase(first->first);
+		for ( ; first != last; )
+			erase(first++);
 	}
 
-	void swap (map& x) //leaks
+	void swap (map& x)
 	{
 		tree_type*	tmp = this->tree_;
 		this->tree_ = x.tree_;

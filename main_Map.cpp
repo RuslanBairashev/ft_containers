@@ -383,6 +383,16 @@ int	main_Map()
 		std::cout << "FAILED" << std::endl;
 }
 	std::cout << "/* ********************* equal_range() ***************** */" << std::endl;
+	std::cout << "/* ********************* erase(it) from tester*********** */" << std::endl;
+{
+	// ft::map<int, int> mp;
+    // for (int i = 0, j = 0; i < 500000; ++i, ++j)
+    //     mp.insert(ft::make_pair(i, j));
+    // ft::map<int, int>::iterator	last = mp.end();
+	// --last;
+	// mp.erase(mp.begin(), last);
+}	
+	std::cout << "/* ********************* erase(it) from tester*********** */" << std::endl;
 
 	return 0;
 }
