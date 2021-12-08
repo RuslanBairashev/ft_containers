@@ -77,17 +77,6 @@ public:
 	: m_ptr(it.m_ptr), currnode_ptr(it.currnode_ptr) {}
 	~Miterator() {}
 
-	ptrNode			find_root(ptrNode p)
-	{
-		// if (size_ == 0)
-		// 	return NULL;
-		if (p)
-		{
-			while (p->parent) //sega usually
-				p = p->parent;
-		}
-		return p;
-	}
 	reference	operator=(const Miterator & rhs)
 	{
 		m_ptr = rhs.m_ptr;
@@ -207,6 +196,19 @@ public:
 		return *this;
 	}
 	Miterator	operator--(int) { Miterator tmp = *this; --(*this); return tmp; }
+	
+	private:
+		ptrNode			find_root(ptrNode p)
+		{
+			// if (size_ == 0)
+			// 	return NULL;
+			if (p)
+			{
+				while (p->parent) //sega usually
+					p = p->parent;
+			}
+			return p;
+		}
 };
 
 }
