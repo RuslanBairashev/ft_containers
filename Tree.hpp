@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <unistd.h>
 #include <memory>
-//#include "Miterator.hpp"
 #include "Utility.hpp"
 
 namespace ft {
@@ -45,7 +44,7 @@ public:
 	typedef	ft::pair<const Key, T>		value_type;
 	typedef Compare						key_compare;
 	typedef	Allocator					allocator_type;
-	typedef	std::allocator<Node<const Key, T> >					tree_type;
+
 	Node<const Key, T>*		root_;
 	unsigned	size_;
 	Node<const Key, T>*		quasiBegin_;
@@ -54,7 +53,7 @@ public:
 	key_compare				comp_;
 
 	Tree(const key_compare& comp, const allocator_type& alloc)
-	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), /* nodeAlloc_(alloc), */ comp_(comp)
+	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), comp_(comp)
 	{
 		allocator_type	tmp = alloc;
 		(void)tmp;
@@ -71,12 +70,6 @@ public:
 			p = p->parent;
 		return p;
 	}
-	// Node<const Key, T>*			lower_bound(Key k)
-	// {
-	// 	Node<const Key, T>*	tmp = findmin(root_);
-	// 	while (k < tmp->value.first && tmp != quasiEnd_)
-
-	// }
 	unsigned char	height(Node<const Key, T> *p) { return p ? p->height : 0; }
 	int				bfactor(Node<const Key, T> *p) { return height(p->pright) - height(p->pleft); }
 	void			fixheight(Node<const Key, T> *p)
@@ -97,9 +90,6 @@ public:
 			b->pleft->parent = b;
 		fixheight(b);
 		fixheight(a);
-		// Node * tmp = findmax(root_);
-		// tmp->pright = quasiEnd_;
-		// quasiEnd_->parent = tmp;
 		return a;
 	}
 
@@ -114,9 +104,6 @@ public:
 			a->pright->parent = a;
 		fixheight(a);
 		fixheight(b);
-		// Node * tmp = findmax(root_);
-		// tmp->pright = quasiEnd_;
-		// quasiEnd_->parent = tmp;
 		return b;
 	}
 
@@ -135,20 +122,15 @@ public:
 				p->pleft = rotateleft(p->pleft);
 			return rotateright(p);
 		}
-		// Node * tmp = findmax(root_);
-		// tmp->pright = quasiEnd_;
-		// quasiEnd_->parent = tmp;
 		return p;
 	}
 
 	void			insert(value_type val, Compare comp)
 	{
-		if (!root_)/* (size_ == 0) */
+		if (!root_)
 		{
 			root_ = nodeAlloc_.allocate(1); //аллокатор только аллоцирует память
 			nodeAlloc_.construct(root_, Node<const Key, T>(val)); //констракт вызывает конструктор
-			// root_->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
-			// pairAlloc_.construct(val); //констракт вызывает конструктор
 			if (quasiBegin_ == NULL)
 			{
 				quasiBegin_ = nodeAlloc_.allocate(1);
@@ -166,7 +148,7 @@ public:
 			quasiEnd_->pbegin = quasiBegin_;
 			quasiEnd_->pend = quasiEnd_;
 			size_++;
-			root_ = balance(root_); //maybe can del this
+			root_ = balance(root_);
 			return ;
 		}
 		if (find(root_, val.first) == quasiEnd_)
@@ -185,13 +167,10 @@ public:
 		{
 			p = nodeAlloc_.allocate(1); //аллокатор только аллоцирует память
 			nodeAlloc_.construct(p, Node<const Key, T>(val)); //констракт вызывает конструктор
-			// p->value = pairAlloc_.allocate(1); //аллокатор только аллоцирует память
-			// pairAlloc_.construct(val); //констракт вызывает конструктор
 			p->parent = parent;
 			p->pbegin = quasiBegin_;
 			p->pend = quasiEnd_;
 			return p;
-			// return new Node(k, val);
 		}	
 		if (comp(val.first,p->value.first)) //std::less<Key>
 			p->pleft = insert(p->pleft, p, val, comp);
@@ -208,7 +187,6 @@ public:
 		{
 			if (p->value.first == k)
 				return p;
-			//else if (k < p->value.first)//comp?
 			else if (comp_(k, p->value.first))
 				p = p->pleft;
 			else
@@ -216,15 +194,6 @@ public:
 		}
 		return quasiEnd_;
 	}
-	// Node<const Key, T>*			closest_max(Node<const Key, T> * p, Key k)
-	// {
-	// 	while (p)
-	// 	{
-	// 		while (k > p->value.first && p != quasiEnd_)
-
-	// 	}
-	// 	return quasiEnd_;
-	// }
 	Node<const Key, T>*			removemin(Node<const Key, T> *p)
 	{
 		if (p->pleft == NULL)
@@ -238,14 +207,12 @@ public:
 			return 0;
 		if (k == p->value.first)
 		{
-			// Node<const Key, T>*	tmp = p;
 			Node<const Key, T>*	tmp_parent = p->parent;
 			Node<const Key, T>*	tmp_left = p->pleft;
 			Node<const Key, T>*	tmp_right = p->pright;
 
 			nodeAlloc_.destroy(p);
 			nodeAlloc_.deallocate(p, 1);
-			//p = NULL;
 			--size_;
 			if (!tmp_right)
 			{
@@ -254,71 +221,19 @@ public:
 				return tmp_left;
 			}
 			Node<const Key, T>*	min = findmin(tmp_right);
-			min->pright = removemin(tmp_right);//3
-			min->pleft = tmp_left;//1
-			min->parent = tmp_parent;//2
+			min->pright = removemin(tmp_right);
+			min->pleft = tmp_left;
+			min->parent = tmp_parent;
 			if (tmp_left)
 				tmp_left->parent = min;
-			// if (min->pright->parent != min)
-			// 	tmp_right->parent = min;
 			p = balance(min);
-			// nodeAlloc_.destroy(tmp);
-			// nodeAlloc_.deallocate(tmp, 1);
-			// tmp = NULL;
 		}
-		else if (comp_(k, p->value.first)) // (k < p->value.first)
+		else if (comp_(k, p->value.first))
 			p->pleft = remove(p->pleft, k);
-		else  //(k > p->value.first)
+		else
 			p->pright = remove(p->pright, k);
 		return balance (p);
 	}
-	// int			remove(Key k)
-	// {
-	// 	Node<const Key, T>*	tmp;
-	// 	if (!root_)
-	// 		return 0;
-	// 	tmp = find(root_, k);
-	// 	if (tmp  == quasiEnd_)
-	// 		return 0;
-	// 	remove(tmp);
-	// 	size_--;
-	// 	return 1;
-	// }
-	// void			remove(Node<const Key, T>* p)
-	// {
-	// 	Node<const Key, T>*	tmp_parent = p->parent;
-	// 	Node<const Key, T>*	tmp_left = p->pleft;
-	// 	Node<const Key, T>*	tmp_right = p->pright;
-
-		// if (!tmp_right)
-		// {
-		// 	if (tmp_parent->pleft == p) //left branch
-		// 		tmp_parent->pleft = tmp_left;
-		// 	else
-		// 		tmp_parent->pright = tmp_left;
-		// 	if (tmp_left)
-		// 		tmp_left->parent = tmp_parent;
-		// }
-		// else
-		// {
-		// 	Node<const Key, T>*	min = findmin(tmp_right);
-		// 	min->pright = removemin(tmp_right);
-		// 	min->pleft = tmp_left;
-	// 		min->parent = tmp_parent;
-	// 		tmp_left->parent = min;
-	// 		if (tmp_parent)
-	// 		{
-	// 			if (tmp_parent->pleft == p) //left branch
-	// 				tmp_parent->pleft = min;
-	// 			else
-	// 				tmp_parent->pright = min;
-	// 		}
-	// 		balance(min);
-	// 	}
-	// 	nodeAlloc_.destroy(p);
-	// 	nodeAlloc_.deallocate(p, 1);
-	// 	balance(root_);
-	// }
 	void			print_tree()
 	{
 		if (root_ && size_ < 10000)
@@ -362,7 +277,6 @@ public:
 			nodeAlloc_.deallocate(quasiEnd_, 1);
 			root_ = quasiBegin_ = quasiEnd_ = NULL;
 			size_ = 0;
-			//std::cout << "azaza\n" << std::endl;
 		}
 	}
 	void			clear_quasi()
@@ -376,15 +290,6 @@ public:
 		
 		root_ = quasiBegin_ = quasiEnd_ = NULL;
 	}
-	// 	voi			clear()
-	// {
-	// 	while (size_ > 0)
-	// 	{
-	// 		remove(root_->value.first);
-	// 	}
-	// 	root_ = NULL;
-	// }
-
 };
 
 } //end of namespace ft

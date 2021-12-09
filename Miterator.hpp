@@ -65,7 +65,7 @@ public:
 	typedef typename Miterator_traits<T>::pointer			pointer;
 	typedef typename Miterator_traits<T>::reference			reference;
 
-	pointer m_ptr; //pointer to pair
+	pointer	m_ptr; //pointer to pair
 	ptrNode	currnode_ptr;
 
 	Miterator() : m_ptr(NULL), currnode_ptr(NULL) {}
@@ -110,7 +110,6 @@ public:
 			{
 				if (THIS->pright == NULL) // pright == NULL
 				{
-					//while (this->m_ptr->first > this->currnode_ptr->parent->value.first)
 					while (THIS == PARENT->pright)
 					{
 						THIS = PARENT;
@@ -147,7 +146,7 @@ public:
 				if (this->currnode_ptr->pbegin != NULL)
 				{
 					//find max key
-					THIS = find_root(THIS); //find_root(THIS) - TIMEOUT
+					THIS = find_root(THIS);
 					while (THIS->pright != NULL)
 						THIS = THIS->pright;
 				}
@@ -200,11 +199,9 @@ public:
 	private:
 		ptrNode			find_root(ptrNode p)
 		{
-			// if (size_ == 0)
-			// 	return NULL;
 			if (p)
 			{
-				while (p->parent) //sega usually
+				while (p->parent)
 					p = p->parent;
 			}
 			return p;

@@ -43,18 +43,6 @@ struct Remiterator_traits<const T*>
 	typedef const T&						reference;
 };
 
-// template <class T, class Category = std::bidirectional_iterator_tag,
-// class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-// class riterator: public std::bidirectional_iterator_tag
-// {
-// public:
-// 	typedef T			value_type;
-// 	typedef Category	iterator_category;
-// 	typedef Distance	difference_type;
-// 	typedef Pointer		pointer;
-// 	typedef Reference	reference;
-// };
-
 template <class T, class ptrNode>
 class Remiterator : public ft::iterator<T>
 {
@@ -110,7 +98,6 @@ public:
 			{
 				if (THIS->pright == NULL) // pright == NULL
 				{
-					//while (this->m_ptr->first > this->currnode_ptr->parent->value.first)
 					while (THIS == PARENT->pright)
 					{
 						THIS = PARENT;
@@ -147,7 +134,7 @@ public:
 				if (this->currnode_ptr->pbegin != NULL)
 				{
 					//find max key
-					THIS = find_root(THIS); //find_root(THIS) - TIMEOUT
+					THIS = find_root(THIS);
 					while (THIS->pright != NULL)
 						THIS = THIS->pright;
 				}
@@ -200,11 +187,9 @@ public:
 	private:
 		ptrNode			find_root(ptrNode p)
 		{
-			// if (size_ == 0)
-			// 	return NULL;
 			if (p)
 			{
-				while (p->parent) //sega usually
+				while (p->parent)
 					p = p->parent;
 			}
 			return p;

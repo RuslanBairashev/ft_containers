@@ -100,12 +100,12 @@ private:
 	size_type		capacity_;
 
 public:
-	//constructor: default(1/4) OK
+	//constructor: default(1/4
 	explicit vector(const allocator_type& alloc = allocator_type()): myAlloc_(alloc), size_(0), capacity_(0)
 	{
 		array_ = myAlloc_.allocate(capacity_);
 	}
-	// //constructor: fill(2/4) OK
+	// //constructor: fill(2/4)
 	explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 	: myAlloc_(alloc), size_(0), capacity_(0)
 	{
@@ -120,7 +120,7 @@ public:
 		else
 			array_ = myAlloc_.allocate(capacity_);
 	}
-	//constructor: range(3/4) OK
+	//constructor: range(3/4)
 	template <class InputIterator>
 	vector (InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last,
 	const allocator_type& alloc = allocator_type() )
@@ -132,7 +132,7 @@ public:
 		for (size_t i = 0; first < last; i++, first++)
 			array_[i] = *first;
 	}
-	//constructor: copy(4/4) OK
+	//constructor: copy(4/4)
 	vector(const vector & rhs): myAlloc_(rhs.myAlloc_), size_(rhs.size_), capacity_(rhs.capacity_)
 	{
 		array_ = myAlloc_.allocate(capacity_);
@@ -147,7 +147,7 @@ public:
 	{
 		if (this == &rhs)
 			return *this;
-		if (rhs.size_ > size_) // >capacity_ ???
+		if (rhs.size_ > size_)
 		{
 			capacity_ = rhs.size_ + 0;
 			myAlloc_.deallocate(array_, capacity_);
@@ -270,10 +270,9 @@ public:
 			for (size_t i = 0; i < n; ++i, ++first)
 				array_[i] = *first;
 			size_ = n;
-			//capacity_ = size_;
 		}
 	}
-	//fill(2/2) OK
+	//fill(2/2)
 	void	assign(size_type n, const value_type & val)
 	{
 		if (n > capacity_)
@@ -292,7 +291,6 @@ public:
 			for (size_t i = 0; i < n; ++i)
 				array_[i] = val;
 			size_ = n;
-			//capacity_ = size_;
 		}
 	}
 
@@ -334,7 +332,7 @@ public:
 			throw std::runtime_error("Error: pop_back on empty cont!\n");
 		--size_;
 	}
-	//single element(1/3) OK
+	//single element(1/3)
 	iterator insert (iterator position, const value_type& val)
 	{
 		if (size_ == 0)
@@ -365,7 +363,7 @@ public:
 		}
 		return (this->begin() + index);
 	}
-	//fill(2/3) OK
+	//fill(2/3)
 	void insert (iterator position, size_type n, const value_type& val)
 	{
 		ptrdiff_t	offset = position - (*this).begin();
@@ -384,7 +382,7 @@ public:
 			insert((*this).begin() + offset, n, val);
 		}
 	}
-	//range(3/3) OK
+	//range(3/3)
 	template <class InputIterator>
 	void insert (iterator position, InputIterator first, typename ft::enable_if< std::__is_input_iterator<InputIterator>::value,InputIterator >::type last)
 	{
@@ -395,7 +393,6 @@ public:
 		size_t		c_size = size_;
 		if (size_ + n <= capacity_)
 		{
-			//size_ += n;
 			iterator it = (*this).end();
 			size_ += n;
 			for (int i = (it - position); i >= 0; --i)
@@ -406,7 +403,6 @@ public:
 		else
 		{
 			reserve(std::max(capacity_ * 2, size_ + n));
-			//insert((*this).begin() + offset, first, last);
 			try 
 			{
 				insert((*this).begin() + offset, first, last);
@@ -464,7 +460,7 @@ public:
 	/*************************************************************************/
 	friend	bool	operator== <> (const vector & lhs, const vector & rhs);
 	friend	bool	operator!= <> (const vector & lhs, const vector & rhs);
-	friend	bool	operator< <> (vector & lhs, vector & rhs); //must be const
+	friend	bool	operator< <> (vector & lhs, vector & rhs);
 	friend	bool	operator> <> (vector & lhs, vector & rhs);
 	friend	bool	operator>= <> (vector & lhs, vector & rhs);
 	friend	bool	operator<= <> (vector & lhs, vector & rhs);

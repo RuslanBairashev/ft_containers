@@ -426,9 +426,6 @@ int	main_Vector()
 	std::vector<int>	std_mp;
 	ft::vector<int>		ft_mp;
 
-	// std::vector<int>	std_mp2(pre_std_mp);
-	// ft::vector<int>		ft_mp2(pre_ft_mp);
-
 	for (int i = 0; i < 21; ++i)
 	{
 		std_mp.push_back(i);
@@ -436,9 +433,6 @@ int	main_Vector()
 	}
 	std_mp.swap(pre_std_mp);
 	ft_mp.swap(pre_ft_mp);
-	// std::swap(std_mp, std_mp2);
-	// ft::swap(ft_mp, ft_mp2);
-	
 	if (std_mp.size() == ft_mp.size())
 		std::cout << "\033[1;32mOK\033[0m" << std::endl;
 	else

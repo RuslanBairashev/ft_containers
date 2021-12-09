@@ -4,11 +4,6 @@
 #include <iostream>
 #include <memory>
 #include <cmath>
-//#include <list>
-//#include <exception>
-//#include <iterator>
-// #include <cstddef>
-// #include <utility>
 #include "Miterator.hpp"
 #include "Remiterator.hpp"
 #include "Utility.hpp"
@@ -114,20 +109,20 @@ public:
 			{return comp(x.first, y.first);}
 	};
 
+private:
 	tree_type*					tree_;
 	std::allocator<tree_type>	myAlloc_;
-private:
-	key_compare				comp_;
+	key_compare					comp_;
 
 public:
-	//constructor: empty (1/3) //ok
+	//constructor: empty (1/3)
 	explicit map (const key_compare& comp = key_compare(),
 					const allocator_type& alloc = allocator_type())
 	{
 		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
 		myAlloc_.construct(tree_,Tree<Key, T, Compare, Allocator>(comp, alloc)); //констракт вызывает конструктор
 	}
-	//constructor: range(2/3) //ok
+	//constructor: range(2/3)
 	template <class InputIterator>
 	map (InputIterator first, InputIterator last,
 			const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type())
@@ -271,13 +266,13 @@ public:
 		return const_reverse_iterator(&(tmp->value), tmp);
 	}
 	
-	//Capacity OK
+	//Capacity
 	/*************************************************************************/
 	size_type	size() const { return tree_->size_ ; }
 	size_type	max_size() const { return (pow(2 , 64) / sizeof(T) - 1); }
 	bool		empty() const { return tree_->size_ == 0; }
 
-	//Element access OK
+	//Element access
 	/*************************************************************************/
 	mapped_type& operator[] (const key_type& k)
 	{
@@ -287,7 +282,7 @@ public:
 
 	//Modifiers
 	/*************************************************************************/
-	//insert: single element (1/3) OK
+	//insert: single element (1/3)
 	pair<iterator,bool> insert (const value_type& val)
 	{
 		if (find(val.first) != end())
@@ -296,7 +291,7 @@ public:
 		return (ft::make_pair(find(val.first), true));
 	}
 
-	//insert(with hint) (2/3) OK
+	//insert(with hint) (2/3)
 	iterator insert (iterator position, const value_type& val)
 	{
 		if (find(val.first) != end())
@@ -305,21 +300,20 @@ public:
 		position = find(val.first);
 		return position;
 	}
-	//insert(range) (3/3) 
+	//insert(range) (3/3)
 	template <class InputIterator>
 	void insert (InputIterator first, InputIterator last)
 	{
 		for( ; first != last; ++first)
 			insert(*first);
 	}
-	//erase (1/3) 
+	//erase (1/3)
 	void erase (iterator position)
 	{
 		const key_type	k = position.m_ptr->first;
 		tree_->root_ = tree_->remove(tree_->root_, k);
 		if (size() == 0)
 			tree_->clear_quasi();
-		//position = lower_bound(k);
 	}
 	//erase (2/3)
 	size_type erase (const key_type& k)
@@ -352,9 +346,9 @@ public:
 		x.comp_ = tmp_c;
 	}
 
-	void clear() { tree_->clear(tree_->root_); tree_->size_ = 0; } //OK
+	void clear() { tree_->clear(tree_->root_); tree_->size_ = 0; }
 
-	//Observers: OK, no test for value_compare
+	//Observers:
 	/*************************************************************************/
 	key_compare key_comp() const { return key_compare(); }
 
@@ -362,7 +356,7 @@ public:
 
 	//Operations:
 	/*************************************************************************/
-	iterator find (const key_type& k) //OK
+	iterator find (const key_type& k)
 	{
 		node_type*	tmp = tree_->find(tree_->root_, k);
 		return iterator(&(tmp->value), tmp);
@@ -373,14 +367,14 @@ public:
 		return const_iterator(&(tmp->value), tmp);
 	}
 
-	size_type count (const key_type& k) const //OK
+	size_type count (const key_type& k) const
 	{
 		if (tree_->find(tree_->root_, k) == tree_->quasiEnd_)
 			return 0;
 		return 1;
 	}
 
-	iterator lower_bound (const key_type& k) //OK
+	iterator lower_bound (const key_type& k)
 	{
 		node_type*	tmp = tree_->find(tree_->root_, k);
 		if (tmp != tree_->quasiEnd_)
@@ -408,13 +402,10 @@ public:
 		iterator	first = begin();
 		iterator	last = end();
 		iterator	it = find(k);
-		//node_type*	tmp = tree_->find(tree_->root_, k);
 		if (it != last)
 			return ++it;
 		while (comp_(first->first, k) && first != last)
 			++first;
-		// if (tmp != tree_->quasiEnd_)
-		// 	++it;
 		return first;
 	}
 	const_iterator upper_bound (const key_type& k) const
@@ -429,7 +420,7 @@ public:
 		return it;
 	}
 
-	pair<iterator,iterator>				equal_range (const key_type& k) //OK
+	pair<iterator,iterator>				equal_range (const key_type& k)
 	{
 		if (find(k) == end())
 			return (ft::make_pair(upper_bound(k), upper_bound(k)));
@@ -442,17 +433,12 @@ public:
 		return (ft::make_pair(lower_bound(k), upper_bound(k)));
 	}
 
-	//Allocator: //TODO in school
+	//Allocator:
 	/*************************************************************************/
 	allocator_type get_allocator() const
 	{
 		return myAlloc_;
 	}
-
-	//Non-member function overloads
-	/*************************************************************************/
-	/* template < class Tx, class Allocatorx >
-	friend	std::ostream& operator<<(std::ostream &, const vector<Tx, Allocatorx> &); */
 };
 
 /***************************************************************************/

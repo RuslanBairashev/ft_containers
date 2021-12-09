@@ -2,9 +2,6 @@
 #define Reviterator_HPP
 
 #include <iostream>
-//#include <list>
-//#include <exception>
-//#include <memory>
 #include <iterator>
 #include <cstddef>
 
@@ -19,7 +16,7 @@ struct Reviterator_traits
 	typedef typename	Iter::reference			reference;	
 	typedef typename	Iter::iterator_category	iterator_category;
 };
-template< typename T > //like in library (almost)
+template< typename T >
 struct Reviterator_traits<T*>
 {
 	typedef	std::random_access_iterator_tag	iterator_category;
@@ -28,7 +25,7 @@ struct Reviterator_traits<T*>
 	typedef T*								pointer;
 	typedef T&								reference;
 };
-template< typename T > //like in library (almost)
+template< typename T >
 struct Reviterator_traits<const T*>
 {
 	typedef	std::random_access_iterator_tag	iterator_category;
@@ -38,20 +35,6 @@ struct Reviterator_traits<const T*>
 	typedef const T&						reference;
 };
 
-/* template <class T, class Category = std::random_access_iterator_tag,
-class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-class iterator: public std::random_access_iterator_tag
-{
-public:
-	typedef T			value_type;
-	typedef Category	iterator_category;
-	typedef Distance	difference_type;
-	typedef Pointer		pointer;
-	typedef Reference	reference;
-}; */
-
-//template <class T, class Category = std::random_access_iterator_tag,
-//class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
 template <class T>
 class Reviterator : public ft::iterator<T>
 {
@@ -72,24 +55,24 @@ public:
 
 	reference	operator=(const Reviterator & rhs) { m_ptr = rhs.m_ptr; return *m_ptr; }
 
-	bool		operator== (const Reviterator& it) const { return m_ptr == it.m_ptr; };//ok
-	bool		operator!= (const Reviterator& it) const { return m_ptr != it.m_ptr; };//ok
-	reference	operator*() { return *(m_ptr - 1); } //ok
+	bool		operator== (const Reviterator& it) const { return m_ptr == it.m_ptr; };
+	bool		operator!= (const Reviterator& it) const { return m_ptr != it.m_ptr; };
+	reference	operator*() { return *(m_ptr - 1); }
 	pointer		operator->() { return m_ptr; }
-	Reviterator&	operator++() { --m_ptr; return *this; }//ok++/--
-	Reviterator	operator++(int) { Reviterator tmp = *this; ++(*this); return tmp; }//ok
-	Reviterator&	operator--() { ++m_ptr; return *this; }//ok--/++
-	Reviterator	operator--(int) { Reviterator tmp = *this; --(*this); return tmp; }//ok
-	Reviterator	operator+(int rhs) { return (m_ptr - rhs); }//ok+/-
-	Reviterator	operator-(int rhs) { return (m_ptr + rhs); }//ok-/+
-	difference_type	operator-(const Reviterator& it) { return (m_ptr - it.m_ptr); }//ok
-	Reviterator&	operator+=(int rhs) { m_ptr = m_ptr - rhs; return *this; }//ok+/-
-	Reviterator&	operator-=(int rhs) { m_ptr = m_ptr + rhs; return *this; }//ok-/+
-	bool		operator<(const Reviterator& it) const { return m_ptr < it.m_ptr; }//ok
-	bool		operator>=(const Reviterator& it) const { return !operator<(it); }//ok
-	bool		operator>(const Reviterator& it) const { return m_ptr > it.m_ptr; }//ok
-	bool		operator<=(const Reviterator& it) const { return !operator>(it); }//ok
-	reference	operator[] (difference_type n) const //ok
+	Reviterator&	operator++() { --m_ptr; return *this; }
+	Reviterator	operator++(int) { Reviterator tmp = *this; ++(*this); return tmp; }
+	Reviterator&	operator--() { ++m_ptr; return *this; }
+	Reviterator	operator--(int) { Reviterator tmp = *this; --(*this); return tmp; }
+	Reviterator	operator+(int rhs) { return (m_ptr - rhs); }
+	Reviterator	operator-(int rhs) { return (m_ptr + rhs); }
+	difference_type	operator-(const Reviterator& it) { return (m_ptr - it.m_ptr); }
+	Reviterator&	operator+=(int rhs) { m_ptr = m_ptr - rhs; return *this; }
+	Reviterator&	operator-=(int rhs) { m_ptr = m_ptr + rhs; return *this; }
+	bool		operator<(const Reviterator& it) const { return m_ptr < it.m_ptr; }
+	bool		operator>=(const Reviterator& it) const { return !operator<(it); }
+	bool		operator>(const Reviterator& it) const { return m_ptr > it.m_ptr; }
+	bool		operator<=(const Reviterator& it) const { return !operator>(it); }
+	reference	operator[] (difference_type n) const
 	{
 		pointer	tmp(NULL);
 		tmp = m_ptr - 1 - n; return *tmp;

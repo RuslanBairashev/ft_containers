@@ -49,11 +49,10 @@ namespace ft
 		typedef	size_t				size_type;
 	protected:
 		container_type		cont_;
-		//size_t				size_;
 	public:
 		//constructor: default
-		explicit stack (const container_type& ctnr = container_type()): cont_(ctnr)/* , size_(0) */ {}
-		~stack() {} //maybe not neccessary
+		explicit stack (const container_type& ctnr = container_type()): cont_(ctnr) {}
+		~stack() {}
 
 	/*************************************************************************/
 	//			MEMBER FUNCTIONS										      /
@@ -63,13 +62,11 @@ namespace ft
 		void pop()
 		{
 			cont_.pop_back();
-			//--size_;
 		}
 
 		void push (const value_type& val)
 		{
 			cont_.push_back(val);
-			//++size_;
 		}
 
 		size_type size() const { return cont_.size(); }
