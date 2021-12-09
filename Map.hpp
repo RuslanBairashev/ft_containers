@@ -81,7 +81,7 @@ void swap (map<Key, T, Compare, Allocator>& x, map<Key, T, Compare, Allocator>& 
 /*************************************************************************/
 //**	CLASS DECLARATION START											**/
 /*************************************************************************/
-template < class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<pair<const Key, T> > >
+template < class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<ft::pair<const Key, T> > >
 class map
 {
 public:
@@ -90,7 +90,7 @@ public:
 	typedef	ft::pair<const key_type, mapped_type>		value_type;
 	typedef	Allocator									allocator_type;
 	typedef Compare										key_compare;
-	typedef Tree<Key, T, Compare>						tree_type;
+	typedef Tree<Key, T, Compare, Allocator>			tree_type;
 	typedef Node<const Key, T>							node_type;
 	typedef typename	allocator_type::reference		reference;
 	typedef typename	allocator_type::const_reference	const_reference;
@@ -116,8 +116,8 @@ public:
 
 	tree_type*					tree_;
 	std::allocator<tree_type>	myAlloc_;
-	private:
-		key_compare				comp_;
+private:
+	key_compare				comp_;
 
 public:
 	//constructor: empty (1/3) //ok
@@ -125,7 +125,7 @@ public:
 					const allocator_type& alloc = allocator_type())
 	{
 		tree_ = myAlloc_.allocate(1); //аллокатор только аллоцирует память
-		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc)); //констракт вызывает конструктор
+		myAlloc_.construct(tree_,Tree<Key, T, Compare, Allocator>(comp, alloc)); //констракт вызывает конструктор
 	}
 	//constructor: range(2/3) //ok
 	template <class InputIterator>
@@ -133,7 +133,7 @@ public:
 			const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type())
 	{
 		tree_ = myAlloc_.allocate(1);
-		myAlloc_.construct(tree_,Tree<Key, T, Compare>(comp, alloc));
+		myAlloc_.construct(tree_,Tree<Key, T, Compare, Allocator>(comp, alloc));
 		for( ; first != last ; ++first)
 			tree_->insert(*first, comp);
 	}
@@ -141,7 +141,7 @@ public:
 	map (const map& x)
 	{
 		tree_ = myAlloc_.allocate(1);
-		myAlloc_.construct(tree_,Tree<Key, T, Compare>(x.comp_, x.myAlloc_));
+		myAlloc_.construct(tree_,Tree<Key, T, Compare, Allocator>(x.comp_, allocator_type()));
 		const_iterator	first = x.begin();
 		const_iterator	last = x.end();
 		insert(first, last);
@@ -446,8 +446,7 @@ public:
 	/*************************************************************************/
 	allocator_type get_allocator() const
 	{
-		allocator_type	tmp = allocator_type();
-		return tmp;
+		return myAlloc_;
 	}
 
 	//Non-member function overloads

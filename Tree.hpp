@@ -38,58 +38,30 @@ struct Node
 	} 
 };
 
-template < class Key, class T, class Compare, class Allocator = std::allocator<std::pair<const Key, T> > >
+template < class Key, class T, class Compare, class Allocator = std::allocator<ft::pair<const Key, T> > >
 class	Tree
 {
 public:
 	typedef	ft::pair<const Key, T>		value_type;
 	typedef Compare						key_compare;
 	typedef	Allocator					allocator_type;
-	// struct Node
-	// {
-	// 	value_type		value;
-	// 	Node*			parent;
-	// 	Node*			pleft;
-	// 	Node*			pright;
-	// 	unsigned char	height;
-	// 	Node(value_type val) : value(val), parent(NULL), pleft(NULL), pright(NULL), height(1) {}
-	// 	Node&	operator=(const Node& rhs)
-	// 	{
-	// 		if (this == &rhs)
-	// 			return *this;
-	// 		this->value = rhs->value;
-	// 		this->parent = rhs->parent;
-	// 		this->pleft = rhs->pleft;
-	// 		this->pright = rhs->pright;
-	// 		this->height = rhs->height;
-	// 		return *this;
-	// 	} 
-	// };
+	typedef	std::allocator<Node<const Key, T> >					tree_type;
 	Node<const Key, T>*		root_;
 	unsigned	size_;
 	Node<const Key, T>*		quasiBegin_;
 	Node<const Key, T>*		quasiEnd_;
-	//std::allocator<ft::pair<const Key, T> >	pairAlloc_;
 	std::allocator<Node<const Key, T> >	nodeAlloc_;
 	key_compare				comp_;
 
 	Tree(const key_compare& comp, const allocator_type& alloc)
-	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), nodeAlloc_(alloc), comp_(comp)
+	: root_(NULL), size_(0), quasiBegin_(NULL), quasiEnd_(NULL), /* nodeAlloc_(alloc), */ comp_(comp)
 	{
-		// quasiBegin_ = nodeAlloc_.allocate(1);
-		// nodeAlloc_.construct(quasiBegin_, Node());
-		// quasiEnd_ = nodeAlloc_.allocate(1);
-		// nodeAlloc_.construct(quasiEnd_, Node());
+		allocator_type	tmp = alloc;
+		(void)tmp;
 	}
 	~Tree()
 	{
 		clear(root_);
-		// nodeAlloc_.destroy(quasiBegin_); //if this on, sega on relation operators
-		// nodeAlloc_.deallocate(quasiBegin_, 1);
-		// nodeAlloc_.destroy(quasiEnd_);
-		// nodeAlloc_.deallocate(quasiEnd_, 1);
-		// nodeAlloc_.destroy(root_);
-		// nodeAlloc_.deallocate(root_, 1);
 	}
 	Node<const Key, T>*			find_root(Node<const Key, T> *p)
 	{
